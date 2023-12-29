@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vote_app/router/router_name.dart';
+import 'package:vote_app/widget/intro/slide.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -11,16 +12,6 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RouteName.home, (route) => route.settings.name == RouteName.home);
-        },
-        child: const Text(
-          'Bắt đầu đánh giá',
-        ),
-      ),
-    );
+    return const Slide();
   }
 }
