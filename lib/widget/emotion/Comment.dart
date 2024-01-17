@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:database/database.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class Comment extends StatefulWidget {
-  
   final int selectedEmotion;
   List resetCmt;
   List selec;
@@ -23,29 +23,28 @@ class Comment extends StatefulWidget {
 }
 
 class _CommentState extends State<Comment> {
-
-TextEditingController _textEditingController = TextEditingController();
-  Future<void> postData(List cmt, int selectedEmoji,String cmtdifference) async {
-    final apiUrl = 'https://api.mockfly.dev/mocks/1b1eb603-acdd-4440-aec4-21f4ed51e9b0/kham5';
-final pb = PocketBase('http://127.0.0.1:8090');
-final body = <String, dynamic>{
-"field": {
+  TextEditingController _textEditingController = TextEditingController();
+  Future<void> postData(
+      List cmt, int selectedEmoji, String cmtdifference) async {
+    final apiUrl =
+        'https://api.mockfly.dev/mocks/1b1eb603-acdd-4440-aec4-21f4ed51e9b0/kham5';
+    final pb = PocketBase('http://127.0.0.1:8090');
+    final body = <String, dynamic>{
+      "field": {
         'comments': cmt,
         'selectedEmoji': selectedEmoji,
-        'commnetDifferen':cmtdifference
+        'commnetDifferen': cmtdifference
       }
-};
+    };
 
-final record = await pb.collection('post').create(body: body);
+    final record = await pb.collection('post').create(body: body);
     // Tạo body request từ danh sách comment và emoji được chọn
     final Map<String, dynamic> requestBody = {
-   
       'rate': {
         'comments': cmt,
         'selectedEmoji': selectedEmoji,
-        'commnetDifferen':cmtdifference
+        'commnetDifferen': cmtdifference
       }
-  
     };
 
     try {
@@ -69,31 +68,31 @@ final record = await pb.collection('post').create(body: body);
       print('Lỗi kết nối: $e');
     }
   }
-bool checkrole=false;
 
-Future<void> handlerole() async {
-  
+  bool checkrole = false;
+
+  Future<void> handlerole() async {
     SharedPreferences role = await SharedPreferences.getInstance();
- role.getString('role');
-  if(role==1){
-checkrole=true;
+    role.getString('role');
+    if (role == 1) {
+      checkrole = true;
+    } else if (role == 2) {
+      checkrole = false;
+    }
   }
-   else if(role==2){
-checkrole=false;
-  }
-}
+
   void _postApi() {
-  Navigator.pushNamed(context,'/logout');
-   
-    postData(widget.resetCmt, widget.selectedEmotion,_textEditingController.text);
+    Navigator.pushNamed(context, '/logout');
+
+    postData(
+        widget.resetCmt, widget.selectedEmotion, _textEditingController.text);
     // Navigator.push(
     //   context,
     //   MaterialPageRoute(builder: (context) => HomeScreen()),
     // );
   }
 
-
-bool checkIndex=true;
+  bool checkIndex = true;
   Map<int, Map<String, Map<int, String>>> emotions = {
     0: {
       'Rất tệ': {
@@ -106,12 +105,12 @@ bool checkIndex=true;
       'Tệ': {
         0: 'Bảo vệ, nhân viên không nhiệt tình',
         1: 'Y bác sĩ khám điều trị yếu kém',
-        2: 'chăm sóc sau điều trị kém',
+        2: 'Chăm sóc sau điều trị kém',
       },
     },
     2: {
       'Bình thường': {
-        0:'Khách hàng không có đánh giá gì'
+        0: 'Khách hàng không có đánh giá gì',
       },
     },
     3: {
@@ -121,7 +120,7 @@ bool checkIndex=true;
         2: 'Chăm sóc sau điều trị tốt',
       }
     },
-    4:{
+    4: {
       'Hoàn hảo': {
         0: 'Bảo vệ,nhân viên rất nhiệt tình ',
         1: 'Bác sĩ khám điều trị rất tốt',
@@ -137,6 +136,7 @@ bool checkIndex=true;
         Stack(children: [
           if (widget.selectedEmotion != -1)
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   height: 220,
@@ -144,24 +144,37 @@ bool checkIndex=true;
                     itemCount:
                         emotions[widget.selectedEmotion]?.values.single.length,
                     itemBuilder: (context, index) {
-                      final value =
-                          emotions[widget.selectedEmotion]?.values.single.values;
-                          String content=emotions[widget.selectedEmotion]!
-                                .values
-                                .single
-                                .values
-                                .elementAt(index);
-                               
-print(widget.selec);
+                      final value = emotions[widget.selectedEmotion]
+                          ?.values
+                          .single
+                          .values;
+                      String content = emotions[widget.selectedEmotion]!
+                          .values
+                          .single
+                          .values
+                          .elementAt(index);
+
+                      print(widget.selec);
                       return Container(
-                        margin:
-                            EdgeInsets.only(bottom: 10), // Adjust the spacing here
+                        margin: EdgeInsets.only(
+                            bottom: 10), // Adjust the spacing here
                         child: ListTile(
                           tileColor: widget.selec[index]
                               ? Colors.amberAccent
                               : const Color.fromARGB(255, 255, 255, 255),
-                          title: Text(content
-                            ,                             
+                          title: SizedBox(
+                            width: 500,
+                            child: Text(
+                              content,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w200
+                              ),
+                              maxLines:
+                                  2, // Đặt số dòng tối đa bạn muốn hiển thị
+                              overflow: TextOverflow
+                                  .ellipsis, // Tránh tràn nội dung bằng dấu "..."
+                            ),
                           ),
                           trailing: widget.selec[index]
                               ? Icon(Icons.check, color: Colors.green)
@@ -172,45 +185,34 @@ print(widget.selec);
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          
-
-  
                           onTap: () {
-                            if(index!=2){
-
-                            setState( () {
-                            
-
-print(widget.resetCmt);
-                              widget.selec[index] = !widget.selec[index];
-                              if (widget.selec[index] && !widget.resetCmt.contains(index)) {
-                                widget.resetCmt.add(index);
-
-                              }
-
-                           else if(!widget.selec[index] && widget.resetCmt.contains(index)) {
-                                widget.resetCmt.remove(index);
-                              }
-                              print(index);
-                              print(widget.resetCmt);
-                              print(widget.selectedEmotion);
-                              print(
-                                emotions[widget.selectedEmotion]
-                                    ?.values
-                                    .single
-                                    .entries
-                                    .length,
-                              );
-                            }
-                            );}
-                            
-                            else if(index==2){
-setState(() {
-   widget.selec[index]=false;
-   checkIndex=false;
-
-});
-      
+                            if (index != 2) {
+                              setState(() {
+                                print(widget.resetCmt);
+                                widget.selec[index] = !widget.selec[index];
+                                if (widget.selec[index] &&
+                                    !widget.resetCmt.contains(index)) {
+                                  widget.resetCmt.add(index);
+                                } else if (!widget.selec[index] &&
+                                    widget.resetCmt.contains(index)) {
+                                  widget.resetCmt.remove(index);
+                                }
+                                print(index);
+                                print(widget.resetCmt);
+                                print(widget.selectedEmotion);
+                                print(
+                                  emotions[widget.selectedEmotion]
+                                      ?.values
+                                      .single
+                                      .entries
+                                      .length,
+                                );
+                              });
+                            } else if (index == 2) {
+                              setState(() {
+                                widget.selec[index] = false;
+                                checkIndex = false;
+                              });
                             }
                           },
                         ),
@@ -221,69 +223,78 @@ setState(() {
                 SizedBox(
                   height: 2,
                 ),
-                  Visibility(
-                    visible: checkIndex,
-                    child: TextField(
-                      maxLines:null,
-                      controller: _textEditingController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter text',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue, // Đổi màu sắc của đường viền nếu cần
-                              ),
+                Center(
+                  child: SizedBox(
+                    width: 400,
+                    child: Visibility(
+                      visible: checkIndex,
+                      child: TextField(
+                        maxLines: null,
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                          hintText: 'Ý kiến khác',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .blue, // Đổi màu sắc của đường viền nếu cần
                             ),
-                            contentPadding: EdgeInsets.all(16.0), // Điều chỉnh khoảng cách giữa văn bản và đường viền
                           ),
+                          contentPadding: EdgeInsets.all(
+                              16.0), // Điều chỉnh khoảng cách giữa văn bản và đường viền
                         ),
+                      ),
+                    ),
                   ),
-                 SizedBox(
+                ),
+                SizedBox(
                   height: 20,
                 ),
-                 ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: EdgeInsets.all(20),
-                          backgroundColor: Color.fromRGBO(47, 179, 178, 0.8)),
-                      onPressed: _postApi,
-                      child: Text("SANG BƯỚC XÁC NHẬN GIÁ",
-                          style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20)
-                              )
-                              ),
-                
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.all(20),
+                        backgroundColor: Color.fromRGBO(73, 227, 227, 0.8)),
+                    onPressed: _postApi,
+                    child: Text("Tiếp tục",
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20))),
               ],
             ),
           if (widget.selectedEmotion == -1) ManHinhcho()
         ]),
-        SizedBox(height:30),
-
+        SizedBox(height: 30),
         Visibility(
           visible: checkrole,
-          child: ElevatedButton(style: ButtonStyle( backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              // Xác định màu sắc dựa trên trạng thái của nút
-              if (states.contains(MaterialState.pressed)) {
-                // Trạng thái khi nút được nhấn
-                return Colors.red;
-              } else {
-                // Trạng thái mặc 
-                return Color.fromRGBO(47, 179, 178, 0.8);
-              }})),onPressed: _navigator, child: Text("Chuyển sang trang đánh giá trung bình")),
+          child: ElevatedButton(
+              style: ButtonStyle(backgroundColor:
+                  MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                // Xác định màu sắc dựa trên trạng thái của nút
+                if (states.contains(MaterialState.pressed)) {
+                  // Trạng thái khi nút được nhấn
+                  return Colors.red;
+                } else {
+                  // Trạng thái mặc
+                  return Color.fromRGBO(73, 227, 227, 0.8);
+                }
+              })),
+              onPressed: _navigator,
+              child: Text("Chuyển sang trang đánh giá trung bình")),
         )
       ],
     );
   }
-  void _navigator(){
+
+  void _navigator() {
 // Navigator.push(context,MaterialPageRoute(builder: (context)=>RateScreen()));
   }
   @override
-  void dispose(){
+  void dispose() {
     _textEditingController.dispose();
     super.dispose();
   }
@@ -300,9 +311,7 @@ class ManHinhcho extends StatelessWidget {
           height: 400,
           child: Image.asset('assets/images/pk.jpg'),
         ),
-        
       ],
     );
   }
-
 }

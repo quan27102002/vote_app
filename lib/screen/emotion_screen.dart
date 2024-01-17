@@ -28,10 +28,10 @@ class _EmotionScreenState extends State<EmotionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color.fromRGBO(47, 179, 178, 0.8),
-          title: Center(
+          backgroundColor: Color.fromRGBO(73, 227, 227, 0.8),
+          title: const Center(
             child: Text(
-              'Mời bạn đánh giá',
+              'Mời bạn đánh giá chất lượng dịch vụ',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -83,7 +83,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                           color: Colors.white, // Màu trắng cho Icon
                         ),
                       ),
-                      Text("Rất tệ")
+                      Text(
+                        "Rất tệ",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      )
                     ],
                   )),
               InkWell(
@@ -122,7 +128,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                           color: Colors.white, // Màu trắng cho Icon
                         ),
                       ),
-                      Text("Tệ")
+                      Text(
+                        "Tệ",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      )
                     ],
                   )),
               InkWell(
@@ -160,7 +172,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                           color: Colors.white, // Màu trắng cho Icon
                         ),
                       ),
-                      Text("Bình thường")
+                      Text(
+                        "Bình thường",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      )
                     ],
                   )),
               InkWell(
@@ -198,7 +216,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                           color: Colors.white, // Màu trắng cho Icon
                         ),
                       ),
-                      Text("Tốt")
+                      Text(
+                        "Tốt",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      )
                     ],
                   )),
               InkWell(
@@ -237,12 +261,18 @@ class _EmotionScreenState extends State<EmotionScreen> {
                           color: Colors.white, // Màu trắng cho Icon
                         ),
                       ),
-                      Text("Hoàn hảo")
+                      Text(
+                        "Hoàn hảo",
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      )
                     ],
                   )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Comment(

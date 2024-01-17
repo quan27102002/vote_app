@@ -17,32 +17,30 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const IntroScreen(),
             settings: const RouteSettings(name: RouteName.intro));
-            case RouteName.admin:
+      case RouteName.admin:
         return MaterialPageRoute(
             builder: (context) => const Admin(),
             settings: const RouteSettings(name: RouteName.admin));
-           case RouteName.create:
+      case RouteName.create:
         return MaterialPageRoute(
             builder: (context) => const CreateUser(),
-            settings: const RouteSettings(name: RouteName.create)); 
+            settings: const RouteSettings(name: RouteName.create));
       case RouteName.home:
         return MaterialPageRoute(
             builder: (context) => const HomeScreen(),
             settings: const RouteSettings(name: RouteName.home));
-              case RouteName.emotion:
+      case RouteName.emotion:
         return MaterialPageRoute(
-            builder: (context) =>  EmotionScreen(),
+            builder: (context) => EmotionScreen(),
             settings: const RouteSettings(name: RouteName.emotion));
-            case RouteName.logout:
+      case RouteName.logout:
         return MaterialPageRoute(
-            builder: (context) =>  LogoutScreen(),
+            builder: (context) => LogoutScreen(),
             settings: const RouteSettings(name: RouteName.logout));
-             case RouteName.login:
+      case RouteName.login:
         return MaterialPageRoute(
-            builder: (context) =>  LoginPage(),
-            settings: const RouteSettings(name: RouteName.login)
-            );
-            
+            builder: (context) => LoginPage(),
+            settings: const RouteSettings(name: RouteName.login));
     }
     return null;
   }
