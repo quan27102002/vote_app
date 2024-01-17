@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/widget/intro/slide.dart';
 
 class IntroScreen extends StatefulWidget {

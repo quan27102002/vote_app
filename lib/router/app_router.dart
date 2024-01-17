@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
+import 'package:vote_app/test/add_item.dart';
 
 class AppRouter {
   AppRouter._instance();
@@ -16,6 +17,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const HomeScreen(),
             settings: const RouteSettings(name: RouteName.home));
+      // case RouteName.item:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const AddItem(),
+      //       settings: const RouteSettings(name: RouteName.item));
     }
     return null;
   }
