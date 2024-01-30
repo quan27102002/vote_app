@@ -1,13 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/theme/spacing.dart';
-
-
-
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,32 +10,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _check=false;
-    late bool rememberToken=false;
+  bool _check = false;
+  late bool rememberToken = false;
   bool _isObscure3 = true;
   bool visible = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-final pb = PocketBase('http://127.0.0.1:8090');
-  
+  final pb = PocketBase('http://127.0.0.1:8090');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          
           children: <Widget>[
-          //  Container(
-          //   width:MediaQuery.of(context).size.width,
-          //   color:Color.fromRGBO(47, 179, 178, 0.5),
-          //   child: Image.asset('assets/images/logovietphap.png')
-          //   ),
+            //  Container(
+            //   width:MediaQuery.of(context).size.width,
+            //   color:Color.fromRGBO(47, 179, 178, 0.5),
+            //   child: Image.asset('assets/images/logovietphap.png')
+            //   ),
             Container(
-
               color: Color.fromRGBO(47, 179, 178, 0.5),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height*1,
+              height: MediaQuery.of(context).size.height * 1,
               child: Center(
                 child: Container(
                   margin: EdgeInsets.all(12),
@@ -64,8 +57,14 @@ final pb = PocketBase('http://127.0.0.1:8090');
                         SizedBox(
                           height: 20,
                         ),
-                        SizedBox(child:Text("Email của người dùng",style:TextStyle(fontFamily: 'SF Pro Rounded',color: Color(0xFF848496),
-      fontSize: 14,fontWeight: FontWeight.w400,))),
+                        SizedBox(
+                            child: Text("Email của người dùng",
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  color: Color(0xFF848496),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ))),
                         Spacing.h12,
                         TextFormField(
                           controller: emailController,
@@ -105,8 +104,14 @@ final pb = PocketBase('http://127.0.0.1:8090');
                         SizedBox(
                           height: 20,
                         ),
-                           SizedBox(child:Text("Mật khẩu của người dùng",style:TextStyle(fontFamily: 'SF Pro Rounded',color: Color(0xFF848496),
-      fontSize: 14,fontWeight: FontWeight.w400,))),
+                        SizedBox(
+                            child: Text("Mật khẩu của người dùng",
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  color: Color(0xFF848496),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ))),
                         TextFormField(
                           controller: passwordController,
                           obscureText: _isObscure3,
@@ -151,34 +156,35 @@ final pb = PocketBase('http://127.0.0.1:8090');
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
-                       
-           Row(
-           mainAxisAlignment: MainAxisAlignment.end,
-             children: [Text("Nhớ đăng nhập",style:TextStyle(fontWeight:FontWeight.w600,color:const Color.fromARGB(255, 255, 255, 255))),
-               IconButton(
-                icon: Icon(
-                  _check ? Icons.check_box : Icons.check_box_outline_blank,
-                  size: 30.0,
-                  color: const Color.fromARGB(255, 248, 250, 248),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _check = !_check;
-                    if (_check) {
-                       rememberToken=true;
-                    
-                      
-                    } else {
-               
-                      
-                     
-                      rememberToken=false;
-                    }
-                  });
-                 }),
-             ],
-           ),
-                       
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Nhớ đăng nhập",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255))),
+                            IconButton(
+                                icon: Icon(
+                                  _check
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank,
+                                  size: 30.0,
+                                  color:
+                                      const Color.fromARGB(255, 248, 250, 248),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _check = !_check;
+                                    if (_check) {
+                                      rememberToken = true;
+                                    } else {
+                                      rememberToken = false;
+                                    }
+                                  });
+                                }),
+                          ],
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -188,18 +194,19 @@ final pb = PocketBase('http://127.0.0.1:8090');
                                   BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
                           height: 40,
-                          onPressed: () async {                          final authData = await pb.collection('users').authWithPassword(
-  emailController.text,passwordController.text
-,
-); 
-                           Navigator.pushNamed(context,'/emotion');
-                         
+                          onPressed: () async {
+                            final authData =
+                                await pb.collection('users').authWithPassword(
+                                      emailController.text,
+                                      passwordController.text,
+                                    );
+                            Navigator.pushNamed(context, '/emotion');
 
- saveToken(pb.authStore.token);
-print(pb.authStore.isValid);
-print(pb.authStore.token);
-print(pb.authStore.model.id);
-checkTokenIsExpired(pb.authStore.model.id);
+                            saveToken(pb.authStore.token);
+                            print(pb.authStore.isValid);
+                            print(pb.authStore.token);
+                            print(pb.authStore.model.id);
+                            checkTokenIsExpired(pb.authStore.model.id);
 //  createEmail(emailController.text, passwordController.text);
                           },
                           child: Text(
@@ -248,62 +255,59 @@ checkTokenIsExpired(pb.authStore.model.id);
       ),
     );
   }
+
   void showErrorDialog(String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Login Error"),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("OK"),
-          ),
-        ],
-      );
-    },
-  );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Login Error"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> createEmail(String email, String password) async {
+    final body = <String, dynamic>{
+      "email": email,
+      "password": password,
+      "username": "test_username",
+      "emailVisibility": true,
+      "passwordConfirm": "12345678",
+      "name": "test"
+    };
+    final record = await pb.collection('users').create(body: body);
+    await pb.collection('users').requestVerification(email);
+  }
+
+  Future<void> saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userToken', token);
+    print("lưu thành công" + token);
+  }
+
+  Future<void> deleteToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userToken');
+  }
+
+  Future<bool?> checkTokenIsExpired(String id) async {
+    final record = await pb.collection('users').getOne(
+          id,
+        );
+
+    print(record.data['role']);
+    if (record == 1) {
+      Navigator.pushNamed(context, RouteName.admin);
+    }
+  }
 }
-
-
-
-Future<void> createEmail(String email,String password) async {
-
-  final body = <String, dynamic>{
-
-  "email": email,
-  "password": password,
-  "username": "test_username",
-  "emailVisibility": true,
-  "passwordConfirm": "12345678",
-  "name": "test"
-};  
-final record = await pb.collection('users').create(body: body);
-await pb.collection('users').requestVerification(email);
-}
-Future<void> saveToken(String token) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('userToken', token);
-  print("lưu thành công"+ token);
-}
-Future<void> deleteToken() async {
- SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('userToken');
- 
-}
-Future<bool?> checkTokenIsExpired(String id)async{
-final record = await pb.collection('users').getOne(id,
-  
-);
-
- print(record.data['role']);
- if(record==1){
-  Navigator.pushNamed(context, RouteName.admin);
- }
-}
-
-}
-

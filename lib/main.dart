@@ -3,8 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/router/app_router.dart';
 
 void main() async {
- 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,14 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
-import 'package:database/database.dart';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:vote_app/widget/emotion/Comment.dart';
 
 class EmotionScreen extends StatefulWidget {
+  const EmotionScreen({super.key});
+
   @override
   _EmotionScreenState createState() => _EmotionScreenState();
 }
@@ -28,7 +23,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color.fromRGBO(73, 227, 227, 0.8),
+          backgroundColor: Color.fromRGBO(47, 179, 178, 1),
           title: const Center(
             child: Text(
               'Mời bạn đánh giá chất lượng dịch vụ',
@@ -38,249 +33,152 @@ class _EmotionScreenState extends State<EmotionScreen> {
               ),
             ),
           )),
-      body: Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: Column(children: [
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      isTapped1 = !isTapped1;
-                      isTapped2 = false;
-                      isTapped3 = false;
-                      isTapped4 = false;
-                      isTapped5 = false;
-                      if (isTapped1) {
-                        selectedEmotion = 0;
-                        selectCmt = [false, false, false, false];
-                        cmt = [];
-                      } else {
-                        selectedEmotion = -1;
-                      }
-                      print(selectedComment);
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(
-                            0.0), // Loại bỏ khoảng trắng xung quanh Icon
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isTapped1
-                              ? Color.fromARGB(255, 202, 55,
-                                  19) // Màu đỏ đậm khi được chạm vào
-                              : Colors.grey, // Màu xám khi không được chạm vào
-                        ),
-                        child: Icon(
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 50),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isSelected = !isSelected;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
                           FontAwesomeIcons.faceAngry,
-                          size: 80, // Độ lớn của Icon
-                          color: Colors.white, // Màu trắng cho Icon
+                          size:
+                              50, // Đặt kích thước của biểu tượng theo mong muốn
                         ),
-                      ),
-                      Text(
-                        "Rất tệ",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      )
-                    ],
-                  )),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      isTapped2 = !isTapped2;
-                      isTapped1 = false;
-                      isTapped3 = false;
-                      isTapped4 = false;
-                      isTapped5 = false;
-                      if (isTapped2) {
-                        selectedEmotion = 1;
-                        selectCmt = [false, false, false, false];
-                        cmt = [];
-                      }
-                      if (!isTapped2) {
-                        selectedEmotion = -1;
-                      }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(
-                            0.0), // Loại bỏ khoảng trắng xung quanh Icon
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isTapped2
-                              ? const Color.fromARGB(255, 241, 244,
-                                  54) // Màu vàng đậm khi được chạm vào
-                              : Colors.grey, // Màu xám khi không được chạm vào
+                        SizedBox(height: 8), // Khoảng cách giữa Icon và Text
+                        Text(
+                          'Rất Tệ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Icon(
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Column(
+                      children: [
+                        Icon(
                           FontAwesomeIcons.faceFrown,
-                          size: 80, // Độ lớn của Icon
-                          color: Colors.white, // Màu trắng cho Icon
+                          size:
+                              50, // Đặt kích thước của biểu tượng theo mong muốn
                         ),
-                      ),
-                      Text(
-                        "Tệ",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      )
-                    ],
-                  )),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      isTapped3 = !isTapped3;
-                      isTapped2 = false;
-                      isTapped1 = false;
-                      isTapped4 = false;
-                      isTapped5 = false;
-                      if (isTapped3) {
-                        selectedEmotion = 2;
-                        selectCmt = [false, false, false, false];
-                        cmt = [];
-                      } else {
-                        selectedEmotion = -1;
-                      }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(
-                            0.0), // Loại bỏ khoảng trắng xung quanh Icon
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isTapped3
-                              ? Color.fromARGB(255, 108, 221,
-                                  80) // Màu xanh lá cây đậm khi được chạm vào
-                              : Colors.grey, // Màu xám khi không được chạm vào
+                        SizedBox(height: 8), // Khoảng cách giữa Icon và Text
+                        Text(
+                          'Tệ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Icon(
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Column(
+                      children: [
+                        Icon(
                           FontAwesomeIcons.faceFrownOpen,
-                          size: 80, // Độ lớn của Icon
-                          color: Colors.white, // Màu trắng cho Icon
+                          size:
+                              50, // Đặt kích thước của biểu tượng theo mong muốn
                         ),
-                      ),
-                      Text(
-                        "Bình thường",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      )
-                    ],
-                  )),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      isTapped4 = !isTapped4;
-                      isTapped2 = false;
-                      isTapped3 = false;
-                      isTapped1 = false;
-                      isTapped5 = false;
-                      if (isTapped4) {
-                        selectedEmotion = 3;
-                        cmt = [];
-                        selectCmt = [false, false, false, false];
-                      } else {
-                        selectedEmotion = -1;
-                      }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(
-                            0.0), // Loại bỏ khoảng trắng xung quanh Icon
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isTapped4
-                              ? Color.fromARGB(255, 13, 172,
-                                  13) // Màu xanh lá cây đậm khi được chạm vào
-                              : Colors.grey, // Màu xám khi không được chạm vào
+                        SizedBox(height: 8), // Khoảng cách giữa Icon và Text
+                        Text(
+                          'Bình thường',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Icon(
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Column(
+                      children: [
+                        Icon(
                           FontAwesomeIcons.faceGrinSquint,
-                          size: 80, // Độ lớn của Icon
-                          color: Colors.white, // Màu trắng cho Icon
+                          size:
+                              50, // Đặt kích thước của biểu tượng theo mong muốn
                         ),
-                      ),
-                      Text(
-                        "Tốt",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      )
-                    ],
-                  )),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      isTapped5 = !isTapped5;
-                      isTapped2 = false;
-                      isTapped3 = false;
-                      isTapped4 = false;
-                      isTapped1 = false;
-                      if (isTapped5) {
-                        selectedEmotion = 4;
-                        selectCmt = [false, false, false, false];
-                        cmt = [];
-                      } else {
-                        selectedEmotion = -1;
-                      }
-                      print(selectedComment);
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(
-                            0.0), // Loại bỏ khoảng trắng xung quanh Icon
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isTapped5
-                              ? Color.fromARGB(207, 228, 8,
-                                  99) // Màu đỏ đậm khi được chạm vào
-                              : Colors.grey, // Màu xám khi không được chạm vào
+                        SizedBox(height: 8), // Khoảng cách giữa Icon và Text
+                        Text(
+                          'Tốt',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Icon(
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Column(
+                      children: [
+                        Icon(
                           FontAwesomeIcons.faceGrinHearts,
-                          size: 80, // Độ lớn của Icon
-                          color: Colors.white, // Màu trắng cho Icon
+                          size:
+                              50, // Đặt kích thước của biểu tượng theo mong muốn
                         ),
-                      ),
-                      Text(
-                        "Hoàn hảo",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      )
-                    ],
-                  )),
-            ],
+                        SizedBox(height: 8), // Khoảng cách giữa Icon và Text
+                        Text(
+                          'Hoàn hảo',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(
-            height: 30,
-          ),
-          Comment(
-            selectedEmotion: selectedEmotion,
-            selec: selectCmt,
-            resetCmt: cmt,
-          ),
-        ]),
+          if (selectedEmotion != -1)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.grey, // Màu của Container
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Bạn đã chọn: $selectedComment',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
