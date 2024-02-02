@@ -24,9 +24,4 @@
     <ProjectReference Include="..\VPBE.Service\VPBE.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EntityConfiguration\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

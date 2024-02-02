@@ -11,12 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VPBE.Domain\VPBE.Domain.csproj" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Implementations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Implementations\" />
+    <ProjectReference Include="..\VPBE.Domain\VPBE.Domain.csproj" />
   </ItemGroup>
 
 </Project>

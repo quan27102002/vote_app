@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VPBE.Domain.Logging;
 
 namespace VPBE.Infrastucture.Core
 {
@@ -21,6 +22,7 @@ namespace VPBE.Infrastucture.Core
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLoggerFactory(LoggerHelper.GetLoggerFactory());
             base.OnConfiguring(optionsBuilder);
         }
     }
