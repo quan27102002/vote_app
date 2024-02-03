@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
 using System.Text;
 using VPBE.Domain.Extensions;
 using VPBE.Domain.Middlewares;
+using VPBE.Infrastucture.Core;
 
 namespace VPBE.API
 {
@@ -51,6 +53,10 @@ namespace VPBE.API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuthentication:SecretKey"])),
                         ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(builder.Configuration["JwtAuthentication:ClockSkew"]))
                     };
+                });
+                services.AddDbContext<VPDbContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration["ConnectionStrings:DBConnections"]);
                 });
 
                 var app = builder.Build();
