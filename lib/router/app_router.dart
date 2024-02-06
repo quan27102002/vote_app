@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
-import 'package:vote_app/test/add_item.dart';
+
 
 class AppRouter {
   AppRouter._instance();
