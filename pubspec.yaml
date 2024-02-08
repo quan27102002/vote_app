@@ -53,6 +53,7 @@ dependencies:
   syncfusion_flutter_xlsio: ^24.2.4
   open_file: ^3.3.2
   path_provider: ^2.1.2
+  fl_chart: ^0.66.1
 
 
 dev_dependencies:
