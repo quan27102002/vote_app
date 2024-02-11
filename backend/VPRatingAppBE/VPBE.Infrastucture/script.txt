@@ -1,0 +1,186 @@
+﻿USE [VietPhap_RatingApp]
+GO
+
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [VP_Comment] (
+    [Id] uniqueidentifier NOT NULL,
+    [Content] nvarchar(max) NOT NULL,
+    [Level] int NOT NULL,
+    [CommentType] int NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    CONSTRAINT [PK_VP_Comment] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [VP_User] (
+    [Id] uniqueidentifier NOT NULL,
+    [DisplayName] nvarchar(128) NOT NULL,
+    [Email] nvarchar(128) NOT NULL,
+    [UserName] nvarchar(128) NOT NULL,
+    [Code] nvarchar(128) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    [PasswordSalt] varbinary(max) NOT NULL DEFAULT 0x,
+    [BranchAddress] nvarchar(max) NOT NULL,
+    [UserRole] int NOT NULL,
+    [AccessToken] nvarchar(max) NOT NULL,
+    [RefreshToken] nvarchar(max) NOT NULL,
+    [AccessTokenExpireTime] datetime2 NOT NULL,
+    [RefreshTokenExpireTime] datetime2 NOT NULL,
+    [UserStatus] int NOT NULL DEFAULT 1,
+    [CreatedOn] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_User] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [VP_DocumentRule] (
+    [Id] uniqueidentifier NOT NULL,
+    [FolderPath] nvarchar(max) NOT NULL,
+    [RegardingId] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+    [CreatedById] uniqueidentifier NOT NULL,
+    [ModifiedById] uniqueidentifier NOT NULL,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_DocumentRule] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_DocumentRule_VP_User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_DocumentRule_VP_User_ModifiedById] FOREIGN KEY ([ModifiedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION
+);
+GO
+
+CREATE TABLE [VP_UserBill] (
+    [Id] uniqueidentifier NOT NULL,
+    [BillCode] int NOT NULL,
+    [CustomerName] nvarchar(max) NOT NULL,
+    [CustomerCode] nvarchar(max) NOT NULL,
+    [Phone] nvarchar(max) NOT NULL,
+    [StartTime] datetime2 NOT NULL,
+    [BranchCode] nvarchar(max) NOT NULL,
+    [BranchAddress] nvarchar(max) NOT NULL,
+    [Doctor] nvarchar(max) NOT NULL,
+    [Service] nvarchar(max) NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    [CreatedById] uniqueidentifier NOT NULL,
+    [ModifiedById] uniqueidentifier NOT NULL,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_UserBill] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_UserBill_VP_User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_UserBill_VP_User_ModifiedById] FOREIGN KEY ([ModifiedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION
+);
+GO
+
+CREATE TABLE [VP_Document] (
+    [Id] uniqueidentifier NOT NULL,
+    [Content] varbinary(max) NOT NULL,
+    [Size] bigint NOT NULL,
+    [FileName] nvarchar(max) NOT NULL,
+    [FileType] nvarchar(max) NOT NULL,
+    [MimeType] nvarchar(max) NOT NULL,
+    [DocumentRuleEntityId] uniqueidentifier NOT NULL,
+    [CreatedById] uniqueidentifier NOT NULL,
+    [ModifiedById] uniqueidentifier NOT NULL,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_Document] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_Document_VP_DocumentRule_DocumentRuleEntityId] FOREIGN KEY ([DocumentRuleEntityId]) REFERENCES [VP_DocumentRule] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_Document_VP_User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_Document_VP_User_ModifiedById] FOREIGN KEY ([ModifiedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION
+);
+GO
+
+CREATE TABLE [VP_CommentResponse] (
+    [Id] uniqueidentifier NOT NULL,
+    [OtherComment] nvarchar(max) NOT NULL,
+    [Level] int NOT NULL,
+    [CommentType] int NOT NULL,
+    [Comments] nvarchar(max) NOT NULL,
+    [UserBillId] uniqueidentifier NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    [CreatedById] uniqueidentifier NOT NULL,
+    [ModifiedById] uniqueidentifier NOT NULL,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_CommentResponse] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_CommentResponse_VP_User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_CommentResponse_VP_User_ModifiedById] FOREIGN KEY ([ModifiedById]) REFERENCES [VP_User] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_VP_CommentResponse_VP_UserBill_UserBillId] FOREIGN KEY ([UserBillId]) REFERENCES [VP_UserBill] ([Id]) ON DELETE CASCADE
+);
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CommentType', N'Content', N'IsDeleted', N'Level') AND [object_id] = OBJECT_ID(N'[VP_Comment]'))
+    SET IDENTITY_INSERT [VP_Comment] ON;
+INSERT INTO [VP_Comment] ([Id], [CommentType], [Content], [IsDeleted], [Level])
+VALUES ('03aff69f-3235-4f8f-960d-4b5b65c4779e', 0, N'Y bác sĩ khám, điều trị tốt', CAST(0 AS bit), 3),
+('20c137fd-3d1e-45a4-84f7-67b3f5e01b9d', 0, N'Y bác sĩ khám, điều trị rất tốt', CAST(0 AS bit), 4),
+('44661aee-76d8-4526-8145-9395c46f5c8e', 0, N'Y bác sĩ khám, điều trị rất yếu kém', CAST(0 AS bit), 0),
+('52d4da7b-6fe5-45d1-b57d-daee36092dfd', 0, N'Bảo vệ, nhân viên không nhiệt tình', CAST(0 AS bit), 1),
+('53da7d20-7085-47d5-b6d5-42432ca09603', 0, N'Bảo vệ, nhân viên rất thiếu nhiệt tình', CAST(0 AS bit), 0),
+('6a74d774-2e5e-4db4-9e85-6f3f42493575', 0, N'Chăm sóc sau điều trị kém', CAST(0 AS bit), 1),
+('71f72dfe-9b15-43fc-9bb2-5a64088e454e', 0, N'Chăm sóc sau điều trị rất kém', CAST(0 AS bit), 0),
+('83ca1ef9-417b-439b-be61-8d6fb0fbc9e2', 0, N'Chăm sóc sau điều trị tốt', CAST(0 AS bit), 3),
+('8546bccf-b28b-4ff0-9229-086a0e8ad34e', 0, N'Bảo vệ, nhân viên rất nhiệt tình', CAST(0 AS bit), 4),
+('858ccd82-c04e-422f-ab0d-ab73a50bd0e4', 0, N'Chăm sóc sau điều trị rất chu đáo', CAST(0 AS bit), 4),
+('bfd9893d-6d51-41fe-a071-f829970e30ed', 0, N'Y bác sĩ khám, điều trị yếu kém', CAST(0 AS bit), 1),
+('c3f83585-8f74-4de5-a9c9-5a57b71a95e7', 0, N'Bảo vệ và nhân viên nhiệt tình', CAST(0 AS bit), 3),
+('dafa87ae-8a08-4d84-9822-230da9987fd8', 0, N'', CAST(0 AS bit), 2);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CommentType', N'Content', N'IsDeleted', N'Level') AND [object_id] = OBJECT_ID(N'[VP_Comment]'))
+    SET IDENTITY_INSERT [VP_Comment] OFF;
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'AccessToken', N'AccessTokenExpireTime', N'BranchAddress', N'Code', N'CreatedOn', N'DisplayName', N'Email', N'Password', N'PasswordSalt', N'RefreshToken', N'RefreshTokenExpireTime', N'UserName', N'UserRole') AND [object_id] = OBJECT_ID(N'[VP_User]'))
+    SET IDENTITY_INSERT [VP_User] ON;
+INSERT INTO [VP_User] ([Id], [AccessToken], [AccessTokenExpireTime], [BranchAddress], [Code], [CreatedOn], [DisplayName], [Email], [Password], [PasswordSalt], [RefreshToken], [RefreshTokenExpireTime], [UserName], [UserRole])
+VALUES ('0b44ccde-4a10-4088-a76c-99b4c739455d', N'', '0001-01-01T00:00:00.0000000', N'', N'', '2024-02-12T00:50:38.0356023+07:00', N'ADMIN', N'', N'D14C07DB1D8188AA63F186B1323AD3A5BD0362E718C40D67550B33F64336118329A792E0ECA81C690F2DCA2ED4638D7A62B9778696C6F4C277E87C1F6650F3C0', 0x48C0903AB649A27C6531493953DB452FC0835402D0230FD757D1D48B39C504E836D7AFA5BFFCD4DF43AF4AE413948387B4BB000ED509DF456D33FE9FEBF61DB4, N'', '0001-01-01T00:00:00.0000000', N'vietphapadmin', 1);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'AccessToken', N'AccessTokenExpireTime', N'BranchAddress', N'Code', N'CreatedOn', N'DisplayName', N'Email', N'Password', N'PasswordSalt', N'RefreshToken', N'RefreshTokenExpireTime', N'UserName', N'UserRole') AND [object_id] = OBJECT_ID(N'[VP_User]'))
+    SET IDENTITY_INSERT [VP_User] OFF;
+GO
+
+CREATE INDEX [IX_VP_CommentResponse_CreatedById] ON [VP_CommentResponse] ([CreatedById]);
+GO
+
+CREATE INDEX [IX_VP_CommentResponse_ModifiedById] ON [VP_CommentResponse] ([ModifiedById]);
+GO
+
+CREATE UNIQUE INDEX [IX_VP_CommentResponse_UserBillId] ON [VP_CommentResponse] ([UserBillId]);
+GO
+
+CREATE INDEX [IX_VP_Document_CreatedById] ON [VP_Document] ([CreatedById]);
+GO
+
+CREATE INDEX [IX_VP_Document_DocumentRuleEntityId] ON [VP_Document] ([DocumentRuleEntityId]);
+GO
+
+CREATE INDEX [IX_VP_Document_ModifiedById] ON [VP_Document] ([ModifiedById]);
+GO
+
+CREATE INDEX [IX_VP_DocumentRule_CreatedById] ON [VP_DocumentRule] ([CreatedById]);
+GO
+
+CREATE INDEX [IX_VP_DocumentRule_ModifiedById] ON [VP_DocumentRule] ([ModifiedById]);
+GO
+
+CREATE INDEX [IX_VP_UserBill_CreatedById] ON [VP_UserBill] ([CreatedById]);
+GO
+
+CREATE INDEX [IX_VP_UserBill_ModifiedById] ON [VP_UserBill] ([ModifiedById]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240211175038_initdb', N'6.0.26');
+GO
+
+COMMIT;
+GO
+
+

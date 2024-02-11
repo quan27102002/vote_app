@@ -23,6 +23,7 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(x => x.UserName).HasMaxLength(128).IsRequired();
             builder.Property(x => x.Code).HasMaxLength(128);
             builder.Property(x => x.Password).IsRequired();
+            builder.Property(x => x.PasswordSalt).HasDefaultValue(Array.Empty<byte>()).IsRequired();
             builder.Property(x => x.BranchAddress).IsRequired();
             builder.Property(x => x.UserRole).IsRequired();
             builder.Property(x => x.AccessToken);
@@ -33,15 +34,16 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(x => x.CreatedOn).IsRequired();
             builder.HasData(new UserEntity
             {
-                Id = Guid.NewGuid(),
+                Id = Constants.BuildInUserId,
                 DisplayName = "ADMIN",
                 UserName = "vietphapadmin",
                 Email = "",
                 Code = "",
                 BranchAddress = "",
                 Password = PasswordUtils.HashPassword("IKQYTX2u$BGv", out var salt),
+                PasswordSalt = salt,
                 UserRole = UserRole.Admin,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.Now,
             });
         }
     }

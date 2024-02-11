@@ -6,28 +6,15 @@ using System.Threading.Tasks;
 
 namespace VPBE.Domain.Entities
 {
-    public class CommentEntity
+    public class CommentResponseEntity : BaseEntity
     {
         public Guid Id { get; set; }
-        public string Content { get; set; } = string.Empty;
+        public string OtherComment { get; set; } = string.Empty;
         public SatisfactionLevel Level { get; set; }
         public CommentType CommentType { get; set; }
+        public string Comments { get; set; } = string.Empty;
+        public Guid UserBillId { get; set; }
+        public virtual UserBillEntity UserBillEntity { get; set; }
         public bool IsDeleted { get; set; }
-    }
-
-    public enum SatisfactionLevel
-    {
-        VeryBad = 0,
-        Bad,
-        Acceptable,
-        Good,
-        Perfect
-    }
-
-    public enum CommentType
-    {
-        BuiltIn = 0,
-        Customized = 1,
-        Mixed = 2
     }
 }

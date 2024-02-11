@@ -14,12 +14,13 @@ namespace VPBE.Domain.Entities
         public string UserName { get; set; }
         public string Code { get; set; }
         public string Password { get; set; }
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
         public string BranchAddress { get; set; }
         public UserRole UserRole { get; set; }
         public string AccessToken { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
-        public TimeSpan AccessTokenExpireTime { get; set; }
-        public TimeSpan RefreshTokenExpireTime { get; set; }
+        public DateTime AccessTokenExpireTime { get; set; }
+        public DateTime RefreshTokenExpireTime { get; set; }
         public UserStatus UserStatus { get; set; }
         public DateTime CreatedOn { get; set; }
     }

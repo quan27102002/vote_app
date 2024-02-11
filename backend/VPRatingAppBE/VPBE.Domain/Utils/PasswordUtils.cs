@@ -24,7 +24,7 @@ namespace VPBE.Domain.Utils
         public static bool VerifyPassword(string password, string hash, byte[] salt)
         {
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, algorithm, keySize);
-            return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(password));
+            return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
         }
     }
 }
