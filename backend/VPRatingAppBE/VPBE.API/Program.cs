@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text;
 using VPBE.Domain.Extensions;
 using VPBE.Domain.Middlewares;
-using VPBE.Domain.Validators.Comments;
 using VPBE.Infrastucture.Core;
 using VPBE.Service.Implementations;
 using VPBE.Service.Interfaces;
@@ -28,13 +27,6 @@ namespace VPBE.API
                 var host = builder.Host;
 
                 host.AddLoggingConfiguration();
-                //host.ConfigureAppConfiguration(config =>
-                //{
-                //    config.SetBasePath(Directory.GetCurrentDirectory());
-                //    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                //});
-
-                services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
                 services.AddControllersWithViews();
                 services.AddHttpContextAccessor();
                 services.AddCors();
