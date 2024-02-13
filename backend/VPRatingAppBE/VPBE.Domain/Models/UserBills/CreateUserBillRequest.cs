@@ -17,6 +17,6 @@ namespace VPBE.Domain.Models.UserBills
         public string BranchCode { get; set; }
         public string BranchAddress { get; set; }
         public string Doctor { get; set; } = string.Empty;
-        public List<Service> Service { get; set; }
+        public BranchService Service { get; set; }
     }
 }

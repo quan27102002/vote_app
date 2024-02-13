@@ -72,12 +72,11 @@ namespace VPBE.Domain.Attributes
                     Code = StatusCodes.Status200OK,
                     Status = (int)HttpStatusCode.OK,
                     Data = ((context.Result as ObjectResult).Value as CustomResponse).Result,
-                    Message = ((context.Result as ObjectResult).Value as CustomResponse).Message,
+                    Msg = ((context.Result as ObjectResult).Value as CustomResponse).Message,
                 });
             }
             else if (context.Result is BadRequestObjectResult)
             {
-                //_logger.Error()
                 context.Result = new ObjectResult(new APIResponseDto<object>
                 {
                     Code = StatusCodes.Status400BadRequest,
@@ -90,6 +89,14 @@ namespace VPBE.Domain.Attributes
                 {
                     Code = StatusCodes.Status401Unauthorized,
                     Status = (int)HttpStatusCode.Unauthorized,
+                });
+            }
+            else if (context.Result is ForbidResult)
+            {
+                context.Result = new ObjectResult(new APIResponseDto
+                {
+                    Code = StatusCodes.Status403Forbidden,
+                    Status = (int)HttpStatusCode.Forbidden,
                 });
             }
             else if (context.Result is NotFoundObjectResult || context.Result is NotFoundResult)

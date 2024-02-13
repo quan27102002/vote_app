@@ -22,12 +22,13 @@ namespace VPBE.API.Controllers
 
         [HttpPost("create")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
-        public async Task<IActionResult> CreateUserBill([FromBody] CreateUserBillRequest request)
+        public async Task<IActionResult> CreateUserBill([FromBody] List<CreateUserBillRequest> request)
         {
             try
             {
                 logger.Debug("Start creating user bill");
-                var isExisted = await _dBRepository.Context.Set<UserBillEntity>().AnyAsync(a => !a.IsDeleted && a.BillCode == request.BillCode);
+                var billCodes = request.Select(a => a.BillCode).ToList();
+                var isExisted = await _dBRepository.Context.Set<UserBillEntity>().AnyAsync(a => !a.IsDeleted && billCodes.Contains(a.BillCode));
                 if (isExisted)
                 {
                     logger.Error("User bill already existed");
@@ -37,20 +38,25 @@ namespace VPBE.API.Controllers
                         Message = "User bill already existed"
                     });
                 }
-                var userBill = new UserBillEntity
+                var listUserBill = new List<UserBillEntity>();
+                foreach (var item in request)
                 {
-                    BillCode = request.BillCode,
-                    CustomerCode = request.CustomerCode,
-                    CustomerName = request.CustomerName,
-                    Phone = request.Phone,
-                    StartTime = request.StartTime,
-                    BranchCode = request.BranchCode,
-                    BranchAddress = request.BranchAddress,
-                    Doctor = request.Doctor,
-                    Service = JsonConvert.SerializeObject(request.Service),
-                };
+                    var userBill = new UserBillEntity
+                    {
+                        BillCode = item.BillCode,
+                        CustomerCode = item.CustomerCode,
+                        CustomerName = item.CustomerName,
+                        Phone = item.Phone,
+                        StartTime = item.StartTime,
+                        BranchCode = item.BranchCode,
+                        BranchAddress = item.BranchAddress,
+                        Doctor = item.Doctor,
+                        Service = JsonConvert.SerializeObject(item.Service),
+                    };
+                    listUserBill.Add(userBill);
+                }
 
-                await _dBRepository.AddAsync(userBill);
+                await _dBRepository.AddRangeAsync(listUserBill);
                 await _dBRepository.SaveChangesAsync();
 
                 return Ok(new CustomResponse

@@ -19,15 +19,32 @@ namespace VPBE.Domain.Attributes
     public class RoleAttribute : Attribute, IAuthorizationFilter
     {
         private readonly IList<UserRole> _roles;
+        private readonly bool _isAdmin;
 
-        public RoleAttribute(params UserRole[] roles)
+        public RoleAttribute(UserRole[] roles)
         {
             _roles = roles ?? new UserRole[] { };
         }
+
+        public RoleAttribute(UserRole[] roles, bool isAdmin)
+        {
+            _roles = roles ?? new UserRole[] { };
+            _isAdmin = isAdmin;
+        }
+        public RoleAttribute(UserRole[] roles, string resource)
+        {
+            
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
             if (allowAnonymous)
+            {
+                return;
+            }
+
+            if (_isAdmin)
             {
                 return;
             }

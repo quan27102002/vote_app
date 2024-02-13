@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Xml.Linq;
 using VPBE.API.Controllers.Base;
 using VPBE.Domain.Attributes;
 using VPBE.Domain.Dtos;
@@ -24,7 +23,7 @@ namespace VPBE.API.Controllers
         }
         [HttpGet("getallcomments")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<CommentDto>))]
-        [Role(new UserRole[] { UserRole.Member })]
+        [Role(new UserRole[] { UserRole.Guest })]
         public async Task<IActionResult> GetAllComments()
         {
             try
@@ -149,7 +148,39 @@ namespace VPBE.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error($"Error getting comments by level. Message: {ex.Message}", ex);
+                logger.Error($"Error submit comment for bill code {request.UserBillId}. Message: {ex.Message}", ex);
+                throw;
+            }
+        }
+        [HttpPost("edit")]
+        [Role(new UserRole[] { UserRole.Admin })]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
+        public async Task<IActionResult> Edit([FromBody] EditCommentRequest request)
+        {
+            try
+            {
+                var comment = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Id == request.Id).FirstOrDefaultAsync();
+                if (comment == null)
+                {
+                    logger.Error($"Comment {request.Id} not existed");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "Comment not found"
+                    });
+                }
+                comment.Content = request.Content;
+                await _dBRepository.SaveChangesAsync();
+
+                return Ok(new CustomResponse
+                {
+                    Result = true,
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Error edit comment {request.Id}. Message: {ex.Message}", ex);
                 throw;
             }
         }

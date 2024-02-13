@@ -22,7 +22,7 @@ namespace VPBE.Domain.Entities
         public bool IsDeleted { get; set; }
     }
 
-    public class Service
+    public class BranchService
     {
         public string Name { get; set; }
         public int Amount { get; set; }

@@ -183,4 +183,66 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [VP_Branch] (
+    [Id] uniqueidentifier NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [Code] nvarchar(128) NOT NULL,
+    CONSTRAINT [PK_VP_Branch] PRIMARY KEY ([Id])
+);
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Code', N'Name') AND [object_id] = OBJECT_ID(N'[VP_Branch]'))
+    SET IDENTITY_INSERT [VP_Branch] ON;
+INSERT INTO [VP_Branch] ([Id], [Code], [Name])
+VALUES ('16b3d63a-007a-45b1-85ad-54104a83ed0c', N'HL', N'Nha Khoa Úc Châu 1'),
+('326347a7-840c-4098-9591-5d6ccec65aa4', N'HD', N'Cơ sở Hà Đông'),
+('43c783d5-8e65-44e2-bd3e-6ea73fb8666a', N'DH', N'Cơ sở Trần Duy Hưng'),
+('8b2d3a8a-fd45-4136-bb27-c606696a090f', N'ND', N'Cơ sở Nguyễn Du'),
+('8eedff16-0053-449c-9d07-b5cc7215b5a8', N'UC', N'Nha Khoa Úc Châu 2'),
+('9f037d25-10a9-4e21-b2d6-3c60fcc9095e', N'UB', N'Nha Khoa Úc Châu 3'),
+('cb73fe75-d3d6-4cea-a0ca-6e476d9daac4', N'BN', N'Cơ sở Bắc Ninh'),
+('ed5fd461-eca0-4eec-a9ab-6037e7cd2939', N'TH', N'Cơ sở Thái Hà'),
+('f36cd75d-785f-4e4e-a808-43c07e4e292a', N'DN', N'Cơ sở Trần Đăng Ninh');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Code', N'Name') AND [object_id] = OBJECT_ID(N'[VP_Branch]'))
+    SET IDENTITY_INSERT [VP_Branch] OFF;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240212070235_addbranch', N'6.0.26');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [VP_UserResourceMapping] (
+    [Id] uniqueidentifier NOT NULL,
+    [UserId] uniqueidentifier NOT NULL,
+    [BranchId] uniqueidentifier NOT NULL,
+    CONSTRAINT [PK_VP_UserResourceMapping] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_UserResourceMapping_VP_Branch_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [VP_Branch] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_VP_UserResourceMapping_VP_User_UserId] FOREIGN KEY ([UserId]) REFERENCES [VP_User] ([Id]) ON DELETE CASCADE
+);
+GO
+
+CREATE UNIQUE INDEX [IX_VP_UserResourceMapping_BranchId] ON [VP_UserResourceMapping] ([BranchId]);
+GO
+
+CREATE UNIQUE INDEX [IX_VP_UserResourceMapping_UserId] ON [VP_UserResourceMapping] ([UserId]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240213160826_addmapping', N'6.0.26');
+GO
+
+COMMIT;
+GO
+
+
+
 

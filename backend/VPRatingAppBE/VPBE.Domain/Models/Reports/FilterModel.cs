@@ -10,6 +10,6 @@ namespace VPBE.Domain.Models.Reports
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public List<string> BranchCode { get; set; } = new List<string>();
+        public string BranchCode { get; set; } = string.Empty;
     }
 }

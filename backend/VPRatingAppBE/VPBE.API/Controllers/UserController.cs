@@ -74,6 +74,10 @@ namespace VPBE.API.Controllers
                 result.AccessToken = accessToken;
                 result.RefreshToken = refreshToken;
                 result.Role = user.UserRole;
+                result.DisplayName = user.DisplayName;
+                result.BranchCode = user.Code;
+                result.BranchAddress = user.BranchAddress;
+                result.UserId = user.Id;
 
                 await HttpContext.AuthenticateAsync();
 
@@ -107,8 +111,20 @@ namespace VPBE.API.Controllers
                         Message = "Username already exists."
                     });
                 }
+
+                var branchId = await _dBRepository.Context.Set<BranchEntity>().Where(a => a.Code.ToLower() == request.Code.ToLower()).Select(a => a.Id).FirstOrDefaultAsync();
+                if (branchId == Guid.Empty)
+                {
+                    logger.Error($"Code {request.Code} not existed.");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "Branch code not existed"
+                    });
+                }
                 var newUser = new UserEntity
                 {
+                    Id = Guid.NewGuid(),
                     UserName = request.Username,
                     Email = request.Email,
                     Code = request.Code,
@@ -121,7 +137,15 @@ namespace VPBE.API.Controllers
                     CreatedOn = DateTime.Now
                 };
 
+                var newUrm = new UserResourceMappingEntity
+                {
+                    UserId = newUser.Id,
+                    BranchId = branchId
+                };
+
                 await _dBRepository.AddAsync(newUser);
+                await _dBRepository.AddAsync(newUrm);
+
                 await _dBRepository.SaveChangesAsync();
                 return Ok(new CustomResponse
                 {
