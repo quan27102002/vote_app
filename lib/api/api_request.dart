@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
+// import 'package:http_parser/http_parser.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'api_base/api_client.dart';
 import 'api_base/api_response.dart';
 
 class ApiRequest {
   static const String domain = "http://103.226.249.65:8081/api/AppService";
-
+  static const String data =
+      "https://api.mockfly.dev/mocks/f8a8de5b-31b9-4a44-8c1e-843f4be7003e/service";
   //auth
   //login
   static Future<ApiResponse> getData() async {
@@ -16,9 +17,9 @@ class ApiRequest {
       "cmd": "API_DanhSachKhachHang_Select",
       "data": {
         "benhnhan": {
-          "TuNgay": "20240101",//truyền date time now
-          "DenNgay": "20240123",// truyền date time now
-          "MaCoSo": "TH",// truyền mã cơ sở
+          "TuNgay": "20240123", //truyền date time now
+          "DenNgay": "20240123", // truyền date time now
+          "MaCoSo": "TH", // truyền mã cơ sở
         }
       }
     };
@@ -65,13 +66,11 @@ class ApiRequest {
   // }
 
   //reset-password
-  static Future<ApiResponse> resetPass(
-      {required String password,
-      required String confirmPassword,
-      required String token}) async {
-    Map data = {"password": password, "confirmPassword": confirmPassword};
-    return await ApiClient()
-        .request(url: domain, data: json.encode(data), method: ApiClient.post);
+  static Future<ApiResponse> getComment() async {
+    return await ApiClient().request(
+      url: data,
+      method: ApiClient.get,
+    );
   }
 
   //profile

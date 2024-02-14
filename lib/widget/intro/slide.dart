@@ -23,12 +23,16 @@ class _SlideState extends State<Slide> {
     'assets/images/8.jpg',
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  late Timer _timer;
 
-    // Tự động chuyển trang sau 3 giây
-    Timer.periodic(const Duration(seconds: 3), (timer) {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_currentPage < _images.length - 1) {
         _currentPage++;
       } else {
@@ -41,6 +45,16 @@ class _SlideState extends State<Slide> {
         curve: Curves.easeInOut,
       );
     });
+  }
+
+  void _stopTimer() {
+    _timer.cancel();
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    super.dispose();
   }
 
   void _navigateToEmotionScreen() {

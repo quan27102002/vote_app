@@ -3,4 +3,6 @@ class RouteName {
   static const intro = '/';
   static const home = '/home';
   static const item = '/y';
+  static const billcustomer = '/bill';
+
 }

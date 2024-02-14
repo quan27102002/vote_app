@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/router/app_router.dart';
+import 'package:vote_app/widget/emotion/comment.dart';
 
 void main() {
   runApp(const MyApp());
-  ApiRequest.getData();
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: AppRouter.instance.onGenerateRoute,
+      // home: Comment(),
     );
   }
 }
