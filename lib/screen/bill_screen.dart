@@ -13,7 +13,7 @@ class BillScreen extends StatefulWidget {
 class _BillScreenState extends State<BillScreen> {
   late Map<String, dynamic> rateData;
   List<BillCustomer> listBill = [];
-  BillCustomer? customer;
+  late BillCustomer customer;
   late List<String> comments;
   late String selectedEmoji;
   late String commentDifference;
@@ -42,44 +42,68 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    // Không cần truy cập context ở đây
-    // Đã chuyển việc gọi getApi() vào hàm build()
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // Gọi hàm getApi() trong hàm build() để đảm bảo context đã được khởi tạo
+    // Call getApi() within build() for context access
     if (_isLoading) {
-      getApi();
+      getApi(); // Start data fetching when build executes
       return Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          if (customer != null)
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
+      body: Center(
+        // Use Center widget effectively:
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Vertically center
+          crossAxisAlignment: CrossAxisAlignment.center, // Horizontally center
+          children: [
+            if (customer != null)
+              Column(
                 children: [
-                  Text(customer!.hoTen ?? ""),
-                  Text(selectedEmoji),
-                  Text("Comments:"),
-                  for (var comment in comments) Text(comment),
-                  Text("Comment Difference: $commentDifference"),
+                  Text("Họ và tên: ${customer!.hoTen}"),
+                  Text("Mã bệnh nhân: ${customer!.maBenhNhan}"),
+                  Text("Số điện thoại:${customer!.dienThoaiDD}"),
+                  Text("Mã hoá đơn:${customer!.maHoaDon}"),
+                  Text("Thời gian khám:${customer?.thoiGianKham}"),
+                  Text("Mã chi nhánh :${customer?.maCoSo}"),
+                  Text("Địa chỉ khám:${customer?.coSoKham}"),
+                  Text("Bác sĩ khám :${customer?.bacSyPhuTrach}"),
+                  Text("Dịch vụ:"),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Tên dịch vụ: ${customer?.tenDichVu}"),
+                      Text("Tên dịch vụ: ${customer?.soLuong}"),
+                      Text("Tên dịch vụ: ${customer?.donGia}"),
+                    ],
+                  )
                 ],
               ),
+            if (customer == null) Text("Không tìm thấy khách hàng"),
+            ElevatedButton(
+              onPressed: () async {
+                final res = await ApiRequest.uploadBillCustomer(
+                  customer.maHoaDon ?? 0,
+                  customer.hoTen ?? "",
+                  customer.maBenhNhan ?? "",
+                  customer.dienThoaiDD ?? "",
+                  customer.thoiGianKham ?? "",
+                  customer.maCoSo ?? "",
+                  customer.coSoKham ?? "",
+                  customer.bacSyPhuTrach ?? "",
+                  customer.tenDichVu ?? "",
+                  customer.soLuong ?? 0,
+                  customer.donGia!.toInt(),
+                );
+                if (res.result == true) {
+                  Navigator.pushReplacementNamed(context, '/home');
+                }
+              },
+              child: Text("Hoàn thành xác nhận thông tin"),
             ),
-          if (customer == null)
-            Center(child: Text("Không tìm thấy khách hàng")),
-          ElevatedButton(
-              onPressed: () {}, child: Text("Hoàn thành xác nhận thông tin"))
-        ],
+          ],
+        ),
       ),
     );
   }

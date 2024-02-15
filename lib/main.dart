@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/router/app_router.dart';
+import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/widget/emotion/comment.dart';
 
 void main() {
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      onGenerateRoute: AppRouter.instance.onGenerateRoute,
-      // home: Comment(),
+      // onGenerateRoute: AppRouter.instance.onGenerateRoute,
+      home: EmotionScreen(),
     );
   }
 }

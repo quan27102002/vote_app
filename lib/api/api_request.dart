@@ -9,8 +9,11 @@ class ApiRequest {
   static const String domain = "http://103.226.249.65:8081/api/AppService";
   static const String data =
       "https://api.mockfly.dev/mocks/f8a8de5b-31b9-4a44-8c1e-843f4be7003e/service";
-  //auth
-  //login
+  static const String billCustomer =
+      "https://localhost:7257/api/UserBill/create";
+  static const String comment = "http://103.226.249.65:8081/api/Comment/submit";
+
+  //getBillCustomer
   static Future<ApiResponse> getData() async {
     Map data = {
       "sid": null,
@@ -30,70 +33,74 @@ class ApiRequest {
     );
   }
 
-  //register
-  // static Future<ApiResponse> userRegister({
-  //   required String username,
-  //   required String password,
-  //   required String email,
-  //   required String mobileNumber,
-  //   String? affiliateCode,
-  //   required String transactionCode,
-  // }) async {
-  //   Map data = {
-  //     "username": username,
-  //     "password": password,
-  //     "email": email,
-  //     "mobileNumber": mobileNumber,
-  //     "affiliateCode": affiliateCode,
-  //     "transactionCode": transactionCode,
-  //   };
-  //   return await ApiClient()
-  //       .request(url: "$domain/api/v1/auth/user/register", data: json.encode(data), method: ApiClient.post);
-  // }
+//uploadBillCustomer
+  static Future<ApiResponse> uploadBillCustomer(
+    int billCode,
+    String customerName,
+    String customerCode,
+    String phone,
+    String startTime,
+    String branchCode,
+    String branchAddress,
+    String doctor,
+    String serviceName,
+    int serviceAmount,
+    int serviceUnitPrice,
+  ) async {
+    Map data = {
+      "billCode": billCode,
+      "customerName": customerName,
+      "customerCode": customerCode,
+      "phone": phone,
+      "startTime": startTime,
+      "branchCode": branchCode,
+      "branchAddress": branchAddress,
+      "doctor": doctor,
+      "service": {
+        "name": serviceName,
+        "amount": serviceName,
+        "unitPrice": serviceUnitPrice,
+      }
+    };
+    return await ApiClient().request(
+      url: billCustomer,
+      data: json.encode(data),
+      method: ApiClient.post,
+    );
+  }
 
-  //send-verify-password
-  // static Future<ApiResponse> sendVerifyPassword(String email) async {
-  //   Map data = {"email": email};
-  //   return await ApiClient().request(
-  //       url: "$domain/api/v1/auth/send-verify/reset-password", data: json.encode(data), method: ApiClient.post);
-  // }
+//uploadComment
+  static Future<ApiResponse> uploadComment(
+    String userBillId,
+    int level,
+    int commentType,
+    List comments,
+    String otherComment,
+  ) async {
+    Map data = {
+      "userBillId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "level": 0,
+      "commentType": 0,
+      "comments": [
+        {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "content": "string",
+        }
+      ],
+      "otherComment": "string"
+    };
+    return await ApiClient().request(
+      url: comment,
+      data: json.encode(data),
+      method: ApiClient.post,
+    );
+  }
 
-  //verify-password
-  // static Future<ApiResponse> verifyPassword({required String email, required String code}) async {
-  //   Map data = {"email": email, "code": code};
-  //   return await ApiClient()
-  //       .request(url: "$domain/api/v1/auth/verify/reset-password", data: json.encode(data), method: ApiClient.post);
-  // }
-
-  //reset-password
+//getListEmotion_Comment
   static Future<ApiResponse> getComment() async {
     return await ApiClient().request(
       url: data,
       method: ApiClient.get,
     );
   }
-
-  //profile
-  // static Future<ApiResponse> getUserInfo() async {
-  //   return await ApiClient().request(url: "$domain/api/v1/user/account", method: ApiClient.get);
-  // }
-
-  //media
-  //images
-  // static Future<ApiResponse> uploadImages({
-  //   required List<XFile> imagePaths,
-  // }) async {
-  //   List<MultipartFile> imageFiles = [];
-  //   for (XFile imagePath in imagePaths) {
-  //     imageFiles.add(await MultipartFile.fromFile(
-  //       imagePath.path,
-  //       filename: imagePath.path.split('/').last,
-  //       contentType: MediaType('image', 'png'),
-  //     ));
-  //   }
-  //   Map<String, dynamic> data = {
-  //     "files": imageFiles,
-  //   };
-  //   return await ApiClient().request(url: "$domain/api/v1/file/upload", formData: data, method: ApiClient.post);
-  // }
 }

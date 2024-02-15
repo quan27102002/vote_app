@@ -58,7 +58,7 @@ class _SlideState extends State<Slide> {
   }
 
   void _navigateToEmotionScreen() {
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/bill');
   }
 
   @override

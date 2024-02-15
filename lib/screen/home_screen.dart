@@ -397,14 +397,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             onPressed: () {
                               print(selectedOptions);
                               print(status);
-                              Navigator.pushReplacementNamed(context, '/bill',
-                                  arguments: {
-                                    'rate': {
-                                      'comments': selectedOptions,
-                                      'selectedEmoji': status,
-                                      'commentDifferen': commentDifferen.text,
-                                    },
-                                  });
+                              print(commentDifferen.text);
                             },
                             child: Text('sang xác nhận'),
                           )
