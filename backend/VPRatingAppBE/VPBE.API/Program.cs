@@ -125,6 +125,8 @@ namespace VPBE.API
             }
             finally
             {
+                logger.Info($"Application is running at {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
+                logger.Info($"Application is running at {Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}");
                 LogManager.Shutdown();
             }
 
