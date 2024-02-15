@@ -322,3 +322,5 @@ db-data/
 *.cc
 *.h
 *.swift
+
+wwwroot/
