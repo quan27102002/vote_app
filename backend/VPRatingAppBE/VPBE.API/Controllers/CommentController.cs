@@ -23,7 +23,7 @@ namespace VPBE.API.Controllers
         }
         [HttpGet("getallcomments")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<CommentDto>))]
-        [Role(new UserRole[] { UserRole.Guest })]
+        [Role(new UserRole[] { UserRole.Admin, UserRole.Guest })]
         public async Task<IActionResult> GetAllComments()
         {
             try
@@ -102,6 +102,7 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("submit")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
+        [Role(new UserRole[] { UserRole.Admin, UserRole.Guest })]
         public async Task<IActionResult> SubmitComment([FromBody] SubmitCommentRequest request)
         {
             try
