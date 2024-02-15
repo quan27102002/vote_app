@@ -22,19 +22,26 @@ namespace VPBE.API.Controllers
             this._dBRepository = dBRepository;
         }
         [HttpGet("getallcomments")]
-        [SwaggerResponse(200, Type = typeof(APIResponseDto<CommentDto>))]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<List<ListComment>>))]
         [Role(new UserRole[] { UserRole.Admin, UserRole.Guest })]
         public async Task<IActionResult> GetAllComments()
         {
             try
             {
-                var comments = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted).Select(a => new CommentDto
-                {
-                    Id = a.Id,
-                    Level = a.Level,
-                    CommentType = a.CommentType,
-                    Content = a.Content
-                }).OrderBy(a => a.Level).ToListAsync();
+                var comments = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted)
+                    .GroupBy(a => a.Level)
+                    .Select(a => new
+                    {
+                        Level = a.Key,
+                        Comments = a.Select(b => new CommentDto
+                        {
+                            Id = b.Id,
+                            Level = b.Level,
+                            CommentType = b.CommentType,
+                            Content = b.Content
+                        }).ToList()
+                    })
+                    .ToListAsync();
 
                 return Ok(new CustomResponse
                 {

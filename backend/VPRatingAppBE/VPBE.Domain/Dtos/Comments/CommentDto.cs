@@ -14,4 +14,10 @@ namespace VPBE.Domain.Dtos.Comments
         public SatisfactionLevel Level { get; set; }
         public string Content { get; set; }
     }
+
+    public class ListComment
+    {
+        public SatisfactionLevel Level { get; set;}
+        public List<CommentDto> Comments { get; set;}
+    }
 }
