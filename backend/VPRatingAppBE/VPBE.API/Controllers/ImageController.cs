@@ -21,6 +21,7 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("bulkupload")]
         [Role(new UserRole[] { UserRole.Admin })]
+        [FileValidator(new string[] {".png", ".jpg"}, 5 * 1024 * 1024)]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
         public async Task<IActionResult> BulkUpload(IFormFileCollection formFiles)
         {
