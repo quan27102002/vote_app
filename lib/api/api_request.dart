@@ -113,21 +113,21 @@ class ApiRequest {
   }
 
   //register
-  static Future<ApiResponse> userRegister(
-      String name, String email, String place, String pass, int role) async {
+  static Future<ApiResponse> userRegister(String name, String email,
+      String place, String brandCode, String pass, int role) async {
     Map data = {
       "username": name,
       "password": pass,
       "role": role,
-      "displayName": "",
+      "displayName": "STAFF",
       "email": email,
-      "code": "",
-      "branchAddress": place
+      "code": "HL",
+      "branchAddress": 'Nha khoa Úc Châu 1'
     };
     return await ApiClient().request(
-        url: "https://10.0.2.2:7257/api/Comment/getallcomments",
-        // data: json.encode(data),
-        method: ApiClient.get);
+      url: "https://10.0.2.2:7257/api/User/register",
+      data: json.encode(data),
+    );
   }
 
   //send-verify-password

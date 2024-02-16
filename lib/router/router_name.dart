@@ -1,9 +1,9 @@
 class RouteName {
-  static const login = '/4';
+  static const login = '/';
   static const intro = '/l';
   static const home = '/home';
   static const emotion = '/v';
-  static const create = '/g';
+  static const create = '/v';
   static const admin = '/admin';
   static const logout = '/logout';
   static const item = '/y';
@@ -11,6 +11,6 @@ class RouteName {
   static const idbillcustomer = '/idbillcustomer';
   static const endscreen = '/endscreen';
   static const excel = '/f';
-  static const chart = '/';
+  static const chart = '/c';
   static const totalComment = '/v';
 }

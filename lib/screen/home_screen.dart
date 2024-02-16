@@ -5,6 +5,7 @@ import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/comment.dart';
 import 'package:vote_app/widget/emotion/comment.dart';
+import 'package:vote_app/screen/end_screen.dart';
 
 class EmotionScreen extends StatefulWidget {
   final String userBillId;
@@ -493,6 +494,11 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           commentDifferen.text,
                                         );
                                         if (res.code == 200) {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) => EndScreen(),
+                                            ),
+                                          );
                                           print("ok");
                                         }
                                       },

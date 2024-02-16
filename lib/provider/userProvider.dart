@@ -53,21 +53,20 @@ class UserProvider extends ChangeNotifier {
   Future<String> getDataUserProfile(String username, String passWord) async {
     ApiResponse res = await ApiRequest.userLogin(username, passWord);
     print(res.code);
-    if (res.code  == 200) {
-  
+    if (res.code == 200) {
       String token = res.data["accessToken"];
       String refreshToken = res.data["refreshToken"];
-          int role = res.data["role"];
-                //  String codeBr = res.data["role"];
+      int role = res.data["role"];
+      String codeBr = res.data["branchCode"];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setInt('role', role);
-        // await prefs.setString('codeBr',);
+      await prefs.setString('codeBr', codeBr);
       await prefs.setString('jwt', token);
       await prefs.setString('jwtrefresh', refreshToken);
-      
+
       // Gọi hàm refresh token một lần sau khi nhận được token mới
       FunctionrefreshToken(token, refreshToken);
-startTokenRefreshTimer(token, refreshToken);
+      startTokenRefreshTimer(token, refreshToken);
 
       User user = User.fromJson(res.data);
       modelLogIn = user;
@@ -79,7 +78,12 @@ startTokenRefreshTimer(token, refreshToken);
     }
   }
 
-  void logout() {
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('role'); // Xóa thông tin về vai trò của người dùng
+    await prefs.remove('codeBr'); // Xóa mã chi nhánh
+    await prefs.remove('jwt'); // Xóa mã token
+    await prefs.remove('jwtrefresh');
     modelLogIn = User();
     notifyListeners();
   }
@@ -96,7 +100,8 @@ startTokenRefreshTimer(token, refreshToken);
   Future<void> FunctionrefreshToken(String? token, String? refreshToken) async {
     // Kiểm tra xem token và refreshToken có giá trị không
     if (token != null && refreshToken != null) {
-      ApiResponse res = await ApiRequest.getTokenByRefreshtoken(token, refreshToken);
+      ApiResponse res =
+          await ApiRequest.getTokenByRefreshtoken(token, refreshToken);
       if (res.result == true) {
         String newToken = res.data["accessToken"];
         String newRefreshToken = res.data["refreshToken"];

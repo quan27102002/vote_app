@@ -29,6 +29,7 @@ class _CreateUserState extends State<CreateUser> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _branchController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _branchCodeController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -108,7 +109,7 @@ class _CreateUserState extends State<CreateUser> {
               ],
             ),
             TextFormField(
-              controller: _nameController,
+              controller: _emailController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -137,7 +138,53 @@ class _CreateUserState extends State<CreateUser> {
                 }
               },
               onSaved: (value) {
-                _nameController.text = value!;
+                _emailController.text = value!;
+              },
+              keyboardType: TextInputType.emailAddress,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Tên cơ sở ",
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: Color(0xFF848496),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    )),
+              ],
+            ),
+            TextFormField(
+              controller: _branchController,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Tên cơ sở ',
+                enabled: true,
+                contentPadding:
+                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.white),
+                  borderRadius: new BorderRadius.circular(10),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.white),
+                  borderRadius: new BorderRadius.circular(10),
+                ),
+              ),
+              validator: (value) {
+                RegExp regex = new RegExp(r'^.{6,}$');
+                if (value!.isEmpty) {
+                  return "Email cannot be empty";
+                }
+                if (!regex.hasMatch(value)) {
+                  return ("please enter valid Email min. 6 character");
+                } else {
+                  return null;
+                }
+              },
+              onSaved: (value) {
+                _branchController.text = value!;
               },
               keyboardType: TextInputType.emailAddress,
             ),
@@ -154,7 +201,7 @@ class _CreateUserState extends State<CreateUser> {
               ],
             ),
             TextFormField(
-              controller: _branchController,
+              controller: _branchCodeController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -183,7 +230,7 @@ class _CreateUserState extends State<CreateUser> {
                 }
               },
               onSaved: (value) {
-                _nameController.text = value!;
+                _branchCodeController.text = value!;
               },
               keyboardType: TextInputType.emailAddress,
             ),
@@ -277,7 +324,7 @@ class _CreateUserState extends State<CreateUser> {
               onSaved: (value) {
                 _passwordController.text = value!;
               },
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.visiblePassword,
             ),
             SizedBox(
               height: 10,
@@ -288,6 +335,7 @@ class _CreateUserState extends State<CreateUser> {
                     _nameController.text,
                     _emailController.text,
                     _branchController.text,
+                    _branchCodeController.text,
                     _passwordController.text,
                     int.parse(_selectedOption!));
               },
@@ -304,11 +352,11 @@ class _CreateUserState extends State<CreateUser> {
     );
   }
 
-  Future<void> CreateUser(
-      String name, String email, String place, String pass, int role) async {
+  Future<void> CreateUser(String name, String email, String place,
+      String branchCode, String pass, int role) async {
     // showLoading();
-    ApiResponse res =
-        await ApiRequest.userRegister(name, email, place, pass, role);
+    ApiResponse res = await ApiRequest.userRegister(
+        name, email, place, branchCode, pass, role);
     print(res);
     if (res.data == true) {
       AppFuntion.showDialogError(context, "", onPressButton: () {
