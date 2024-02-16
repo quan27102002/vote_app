@@ -79,7 +79,6 @@ namespace VPBE.API
                         ValidIssuer = builder.Configuration["JwtAuthentication:ValidIssuer"],
                         ValidAudience = builder.Configuration["JwtAuthentication:ValidAudience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuthentication:SecretKey"])),
-                        ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(builder.Configuration["JwtAuthentication:ClockSkew"]))
                     };
                     options.Events = new JwtBearerEvents
                     {

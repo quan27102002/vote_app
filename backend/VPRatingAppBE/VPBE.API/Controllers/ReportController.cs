@@ -80,29 +80,45 @@ namespace VPBE.API.Controllers
 
         private async Task<List<FilterResult>> GetDataForAdmin(FilterModel model)
         {
-
-            if (string.IsNullOrEmpty(model.BranchCode))
+            var buildInData = new List<FilterResult>()
             {
-                var data = await _dBRepository.Context.Set<CommentResponseEntity>()
-                    .Where(a => !a.IsDeleted && a.CreatedTime >= model.StartTime && a.CreatedTime <= model.EndTime)
-                    .GroupBy(a => a.Level)
-                    .Select(a => new FilterResult
-                    {
-                        Level = a.Key,
-                        Description = a.Key == SatisfactionLevel.VeryBad ? "Rất tệ"
-                                    : a.Key == SatisfactionLevel.Bad ? "Tệ"
-                                    : a.Key == SatisfactionLevel.Acceptable ? "Bình thường"
-                                    : a.Key == SatisfactionLevel.Good ? "Tốt"
-                                    : a.Key == SatisfactionLevel.Perfect ? "Hoàn hảo"
-                                    : string.Empty,
-                        Count = a.Count()
-                    })
-                    .ToListAsync();
-                return data;
-            }
+                new FilterResult
+                {
+                    Level = SatisfactionLevel.VeryBad,
+                    Description = "Rất tệ",
+                    Count = 0
+                },
+                new FilterResult
+                {
+                    Level = SatisfactionLevel.Bad,
+                    Description = "Tệ",
+                    Count = 0
+                },
+                new FilterResult
+                {
+                    Level = SatisfactionLevel.Acceptable,
+                    Description = "Bình thường",
+                    Count = 0
+                },
+                new FilterResult
+                {
+                    Level = SatisfactionLevel.Good,
+                    Description = "Tốt",
+                    Count = 0
+                },
+                new FilterResult
+                {
+                    Level = SatisfactionLevel.Perfect,
+                    Description = "Hoàn hảo",
+                    Count = 0
+                },
+            }; 
             var dataByCode = await _dBRepository.Context.Set<CommentResponseEntity>()
                     .Include(a => a.UserBillEntity)
-                    .Where(a => !a.IsDeleted && model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower() && a.CreatedTime >= model.StartTime && a.CreatedTime <= model.EndTime)
+                    .Where(a => !a.IsDeleted
+                                && (string.IsNullOrEmpty(model.BranchCode) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
+                                && a.CreatedTime >= model.StartTime
+                                && a.CreatedTime <= model.EndTime)
                     .GroupBy(a => a.Level)
                     .Select(a => new FilterResult
                     {
@@ -117,7 +133,19 @@ namespace VPBE.API.Controllers
                     })
                     .ToListAsync();
 
-            return dataByCode;
+            var result = from b in buildInData
+                         join d in dataByCode
+                         on b.Level equals d.Level
+                         into data
+                         from s in data.DefaultIfEmpty()
+                         select new FilterResult
+                         {
+                             Level = s == null ? b.Level : s.Level,
+                             Description = s == null ? b.Description : s.Description,
+                             Count = s == null ? b.Count : s.Count
+                         };
+
+            return result.ToList();
 
         }
 

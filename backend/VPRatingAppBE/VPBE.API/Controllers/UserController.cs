@@ -164,15 +164,20 @@ namespace VPBE.API.Controllers
         [HttpPost("refreshtoken")]
         [AllowAnonymous]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<RefreshTokenRequest>))]
-        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             try
             {
-                string accessToken = await HttpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
-                if (string.IsNullOrEmpty(accessToken))
+                string accessToken = request.AccessToken;
+                string refreshToken = request.RefreshToken;
+                if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
                 {
                     logger.Error("Invalid token");
                     return BadRequest();
+                }
+                if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
+                {
+                    return NoContent();
                 }
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
