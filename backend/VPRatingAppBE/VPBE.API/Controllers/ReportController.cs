@@ -24,7 +24,7 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("filter")]
         [Role(new UserRole[] { UserRole.Admin, UserRole.Member })]
-        [SwaggerResponse(200, Type = typeof(APIResponseDto<FilterResult>))]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<List<FilterResult>>))]
         public async Task<IActionResult> GetReport([FromBody] FilterModel model)
         {
             try

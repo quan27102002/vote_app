@@ -69,6 +69,7 @@ namespace VPBE.API
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(options =>
                 {
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -79,6 +80,16 @@ namespace VPBE.API
                         ValidAudience = builder.Configuration["JwtAuthentication:ValidAudience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuthentication:SecretKey"])),
                         ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(builder.Configuration["JwtAuthentication:ClockSkew"]))
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context => {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
                 services.AddDbContext<VPDbContext>(options =>

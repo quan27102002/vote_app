@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -161,13 +162,18 @@ namespace VPBE.API.Controllers
         }
 
         [HttpPost("refreshtoken")]
+        [AllowAnonymous]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<RefreshTokenRequest>))]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
         {
             try
             {
-                string accessToken = request.AccessToken;
-                string refreshToken = request.RefreshToken;
+                string accessToken = await HttpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
+                if (string.IsNullOrEmpty(accessToken))
+                {
+                    logger.Error("Invalid token");
+                    return BadRequest();
+                }
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
                 var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.UserName == username && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();
