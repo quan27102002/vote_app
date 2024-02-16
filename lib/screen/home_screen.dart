@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/comment.dart';
 import 'package:vote_app/widget/emotion/comment.dart';
 
 class EmotionScreen extends StatefulWidget {
-  const EmotionScreen({super.key});
+  final String userBillId;
+  // const EmotionScreen({super.key, required this.userBillId});
+  const EmotionScreen({Key? key, required this.userBillId}) : super(key: key);
 
   @override
   _EmotionScreenState createState() => _EmotionScreenState();
@@ -24,19 +27,21 @@ class _EmotionScreenState extends State<EmotionScreen> {
   bool isComment2 = false;
   bool isComment3 = false;
   TextEditingController commentDifferen = TextEditingController();
+  int? level;
+  int? commentType;
 
   int selectedEmotion = -1;
   String status = "";
   String selectedComment = '';
   int selectedOption = 0;
-  List<String> selectedOptions = []; // Đổi sang kiểu List<String>
+  List<Map> selectedOptions = []; // Đổi sang kiểu List<String>
   List<ListComment> listComment = [];
 
   Future<void> getApi() async {
     listComment.clear();
     ApiResponse res = await ApiRequest.getComment();
 
-    if (res.result == true) {
+    if (res.code == 200) {
       setState(() {
         for (var e in res.data) {
           listComment.add(ListComment.fromJson(e));
@@ -285,122 +290,216 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     ? Container()
                     : Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                var value =
-                                    listComment[selectedEmotion].detail!.s0;
-                                isComment1 = !isComment1;
-                                if (isComment1) {
-                                  if (!selectedOptions.contains(value)) {
-                                    selectedOptions.add(value!);
-                                  }
-                                } else {
-                                  selectedOptions.remove(
-                                      value); // Remove the value if it exists
-                                }
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(16.0),
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color:
-                                    isComment1 ? Colors.blue : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                listComment[selectedEmotion].detail!.s0 ?? "",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color:
-                                      isComment1 ? Colors.white : Colors.black,
+                          listComment[selectedEmotion].comments![0].content ==
+                                  ""
+                              ? Container()
+                              : Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          var value1 =
+                                              listComment[selectedEmotion]
+                                                  .comments![0]
+                                                  .content;
+                                          var id1 = listComment[selectedEmotion]
+                                                  .comments?[0]
+                                                  .id ??
+                                              "";
+                                          isComment1 = !isComment1;
+                                          Map map = {
+                                            "id": id1,
+                                            "content": value1,
+                                          };
+                                          if (isComment1) {
+                                            if (!selectedOptions
+                                                .contains(map)) {
+                                              selectedOptions.add(map);
+                                            }
+                                          } else {
+                                            selectedOptions.remove(
+                                                map); // Remove the value if it exists
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(16.0),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 8.0),
+                                        decoration: BoxDecoration(
+                                          color: isComment1
+                                              ? Colors.blue
+                                              : Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Text(
+                                          listComment[selectedEmotion]
+                                                  .comments![0]
+                                                  .content ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            color: isComment1
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          var value2 =
+                                              listComment[selectedEmotion]
+                                                      .comments?[1]
+                                                      .content ??
+                                                  "";
+                                          var id2 = listComment[selectedEmotion]
+                                                  .comments?[1]
+                                                  .id ??
+                                              "";
+                                          isComment2 = !isComment2;
+                                          Map map = {
+                                            "id": id2,
+                                            "content": value2,
+                                          };
+                                          if (isComment2) {
+                                            if (!selectedOptions
+                                                .contains(map)) {
+                                              selectedOptions.add(map);
+                                            }
+                                          } else {
+                                            selectedOptions.remove(
+                                                map); // Remove the value if it exists
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(16.0),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 8.0),
+                                        decoration: BoxDecoration(
+                                          color: isComment2
+                                              ? Colors.blue
+                                              : Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Text(
+                                          listComment[selectedEmotion]
+                                                  .comments![1]
+                                                  .content ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            color: isComment2
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          var value3 =
+                                              listComment[selectedEmotion]
+                                                      .comments![2]
+                                                      .content ??
+                                                  "";
+                                          var id3 = listComment[selectedEmotion]
+                                                  .comments?[2]
+                                                  .id ??
+                                              "";
+                                          isComment3 = !isComment3;
+                                          Map map = {
+                                            "id": id3,
+                                            "content": value3,
+                                          };
+                                          if (isComment3) {
+                                            if (!selectedOptions
+                                                .contains(map)) {
+                                              selectedOptions.add(map);
+                                            }
+                                          } else {
+                                            selectedOptions.remove(
+                                                map); // Remove the value if it exists
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(16.0),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 8.0),
+                                        decoration: BoxDecoration(
+                                          color: isComment3
+                                              ? Colors.blue
+                                              : Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Text(
+                                          listComment[selectedEmotion]
+                                                  .comments?[2]
+                                                  .content ??
+                                              "",
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            color: isComment3
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: commentDifferen,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        print(selectedOptions);
+                                        print(status);
+                                        print(commentDifferen.text);
+                                        setState(() {
+                                          if (selectedOptions.isNotEmpty ==
+                                                  true &&
+                                              commentDifferen.text.isEmpty ==
+                                                  true) {
+                                            commentType = 0;
+                                          }
+                                          if (selectedOptions.isEmpty == true &&
+                                              commentDifferen.text.isNotEmpty ==
+                                                  true) {
+                                            commentType = 1;
+                                          }
+                                          if (selectedOptions.isNotEmpty ==
+                                                  true &&
+                                              commentDifferen.text.isNotEmpty ==
+                                                  true) {
+                                            commentType = 2;
+                                          }
+                                          level = selectedEmotion;
+                                        });
+                                        final res =
+                                            await ApiRequest.uploadComment(
+                                          widget.userBillId,
+                                          level ?? 0,
+                                          commentType ?? 0,
+                                          selectedOptions,
+                                          commentDifferen.text,
+                                        );
+                                        if (res.code == 200) {
+                                          print("ok");
+                                        }
+                                      },
+                                      child: Text('Hoàn thành đánh giá'),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                var value2 =
-                                    listComment[selectedEmotion].detail!.s1;
-                                isComment2 = !isComment2;
-                                if (isComment2) {
-                                  if (!selectedOptions.contains(value2)) {
-                                    selectedOptions.add(value2!);
-                                  }
-                                } else {
-                                  selectedOptions.remove(
-                                      value2); // Remove the value if it exists
-                                }
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(16.0),
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color:
-                                    isComment2 ? Colors.blue : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                listComment[selectedEmotion].detail!.s1 ?? "",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color:
-                                      isComment2 ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                var value3 =
-                                    listComment[selectedEmotion].detail!.s2;
-                                isComment3 = !isComment3;
-                                if (isComment3) {
-                                  if (!selectedOptions.contains(value3)) {
-                                    selectedOptions.add(value3!);
-                                  }
-                                } else {
-                                  selectedOptions.remove(
-                                      value3); // Remove the value if it exists
-                                }
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(16.0),
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color:
-                                    isComment3 ? Colors.blue : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                listComment[selectedEmotion].detail!.s2 ?? "",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color:
-                                      isComment3 ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextField(
-                            controller: commentDifferen,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              print(selectedOptions);
-                              print(status);
-                              print(commentDifferen.text);
-                            },
-                            child: Text('sang xác nhận'),
-                          )
                         ],
                       ),
               ],

@@ -79,7 +79,9 @@ class ApiClient {
     Response response;
     try {
       response = await _dio.request(url,
-          data: formData != null ? FormData.fromMap(formData) : data ?? jsonEncode({}),
+          data: formData != null
+              ? FormData.fromMap(formData)
+              : data ?? jsonEncode({}),
           options: Options(
               method: method,
               sendTimeout: const Duration(milliseconds: 60000),
@@ -101,7 +103,8 @@ class ApiClient {
         // e.response.data có thể trả về _InternalLinkedHashMap hoặc 1 kiểu nào đó (String), tạm thời check thủ công theo runtimeType
         String? errorMessage = e.response?.data != null &&
                 e.response!.data.runtimeType.toString().contains('Map') &&
-                !AppFunctions.isNullEmpty(e.response?.data['message'] ?? "Lỗi ${e.response?.statusCode}")
+                !AppFunctions.isNullEmpty(e.response?.data['message'] ??
+                    "Lỗi ${e.response?.statusCode}")
             ? e.response?.data['message']
             : !AppFunctions.isNullEmpty(e.response?.statusMessage as Object)
                 ? e.response?.statusMessage

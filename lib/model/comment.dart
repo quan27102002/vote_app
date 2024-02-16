@@ -1,46 +1,50 @@
 class ListComment {
-  int? id;
-  String? type;
-  Detail? detail;
+  int? level;
+  List<Comments>? comments;
 
-  ListComment({this.id, this.type, this.detail});
+  ListComment({this.level, this.comments});
 
   ListComment.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    type = json['type'];
-    detail =
-        json['detail'] != null ? new Detail.fromJson(json['detail']) : null;
+    level = json['level'];
+    if (json['comments'] != null) {
+      comments = <Comments>[];
+      json['comments'].forEach((v) {
+        comments!.add(new Comments.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    if (this.detail != null) {
-      data['detail'] = this.detail!.toJson();
+    data['level'] = this.level;
+    if (this.comments != null) {
+      data['comments'] = this.comments!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Detail {
-  String? s0;
-  String? s1;
-  String? s2;
+class Comments {
+  String? id;
+  int? commentType;
+  int? level;
+  String? content;
 
-  Detail({this.s0, this.s1, this.s2});
+  Comments({this.id, this.commentType, this.level, this.content});
 
-  Detail.fromJson(Map<String, dynamic> json) {
-    s0 = json['0'];
-    s1 = json['1'];
-    s2 = json['2'];
+  Comments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    commentType = json['commentType'];
+    level = json['level'];
+    content = json['content'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['0'] = this.s0;
-    data['1'] = this.s1;
-    data['2'] = this.s2;
+    data['id'] = this.id;
+    data['commentType'] = this.commentType;
+    data['level'] = this.level;
+    data['content'] = this.content;
     return data;
   }
 }

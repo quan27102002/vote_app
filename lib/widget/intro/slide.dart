@@ -11,6 +11,7 @@ class Slide extends StatefulWidget {
 
 class _SlideState extends State<Slide> {
   final PageController _pageController = PageController();
+
   int _currentPage = 0;
   final List<String> _images = [
     'assets/images/1.jpg',
@@ -58,7 +59,10 @@ class _SlideState extends State<Slide> {
   }
 
   void _navigateToEmotionScreen() {
-    Navigator.pushReplacementNamed(context, '/bill');
+    Navigator.pushReplacementNamed(
+      context,
+      '/idbillcustomer',
+    );
   }
 
   @override
@@ -98,7 +102,11 @@ class _SlideState extends State<Slide> {
                                 color: Colors.white, // Màu văn bản trên màu mờ
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            // const SizedBox(height: 20),
+
+                            SizedBox(
+                              height: 20,
+                            ),
                             ElevatedButton(
                               onPressed: _navigateToEmotionScreen,
                               style: ElevatedButton.styleFrom(

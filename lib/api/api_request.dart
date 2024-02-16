@@ -7,11 +7,10 @@ import 'api_base/api_response.dart';
 
 class ApiRequest {
   static const String domain = "http://103.226.249.65:8081/api/AppService";
-  static const String data =
-      "https://api.mockfly.dev/mocks/f8a8de5b-31b9-4a44-8c1e-843f4be7003e/service";
+  static const String data = "https://10.0.2.2:7257/api/Comment/getallcomments";
   static const String billCustomer =
-      "https://localhost:7257/api/UserBill/create";
-  static const String comment = "http://103.226.249.65:8081/api/Comment/submit";
+      "https://10.0.2.2:7257/api/UserBill/create";
+  static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
 
   //getBillCustomer
   static Future<ApiResponse> getData() async {
@@ -47,21 +46,23 @@ class ApiRequest {
     int serviceAmount,
     int serviceUnitPrice,
   ) async {
-    Map data = {
-      "billCode": billCode,
-      "customerName": customerName,
-      "customerCode": customerCode,
-      "phone": phone,
-      "startTime": startTime,
-      "branchCode": branchCode,
-      "branchAddress": branchAddress,
-      "doctor": doctor,
-      "service": {
-        "name": serviceName,
-        "amount": serviceName,
-        "unitPrice": serviceUnitPrice,
+    List<Map<String, dynamic>> data = [
+      {
+        "billCode": billCode,
+        "customerName": customerName,
+        "customerCode": customerCode,
+        "phone": phone,
+        "startTime": startTime,
+        "branchCode": branchCode,
+        "branchAddress": branchAddress,
+        "doctor": doctor,
+        "service": {
+          "name": serviceName,
+          "amount": serviceAmount,
+          "unitPrice": serviceUnitPrice,
+        }
       }
-    };
+    ];
     return await ApiClient().request(
       url: billCustomer,
       data: json.encode(data),
@@ -78,16 +79,11 @@ class ApiRequest {
     String otherComment,
   ) async {
     Map data = {
-      "userBillId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "level": 0,
-      "commentType": 0,
-      "comments": [
-        {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "content": "string",
-        }
-      ],
-      "otherComment": "string"
+      "userBillId": userBillId,
+      "level": level,
+      "commentType": commentType,
+      "comments": comments,
+      "otherComment": otherComment,
     };
     return await ApiClient().request(
       url: comment,

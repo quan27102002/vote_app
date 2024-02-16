@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vote_app/model/bill_customer.dart';
+
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/bill_screen.dart';
 import 'package:vote_app/screen/home_screen.dart';
+import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 
 class AppRouter {
@@ -14,14 +15,18 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const IntroScreen(),
             settings: const RouteSettings(name: RouteName.intro));
-      case RouteName.home:
+      // case RouteName.home:
+      //   return MaterialPageRoute(
+      //       builder: (context) => EmotionScreen(),
+      //       settings: const RouteSettings(name: RouteName.home));
+      // case RouteName.billcustomer:
+      //   return MaterialPageRoute(
+      //     builder: (context) =>  BillScreen(),
+      //   );
+      case RouteName.idbillcustomer:
         return MaterialPageRoute(
-            builder: (context) => EmotionScreen(),
-            settings: const RouteSettings(name: RouteName.home));
-      case RouteName.billcustomer:
-        return MaterialPageRoute(
-            builder: (context) => const BillScreen(),
-            settings: const RouteSettings(name: RouteName.billcustomer));
+          builder: (context) => IdBillScreen(),
+        );
     }
     return null;
   }

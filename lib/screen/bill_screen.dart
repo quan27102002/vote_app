@@ -2,39 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/bill_customer.dart';
+import 'package:intl/intl.dart';
+import 'package:vote_app/model/id_bill_customer.dart';
+import 'package:vote_app/screen/home_screen.dart';
 
 class BillScreen extends StatefulWidget {
-  const BillScreen({Key? key}) : super(key: key);
+  final String data;
+  const BillScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   State<BillScreen> createState() => _BillScreenState();
 }
 
 class _BillScreenState extends State<BillScreen> {
-  late Map<String, dynamic> rateData;
-  List<BillCustomer> listBill = [];
+  // BillIdUser? idBill;
+  List<BillIdUser> idBill = [];
+  String? userBillId;
   late BillCustomer customer;
-  late List<String> comments;
-  late String selectedEmoji;
-  late String commentDifference;
-  bool _isLoading = true; // Biến để kiểm tra trạng thái đang tải dữ liệu
+  bool _isLoading = true;
 
-  Future<void> getApi() async {
-    listBill.clear();
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getApi(int.parse(widget.data));
+    });
+  }
+
+  Future<void> getApi(int idBill) async {
     ApiResponse res = await ApiRequest.getData();
-
     if (res.result == true) {
       setState(() {
+        List<BillCustomer> listBill = [];
         for (var e in res.data) {
           listBill.add(BillCustomer.fromJson(e));
         }
-        for (int i = 0; i < listBill.length; i++) {
-          if (listBill[i].maHoaDon == 1855175) {
-            customer = listBill[i];
-            break; // Thoát khỏi vòng lặp sau khi tìm thấy customer
-          }
-        }
-        _isLoading = false; // Đã hoàn thành tải dữ liệu
+        customer = listBill.firstWhere((bill) => bill.maHoaDon == idBill);
+        _isLoading = false;
       });
     } else {
       print(res.message ?? "Lỗi");
@@ -43,9 +47,7 @@ class _BillScreenState extends State<BillScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Call getApi() within build() for context access
     if (_isLoading) {
-      getApi(); // Start data fetching when build executes
       return Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
@@ -53,42 +55,47 @@ class _BillScreenState extends State<BillScreen> {
 
     return Scaffold(
       body: Center(
-        // Use Center widget effectively:
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Vertically center
-          crossAxisAlignment: CrossAxisAlignment.center, // Horizontally center
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (customer != null)
-              Column(
-                children: [
-                  Text("Họ và tên: ${customer!.hoTen}"),
-                  Text("Mã bệnh nhân: ${customer!.maBenhNhan}"),
-                  Text("Số điện thoại:${customer!.dienThoaiDD}"),
-                  Text("Mã hoá đơn:${customer!.maHoaDon}"),
-                  Text("Thời gian khám:${customer?.thoiGianKham}"),
-                  Text("Mã chi nhánh :${customer?.maCoSo}"),
-                  Text("Địa chỉ khám:${customer?.coSoKham}"),
-                  Text("Bác sĩ khám :${customer?.bacSyPhuTrach}"),
-                  Text("Dịch vụ:"),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Tên dịch vụ: ${customer?.tenDichVu}"),
-                      Text("Tên dịch vụ: ${customer?.soLuong}"),
-                      Text("Tên dịch vụ: ${customer?.donGia}"),
-                    ],
-                  )
-                ],
-              ),
-            if (customer == null) Text("Không tìm thấy khách hàng"),
+            Column(
+              children: [
+                Text("Họ và tên: ${customer.hoTen}"),
+                Text("Mã bệnh nhân: ${customer.maBenhNhan}"),
+                Text("Số điện thoại: ${customer.dienThoaiDD}"),
+                Text("Mã hoá đơn: ${customer.maHoaDon}"),
+                Text("Thời gian khám: ${customer.thoiGianKham ?? ''}"),
+                Text("Mã chi nhánh: ${customer.maCoSo ?? ''}"),
+                Text("Địa chỉ khám: ${customer.coSoKham ?? ''}"),
+                Text("Bác sĩ khám: ${customer.bacSyPhuTrach ?? ''}"),
+                Text("Dịch vụ:"),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Tên dịch vụ: ${customer.tenDichVu}"),
+                    Text("Số lượng: ${customer.soLuong}"),
+                    Text("Đơn giá: ${customer.donGia}"),
+                  ],
+                )
+              ],
+            ),
             ElevatedButton(
               onPressed: () async {
+                DateFormat currentFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+                DateTime dateTime =
+                    currentFormat.parse(customer.thoiGianKham ?? '');
+
+                DateFormat newFormat =
+                    DateFormat("yyyy-MM-dd'T'HH:mm:ss.000'Z'");
+                String newDateTimeString = newFormat.format(dateTime);
+
                 final res = await ApiRequest.uploadBillCustomer(
                   customer.maHoaDon ?? 0,
                   customer.hoTen ?? "",
                   customer.maBenhNhan ?? "",
                   customer.dienThoaiDD ?? "",
-                  customer.thoiGianKham ?? "",
+                  newDateTimeString,
                   customer.maCoSo ?? "",
                   customer.coSoKham ?? "",
                   customer.bacSyPhuTrach ?? "",
@@ -96,8 +103,22 @@ class _BillScreenState extends State<BillScreen> {
                   customer.soLuong ?? 0,
                   customer.donGia!.toInt(),
                 );
-                if (res.result == true) {
-                  Navigator.pushReplacementNamed(context, '/home');
+                if (res.code == 200) {
+                  setState(() {
+                    for (var e in res.data) {
+                      idBill.add(BillIdUser.fromJson(e));
+                    }
+                  });
+                  userBillId = idBill[0].id;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EmotionScreen(userBillId: userBillId ?? ""),
+                    ),
+                  );
+                } else {
+                  print("eror");
                 }
               },
               child: Text("Hoàn thành xác nhận thông tin"),
