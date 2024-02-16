@@ -167,17 +167,23 @@ namespace VPBE.API.Controllers
         {
             try
             {
-                var comment = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Id == request.Id).FirstOrDefaultAsync();
-                if (comment == null)
+                
+                var comments = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Level == request.Level).ToListAsync();
+                if (!comments.Any())
                 {
-                    logger.Error($"Comment {request.Id} not existed");
+                    logger.Error($"Comment at level {request.Level} not existed");
                     return Ok(new CustomResponse
                     {
                         Result = false,
-                        Message = "Comment not found"
+                        Message = "Comments not found"
                     });
                 }
-                comment.Content = request.Content;
+                foreach (var comment in comments)
+                {
+                    var content = request.Comments.First(a => a.Id == comment.Id).Content;
+                    comment.Content = content;
+                }
+                
                 await _dBRepository.SaveChangesAsync();
 
                 return Ok(new CustomResponse
@@ -188,7 +194,7 @@ namespace VPBE.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error($"Error edit comment {request.Id}. Message: {ex.Message}", ex);
+                logger.Error($"Error edit comment at level {request.Level}. Message: {ex.Message}", ex);
                 throw;
             }
         }
