@@ -173,4 +173,16 @@ class ApiRequest {
       method: ApiClient.get,
     );
   }
+
+  static Future<ApiResponse> userLogin(
+    String username,
+    String passWord,
+  ) async {
+    final data = {"username": username, "password": passWord};
+
+    return ApiClient().request(
+      url: "https://10.0.2.2:7257/api/User/login",
+      data: json.encode(data),
+    );
+  }
 }
