@@ -11,6 +11,7 @@ class Slide extends StatefulWidget {
 
 class _SlideState extends State<Slide> {
   final PageController _pageController = PageController();
+
   int _currentPage = 0;
   final List<String> _images = [
     'assets/images/1.jpg',
@@ -23,12 +24,16 @@ class _SlideState extends State<Slide> {
     'assets/images/8.jpg',
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  late Timer _timer;
 
-    // Tự động chuyển trang sau 3 giây
-    Timer.periodic(const Duration(seconds: 3), (timer) {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_currentPage < _images.length - 1) {
         _currentPage++;
       } else {
@@ -43,8 +48,21 @@ class _SlideState extends State<Slide> {
     });
   }
 
+  void _stopTimer() {
+    _timer.cancel();
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    super.dispose();
+  }
+
   void _navigateToEmotionScreen() {
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(
+      context,
+      '/idbillcustomer',
+    );
   }
 
   @override
@@ -84,7 +102,11 @@ class _SlideState extends State<Slide> {
                                 color: Colors.white, // Màu văn bản trên màu mờ
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            // const SizedBox(height: 20),
+
+                            SizedBox(
+                              height: 20,
+                            ),
                             ElevatedButton(
                               onPressed: _navigateToEmotionScreen,
                               style: ElevatedButton.styleFrom(
