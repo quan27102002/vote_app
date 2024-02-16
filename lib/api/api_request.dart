@@ -66,14 +66,14 @@ class ApiRequest {
       "level": level
     };
     return await ApiClient().request(
-        url: "$domain/api/v1/auth/user/register",
+        url: "https://10.0.2.2:7257/api/Report/filterlevel",
         data: json.encode(data),
         method: ApiClient.post);
   }
 
   //register
   static Future<ApiResponse> userRegister(
-      String name, String email, String place, String pass,int role) async {
+      String name, String email, String place, String pass, int role) async {
     Map data = {
       "username": name,
       "password": pass,

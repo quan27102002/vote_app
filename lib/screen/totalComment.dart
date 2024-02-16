@@ -3,6 +3,17 @@ import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 
 class MyListViewScreen extends StatefulWidget {
+  final String timeCreate;
+  final String timeEnd;
+  final String selectedOption;
+  final int index;
+
+  const MyListViewScreen(
+      {super.key,
+      required this.timeCreate,
+      required this.timeEnd,
+      required this.selectedOption,
+      required this.index});
   @override
   State<MyListViewScreen> createState() => _MyListViewScreenState();
 }
@@ -11,26 +22,9 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
   List<dynamic> userComments = [];
   List<dynamic> otherComments = [];
 
-  late int index;
-  late String timeCreate;
-  late String timeEnd;
-  late String selectedOption;
-
   @override
   Widget build(BuildContext context) {
     // Lấy tham số từ route arguments
-    final Map<String, dynamic>? args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-
-    if (args != null) {
-      index = args['index'] as int;
-      timeCreate = args['timeCreate'] as String;
-      timeEnd = args['timeEnd'] as String;
-      selectedOption = args['_selectedOption'] as String; // Kiểu dữ liệu tùy ý
-
-      // Gọi hàm exportToChart khi nhận được các tham số từ arguments
-      exportToChart(timeCreate, timeEnd, selectedOption, index);
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +34,8 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
             icon: Icon(Icons.refresh),
             onPressed: () {
               // Gọi hàm exportToChart khi người dùng nhấn nút refresh
-              exportToChart(timeCreate, timeEnd, selectedOption, index);
+              exportToChart(widget.timeCreate, widget.timeEnd,
+                  widget.selectedOption, widget.index);
             },
           ),
         ],

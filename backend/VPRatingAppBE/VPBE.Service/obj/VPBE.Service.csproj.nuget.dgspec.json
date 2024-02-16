@@ -1,0 +1,162 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Service\\VPBE.Service.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\VPBE.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\VPBE.Domain.csproj",
+        "projectName": "VPBE.Domain",
+        "projectPath": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\VPBE.Domain.csproj",
+        "packagesPath": "C:\\Users\\NKieen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\NKieen\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.2.8, )"
+            },
+            "NLog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.3.8, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.3.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.419\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Service\\VPBE.Service.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Service\\VPBE.Service.csproj",
+        "projectName": "VPBE.Service",
+        "projectPath": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Service\\VPBE.Service.csproj",
+        "packagesPath": "C:\\Users\\NKieen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Service\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\NKieen\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\VPBE.Domain.csproj": {
+                "projectPath": "C:\\Users\\NKieen\\Desktop\\vietphap_kham\\vote_app\\backend\\VPRatingAppBE\\VPBE.Domain\\VPBE.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.35.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.419\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

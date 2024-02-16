@@ -24,10 +24,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const Admin(),
             settings: const RouteSettings(name: RouteName.admin));
-              case RouteName.totalComment:
-        return MaterialPageRoute(
-            builder: (context) =>  MyListViewScreen(),
-            settings: const RouteSettings(name: RouteName.totalComment));
+      //       case RouteName.totalComment:
+      // return MaterialPageRoute(
+      //     builder: (context) =>  MyListViewScreen(),
+      //     settings: const RouteSettings(name: RouteName.totalComment));
       case RouteName.create:
         return MaterialPageRoute(
             builder: (context) => const CreateUser(),
@@ -52,7 +52,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => Excel(),
             settings: const RouteSettings(name: RouteName.excel));
-              case RouteName.chart:
+      case RouteName.chart:
         return MaterialPageRoute(
             builder: (context) => Chart(),
             settings: const RouteSettings(name: RouteName.chart));

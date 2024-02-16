@@ -7,6 +7,7 @@ import 'package:vote_app/api/api_request.dart';
 import 'dart:math' as math;
 
 import 'package:vote_app/router/router_name.dart';
+import 'package:vote_app/screen/totalComment.dart';
 
 class Chart extends StatefulWidget {
   const Chart({super.key});
@@ -16,7 +17,7 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-   List<double> percentages = [];
+  List<double> percentages = [];
   final dataList = [
     const _BarData(Colors.red, 18),
     const _BarData(Colors.orange, 8),
@@ -112,12 +113,12 @@ class _ChartState extends State<Chart> {
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
     if (res.code == 200) {
-    List<dynamic> data = res.data['data'];
+      List<dynamic> data = res.data['data'];
 
-    for (var item in data) {
-      double count = (item['count'] as int).toDouble();
-      percentages.add(count);
-    }
+      for (var item in data) {
+        double count = (item['count'] as int).toDouble();
+        percentages.add(count);
+      }
     }
   }
 
@@ -445,15 +446,15 @@ class _ChartState extends State<Chart> {
                 (index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: InkWell(
-                    onTap: () => Navigator.pushNamed(
+                    onTap: () => Navigator.push(
                       context,
-                      RouteName.totalComment,
-                      arguments: {
-                        'index': index,
-                        'timeCreate': timeCreate,
-                        'timeEnd': timeEnd,
-                        '_selectedOption': _selectedOption,
-                      },
+                      MaterialPageRoute(
+                          builder: (context) => MyListViewScreen(
+                                index: index,
+                                timeCreate: timeCreate,
+                                timeEnd: timeEnd,
+                                selectedOption: _selectedOption.toString(),
+                              )),
                     ),
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.center,

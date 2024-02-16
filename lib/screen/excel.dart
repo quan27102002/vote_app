@@ -78,24 +78,23 @@ class _ExcelState extends State<Excel> {
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
     final stopwatch = Stopwatch()..start();
-    final apiUrl =
-    'https://localhost:7257/api/Report/export';
+    final apiUrl = 'https://10.0.2.2:7257/api/Report/export';
     //  'http://103.226.249.65:8081/api/AppService';
-     final SharedPreferences prefs = await SharedPreferences.getInstance();
-                            final String? token = prefs.getString('jwt');
-                            print(token);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('jwt');
+    print(token);
     Map<String, String> headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token',
-    'accept': '*/*',
-  };
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+      'accept': '*/*',
+    };
     final requestBody = {
-        "startTime":  "$timeStart",
-        // "2024-02-14T19:17:19.453Z",
-  "endTime":  "$timeEnd",
-  // "2024-02-14T19:17:19.453Z",
-  "branchCode":"$place"
-  //  "string"
+      "startTime": "$timeStart",
+      // "2024-02-14T19:17:19.453Z",
+      "endTime": "$timeEnd",
+      // "2024-02-14T19:17:19.453Z",
+      "branchCode": "$place"
+      //  "string"
 
       // "sid": null,
       // "cmd": "API_DanhSachKhachHang_Select",
@@ -111,7 +110,7 @@ class _ExcelState extends State<Excel> {
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
-           headers: headers,
+        headers: headers,
         body: json.encode(requestBody),
       );
 
@@ -124,37 +123,48 @@ class _ExcelState extends State<Excel> {
         final Worksheet sheet = workbook.worksheets[0];
 
         // Add headers
-        sheet.getRangeByIndex(1, 1).setText('Họ và tên');
-        sheet.getRangeByIndex(1, 2).setText('Mã bênh nhân');
-        sheet.getRangeByIndex(1, 3).setText('Điện thoại di động');
-        sheet.getRangeByIndex(1, 4).setText('Mã hóa đơn');
-        sheet.getRangeByIndex(1, 5).setText('Thời gian khám');
-        sheet.getRangeByIndex(1, 6).setText('Cơ sở khám');
-        sheet.getRangeByIndex(1, 7).setText('Bác sĩ phụ trách');
-        sheet.getRangeByIndex(1, 8).setText('Tên dịch vụ');
-        sheet.getRangeByIndex(1, 9).setText('Số lượng');
-        sheet.getRangeByIndex(1, 10).setText('Đơn giá');
-        sheet.getRangeByIndex(1, 11).setText('Mã cơ sở');
-        sheet.getRangeByIndex(1, 12).setText('Trạng thái cảm xúc');
-        sheet.getRangeByIndex(1, 13).setText('Comment');
+        sheet.getRangeByIndex(1, 1).setText('Id');
+        sheet.getRangeByIndex(1, 2).setText('Tên khách hàng');
+        sheet.getRangeByIndex(1, 3).setText('Mã khách hàng');
+        sheet.getRangeByIndex(1, 4).setText('Mã cơ sở');
+        sheet.getRangeByIndex(1, 5).setText('Tên cơ sở');
+        sheet.getRangeByIndex(1, 6).setText('Số điện thoại');
+        sheet.getRangeByIndex(1, 7).setText('Mã hóa đơn');
+        sheet.getRangeByIndex(1, 8).setText('Thời gian khám');
+        sheet.getRangeByIndex(1, 9).setText('Bác sĩ');
+        sheet.getRangeByIndex(1, 10).setText('Tên dịch vụ');
+        sheet.getRangeByIndex(1, 11).setText('Số lượng');
+        sheet.getRangeByIndex(1, 12).setText('Đơn giá');
+        sheet.getRangeByIndex(1, 13).setText('Mã trạng thái cảm xúc');
+        sheet.getRangeByIndex(1, 14).setText('Trạng thái cảm xúc');
+        sheet.getRangeByIndex(1, 15).setText('Comment');
+        sheet.getRangeByIndex(1, 16).setText('Comment khác');
 
         // Add data
         for (int i = 0; i < hoaDonList.length; i++) {
-          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].hoTen);
-          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].maBenhNhan);
-          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].dienThoaidD);
+          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
+          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
+          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
+          sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
+
+          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
+          sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
+          sheet.getRangeByIndex(i + 2, 7).setNumber(hoaDonList[i].billCode);
+          sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
+          sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
+          sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
           sheet
-              .getRangeByIndex(i + 2, 4)
-              .setNumber(hoaDonList[i].maHoaDon?.toDouble());
-          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].thoiGianKham);
-          sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].coSoKham);
-          sheet.getRangeByIndex(i + 2, 7).setText(hoaDonList[i].bacSyPhuTrach);
-          sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].tenDichVu);
+              .getRangeByIndex(i + 2, 11)
+              .setNumber(hoaDonList[i].amount as double?);
+          sheet.getRangeByIndex(i + 2, 12).setNumber(hoaDonList[i].unitPrice);
           sheet
-              .getRangeByIndex(i + 2, 9)
-              .setNumber(hoaDonList[i].soLuong?.toDouble());
-          sheet.getRangeByIndex(i + 2, 10).setNumber(hoaDonList[i].donGia);
-          sheet.getRangeByIndex(i + 2, 11).setText(hoaDonList[i].maCoSo);
+              .getRangeByIndex(i + 2, 13)
+              .setNumber(hoaDonList[i].level as double?);
+          sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
+          sheet
+              .getRangeByIndex(i + 2, 15)
+              .setText(hoaDonList[i].comment.toString());
+          sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
         }
 
         final List<int> bytes = workbook.saveAsStream();
