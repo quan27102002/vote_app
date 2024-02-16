@@ -5,6 +5,7 @@ import 'package:pocketbase/pocketbase.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/dialog/funtion.dart';
+import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/theme/spacing.dart';
 
 class CreateUser extends StatefulWidget {
@@ -341,6 +342,19 @@ class _CreateUserState extends State<CreateUser> {
               },
               child: Text(
                 "Tạo tài khoản",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, RouteName.create,
+                    arguments: false);
+              },
+              child: Text(
+                "Xem sơ đồ",
                 style: TextStyle(
                   fontSize: 20,
                 ),

@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
           .displayName);
       hideLoading();
       if (role == 2 || role == 1) {
-        Navigator.pushReplacementNamed(context, RouteName.chart,
+        Navigator.pushReplacementNamed(context, RouteName.create,
             arguments: false);
       } else {
         Navigator.pushReplacementNamed(context, RouteName.intro,

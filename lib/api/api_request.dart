@@ -121,8 +121,8 @@ class ApiRequest {
       "role": role,
       "displayName": "STAFF",
       "email": email,
-      "code": "HL",
-      "branchAddress": 'Nha khoa Úc Châu 1'
+      "code": brandCode,
+      "branchAddress": place
     };
     return await ApiClient().request(
       url: "https://10.0.2.2:7257/api/User/register",
