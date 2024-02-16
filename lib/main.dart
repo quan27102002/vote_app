@@ -1,11 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+Future<void> main() async {
+  HttpOverrides.global = new MyHttpOverrides();
 
-void main() {
   runApp(const MyApp());
-  ApiRequest.getData();
+  // ApiRequest.getData();
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +27,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+        providers: [
+            ChangeNotifierProvider(create: (_) => UserProvider()),
+        ],
+         child: MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -24,9 +41,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: AppRouter.instance.onGenerateRoute,
-    );
-  }
+    ));
+    }
+    
 }
+
 // import 'dart:convert';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;

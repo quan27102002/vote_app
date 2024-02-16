@@ -55,6 +55,7 @@ class ApiClient {
       String? data,
       String? deviceId,
       String? token,
+      
       Map<String, dynamic>? formData,
       Map<String, dynamic>? queryParameters,
       bool getFullResponse = false}) async {

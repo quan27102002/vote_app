@@ -1,7 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vote_app/api/api_base/api_response.dart';
+import 'package:vote_app/api/api_request.dart';
+import 'package:vote_app/dialog/funtion.dart';
+import 'package:vote_app/provider/userProvider.dart';
+import 'package:vote_app/router/app_router.dart';
 import 'package:vote_app/router/router_name.dart';
+import 'package:vote_app/screen/logout_screen.dart';
 import 'package:vote_app/theme/spacing.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,303 +21,274 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _check = false;
-  late bool rememberToken = false;
   bool _isObscure3 = true;
+  late bool rememberToken = false;
   bool visible = false;
-  final _formkey = GlobalKey<FormState>();
-  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-  final pb = PocketBase('http://127.0.0.1:8090');
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            //  Container(
-            //   width:MediaQuery.of(context).size.width,
-            //   color:Color.fromRGBO(47, 179, 178, 0.5),
-            //   child: Image.asset('assets/images/logovietphap.png')
-            //   ),
-            Container(
-              color: Color.fromRGBO(47, 179, 178, 0.5),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 1,
-              child: Center(
-                child: Container(
-                  margin: EdgeInsets.all(12),
-                  child: Form(
-                    key: _formkey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          "Đăng nhập",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 40,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                            child: Text("Email của người dùng",
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Rounded',
-                                  color: Color(0xFF848496),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ))),
-                        Spacing.h12,
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Email',
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.length == 0) {
-                              return "Email cannot be empty";
-                            }
-                            if (!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)) {
-                              return ("Please enter a valid email");
-                            } else {
-                              return null;
-                            }
-                          },
-                          onSaved: (value) {
-                            emailController.text = value!;
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                            child: Text("Mật khẩu của người dùng",
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Rounded',
-                                  color: Color(0xFF848496),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ))),
-                        TextFormField(
-                          controller: passwordController,
-                          obscureText: _isObscure3,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                icon: Icon(_isObscure3
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure3 = !_isObscure3;
-                                  });
-                                }),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Password',
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 15.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
-                            ),
-                          ),
-                          validator: (value) {
-                            RegExp regex = new RegExp(r'^.{6,}$');
-                            if (value!.isEmpty) {
-                              return "Password cannot be empty";
-                            }
-                            if (!regex.hasMatch(value)) {
-                              return ("please enter valid password min. 6 character");
-                            } else {
-                              return null;
-                            }
-                          },
-                          onSaved: (value) {
-                            passwordController.text = value!;
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("Nhớ đăng nhập",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255))),
-                            IconButton(
-                                icon: Icon(
-                                  _check
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank,
-                                  size: 30.0,
-                                  color:
-                                      const Color.fromARGB(255, 248, 250, 248),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _check = !_check;
-                                    if (_check) {
-                                      rememberToken = true;
-                                    } else {
-                                      rememberToken = false;
-                                    }
-                                  });
-                                }),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          elevation: 5.0,
-                          height: 40,
-                          onPressed: () async {
-                            final authData =
-                                await pb.collection('users').authWithPassword(
-                                      emailController.text,
-                                      passwordController.text,
-                                    );
-                            Navigator.pushNamed(context, '/emotion');
-
-                            saveToken(pb.authStore.token);
-                            print(pb.authStore.isValid);
-                            print(pb.authStore.token);
-                            print(pb.authStore.model.id);
-                            checkTokenIsExpired(pb.authStore.model.id);
-//  createEmail(emailController.text, passwordController.text);
-                          },
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            visible: visible,
-                            child: Container(
-                                child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ))),
-                      ],
-                    ),
+        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+        body:  Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(children: [
+                Text(
+                  "Đăng nhập",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 30,
                   ),
                 ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 20,
-                    ),
+                    Text("Username của người dùng",
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Color(0xFF848496),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        )),
                   ],
                 ),
-              ),
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Username',
+                    enabled: true,
+                    contentPadding:
+                        const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      borderRadius: new BorderRadius.circular(10),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      borderRadius: new BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.length == 0) {
+                      return "Username cannot be empty";
+                    }
+                  },
+                  onSaved: (value) {
+                    usernameController.text = value!;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Mật khẩu của người dùng",
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Color(0xFF848496),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        )),
+                  ],
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: _isObscure3,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        icon: Icon(_isObscure3
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            _isObscure3 = !_isObscure3;
+                          });
+                        }),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Password',
+                    enabled: true,
+                    contentPadding:
+                        const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      borderRadius: new BorderRadius.circular(10),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      borderRadius: new BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    RegExp regex = new RegExp(r'^.{6,}$');
+                    if (value!.isEmpty) {
+                      return "Password cannot be empty";
+                    }
+                    if (!regex.hasMatch(value)) {
+                      return ("please enter valid password min. 6 character");
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    passwordController.text = value!;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                Spacing.h32,
+                ElevatedButton(
+                  onPressed: () {
+                    // login();
+                    logIn(usernameController.text, passwordController.text);
+                  },
+                  child: Text(
+                    "Đăng nhập",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                )
+              ]),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Login Error"),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            ),
-          ],
+          ),
         );
-      },
-    );
   }
 
-  Future<void> createEmail(String email, String password) async {
-    final body = <String, dynamic>{
-      "email": email,
-      "password": password,
-      "username": "test_username",
-      "emailVisibility": true,
-      "passwordConfirm": "12345678",
-      "name": "test"
-    };
-    final record = await pb.collection('users').create(body: body);
-    await pb.collection('users').requestVerification(email);
-  }
+  Future<void> logIn(String username, String pass) async {
+// final data = {
+//     'username': username,
+//     'password': pass,
+//   };
 
-  Future<void> saveToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userToken', token);
-    print("lưu thành công" + token);
-  }
+  // Chuyển đổi dữ liệu sang định dạng JSON
 
-  Future<void> deleteToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('userToken');
-  }
 
-  Future<bool?> checkTokenIsExpired(String id) async {
-    final record = await pb.collection('users').getOne(
-          id,
-        );
+  // Tạo header cho yêu cầu POST
+  // Map<String, String> headers = {
+  //   'Content-Type': 'application/json',
 
-    print(record.data['role']);
-    if (record == 1) {
-      Navigator.pushNamed(context, RouteName.admin);
+  // };
+
+  // try {
+  //   // Gửi yêu cầu POST
+  //   http.Response response = await http.post(
+  //     Uri.parse('https://192.168.1.14:7257/api/User/login'),
+  //     headers: headers,
+  //     body: json.encode(data),
+  //   );
+
+  //   // Xác định xem yêu cầu có thành công hay không
+  //   if (response.statusCode == 200) {
+  //     // Yêu cầu thành công, xử lý dữ liệu phản hồi ở đây
+  //     print('Login successful');
+  //   } else {
+  //     // Yêu cầu không thành công, xử lý lỗi ở đây
+  //     print('Login failed with status code: ${response.statusCode}');
+  //     print('Error message: ${response.body}');
+  //   }
+  // } catch (error) {
+  //   // Xử lý lỗi nếu có
+  //   print('Error while sending POST request: $error');
+  // }
+    hideKeyboard(context);
+    showLoading();
+    final  getUserData = await Provider.of<UserProvider>(context, listen: false)
+        .getDataUserProfile(username, pass);
+        print("test");
+        print(getUserData );
+   
+    if (getUserData == "success" ) {
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+   String? token = prefs.getString('jwt');
+      print(token);
+     print(Provider.of<UserProvider>(context, listen: false).loggedInUser.displayName);
+      hideLoading();
+      Navigator.pushReplacementNamed(
+          context, RouteName.create,
+          arguments: false);
+    } else {
+      if (context.mounted) {
+        hideLoading();
+        AppFuntion.showDialogError(context,getUserData,onPressButton: () {Navigator.of(context, rootNavigator: true).pop();
+  
+          
+        },
+            textButton: "Đăng nhập lại", title: "Thông báo lỗi",description: "Vui lòng nhập lại tên và mật khẩu");
+      }
     }
   }
+
+  bool _isLoading = false;
+  Timer? timerLoading;
+
+  showLoading() {
+    if (timerLoading != null) timerLoading?.cancel();
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
+
+    timerLoading = Timer(const Duration(seconds: 30), hideLoading);
+  }
+
+  hideLoading() {
+    if (timerLoading != null) timerLoading?.cancel();
+    if (_isLoading) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  static void hideKeyboard(context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+//   Future<void> login() async {
+//       final apiUrl = 'https://192.168.1.14:7257/api/User/login';
+//     // 'http://103.226.249.65:8081/api/AppService';
+  
+//     final requestBody = {
+//        "username": "vietphapadmin",
+//     "password": "IKQYTX2u\$BGv"
+//       // "sid": null,
+//       // "cmd": "API_DanhSachKhachHang_Select",
+//       // "data": {
+//       //   "benhnhan": {
+//       //     "TuNgay": "$timeStart",
+//       //     "DenNgay": "$timeEnd",
+//       //     "MaCoSo": "$place"
+//       //   }
+//       // }
+//     };
+
+//     try {
+//       final response = await http.post(
+//         Uri.parse(apiUrl),
+//         headers: {'Content-Type': 'application/json'},
+//         body: json.encode(requestBody),
+//       );
+
+//       if (response.statusCode == 200) {
+//         print(response);}
+//   }
+//   catch (e) {
+//       print('Lỗi kết nối: $e');
+//     }
+// }
 }
+  //  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     token = prefs.getString('jwt');

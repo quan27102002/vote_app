@@ -19,7 +19,7 @@ class AppFuntion{
             onPress1stButton: onPressButton,
             title: title ?? "Lỗi",
             description: description,
-            text1stButton: textButton ?? "Vào đăng nhập",
+            text1stButton: textButton ?? "Đăng nhập",
             dialogDismiss: dialogDismiss,
           
           );

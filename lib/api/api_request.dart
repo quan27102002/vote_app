@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:vote_app/api/api_base/api_response.dart';
+import 'package:vote_app/api/api_base/api_response_http.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'api_base/api_client.dart';
 import 'api_base/api_response.dart';
+import 'package:http/http.dart' as http;
 
 class ApiRequest {
   static const String domain = "http://103.226.249.65:8081/api/AppService";
@@ -16,9 +19,9 @@ class ApiRequest {
       "cmd": "API_DanhSachKhachHang_Select",
       "data": {
         "benhnhan": {
-          "TuNgay": "20240101",//truyền date time now
-          "DenNgay": "20240123",// truyền date time now
-          "MaCoSo": "TH",// truyền mã cơ sở
+          "TuNgay": "20240101", //truyền date time now
+          "DenNgay": "20240123", // truyền date time now
+          "MaCoSo": "TH", // truyền mã cơ sở
         }
       }
     };
@@ -29,26 +32,62 @@ class ApiRequest {
     );
   }
 
+  static Future<ApiResponse> getTokenByRefreshtoken(
+      String accessToken, String refreshToken) async {
+    Map data = {
+      "accessToken": accessToken,
+      "refreshToken": refreshToken,
+    };
+    return await ApiClient().request(
+        url: "$domain/api/v1/auth/user/register",
+        data: json.encode(data),
+        method: ApiClient.post);
+  }
+
+  static Future<ApiResponse> getTotalComment(
+      String createTime, String timend, String place) async {
+    Map data = {
+      "startTime": createTime,
+      "endTime": timend,
+      "branchCode": place
+    };
+    return await ApiClient().request(
+        url: "$domain/api/v1/auth/user/register",
+        data: json.encode(data),
+        method: ApiClient.post);
+  }
+
+  static Future<ApiResponse> getfilterTotalComment(
+      String createTime, String timend, String place, int level) async {
+    Map data = {
+      "startTime": createTime,
+      "endTime": timend,
+      "branchCode": place,
+      "level": level
+    };
+    return await ApiClient().request(
+        url: "$domain/api/v1/auth/user/register",
+        data: json.encode(data),
+        method: ApiClient.post);
+  }
+
   //register
-  // static Future<ApiResponse> userRegister({
-  //   required String username,
-  //   required String password,
-  //   required String email,
-  //   required String mobileNumber,
-  //   String? affiliateCode,
-  //   required String transactionCode,
-  // }) async {
-  //   Map data = {
-  //     "username": username,
-  //     "password": password,
-  //     "email": email,
-  //     "mobileNumber": mobileNumber,
-  //     "affiliateCode": affiliateCode,
-  //     "transactionCode": transactionCode,
-  //   };
-  //   return await ApiClient()
-  //       .request(url: "$domain/api/v1/auth/user/register", data: json.encode(data), method: ApiClient.post);
-  // }
+  static Future<ApiResponse> userRegister(
+      String name, String email, String place, String pass, role) async {
+    Map data = {
+      "username": name,
+      "password": pass,
+      "role": role,
+      "displayName": "",
+      "email": email,
+      "code": "",
+      "branchAddress": place
+    };
+    return await ApiClient().request(
+        url: "https://10.0.2.2:7257/api/User/register",
+        data: json.encode(data),
+        method: ApiClient.post);
+  }
 
   //send-verify-password
   // static Future<ApiResponse> sendVerifyPassword(String email) async {
@@ -74,6 +113,36 @@ class ApiRequest {
         .request(url: domain, data: json.encode(data), method: ApiClient.post);
   }
 
+  static Future<ApiResponse> userLogin(
+    String username,
+    String passWord,
+  ) async {
+    final data = {"username": username, "password": passWord};
+    //   try {
+    //   http.Response response = await http.post(
+    //     Uri.parse('https://localhost:7257/api/User/login'),
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: json.encode(data),
+    //   );
+
+    //   // Kiểm tra mã trạng thái của response
+    //   if (response.statusCode == 200) {
+    //     // Xử lý dữ liệu response và trả về ApiResponseHttp
+    //     return ApiResponseHttp.fromJson(json.decode(response.body));
+    //   } else {
+    //     // Xử lý trường hợp response không thành công
+    //     return ApiResponseHttp.error('Failed to login. Status code: ${response.statusCode}');
+    //   }
+    // } catch (e) {
+    //   // Xử lý các trường hợp ngoại lệ và trả về ApiResponseHttp phù hợp
+    //   return ApiResponseHttp.error(e.toString());
+    // }
+
+    return ApiClient().request(
+      url: "https://10.0.2.2:7257/api/User/login",
+      data: json.encode(data),
+    );
+  }
   //profile
   // static Future<ApiResponse> getUserInfo() async {
   //   return await ApiClient().request(url: "$domain/api/v1/user/account", method: ApiClient.get);
