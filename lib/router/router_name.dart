@@ -1,5 +1,5 @@
 class RouteName {
-  static const login = '/c';
+  static const login = '/4';
   static const intro = '/l';
   static const home = '/home';
   static const emotion='/v';

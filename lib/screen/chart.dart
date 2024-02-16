@@ -16,7 +16,7 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  final List<double> percentages = [20, 30, 15, 10, 25];
+   List<double> percentages = [];
   final dataList = [
     const _BarData(Colors.red, 18),
     const _BarData(Colors.orange, 8),
@@ -83,11 +83,11 @@ class _ChartState extends State<Chart> {
 
   // Danh sách chú thích cho các cảm xúc
   final List<String> emotions = [
+    'Rất Tệ',
     'Tệ',
-    'Hạnh phúc',
     'Bình thường',
-    'Buồn bã',
-    'Tức giận',
+    'Tốt',
+    'Hoàn hảo',
   ];
   BarChartGroupData generateBarGroup(
     int x,
@@ -112,7 +112,12 @@ class _ChartState extends State<Chart> {
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
     if (res.code == 200) {
-    
+    List<dynamic> data = res.data['data'];
+
+    for (var item in data) {
+      double count = (item['count'] as int).toDouble();
+      percentages.add(count);
+    }
     }
   }
 

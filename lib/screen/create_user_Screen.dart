@@ -25,7 +25,6 @@ class _CreateUserState extends State<CreateUser> {
 
   bool visible = false;
 
-  final pb = PocketBase('http://127.0.0.1:8090');
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _branchController = new TextEditingController();
@@ -307,9 +306,10 @@ class _CreateUserState extends State<CreateUser> {
 
   Future<void> CreateUser(
       String name, String email, String place, String pass, int role) async {
-    showLoading();
+    // showLoading();
     ApiResponse res =
         await ApiRequest.userRegister(name, email, place, pass, role);
+    print(res);
     if (res.data == true) {
       AppFuntion.showDialogError(context, "", onPressButton: () {
         Navigator.of(context, rootNavigator: true).pop();

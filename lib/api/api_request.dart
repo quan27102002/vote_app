@@ -52,7 +52,7 @@ class ApiRequest {
       "branchCode": place
     };
     return await ApiClient().request(
-        url: "$domain/api/v1/auth/user/register",
+        url: "https://10.0.2.2:7257/api/Report/filter",
         data: json.encode(data),
         method: ApiClient.post);
   }
@@ -73,7 +73,7 @@ class ApiRequest {
 
   //register
   static Future<ApiResponse> userRegister(
-      String name, String email, String place, String pass, role) async {
+      String name, String email, String place, String pass,int role) async {
     Map data = {
       "username": name,
       "password": pass,
@@ -84,14 +84,14 @@ class ApiRequest {
       "branchAddress": place
     };
     return await ApiClient().request(
-        url: "https://10.0.2.2:7257/api/User/register",
-        data: json.encode(data),
-        method: ApiClient.post);
+        url: "https://10.0.2.2:7257/api/Comment/getallcomments",
+        // data: json.encode(data),
+        method: ApiClient.get);
   }
 
   //send-verify-password
   // static Future<ApiResponse> sendVerifyPassword(String email) async {
-  //   Map data = {"email": email};
+  //   Map data = {"email": email};viet
   //   return await ApiClient().request(
   //       url: "$domain/api/v1/auth/send-verify/reset-password", data: json.encode(data), method: ApiClient.post);
   // }
