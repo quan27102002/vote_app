@@ -18,12 +18,12 @@ class Chart extends StatefulWidget {
 
 class _ChartState extends State<Chart> {
   List<double> percentages = [];
-  final dataList = [
-    const _BarData(Colors.red, 18),
-    const _BarData(Colors.orange, 8),
-    const _BarData(Colors.yellow, 15),
-    const _BarData(Colors.green, 5),
-    const _BarData(Colors.pink, 2.5),
+  List<_BarData> dataList = [
+    const _BarData(Colors.red, 10),
+    const _BarData(Colors.orange, 10),
+    const _BarData(Colors.yellow, 10),
+    const _BarData(Colors.green, 10),
+    const _BarData(Colors.pink, 10),
   ];
 
   String? _selectedOption;
@@ -127,16 +127,28 @@ class _ChartState extends State<Chart> {
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
     if (res.code == 200) {
-      List<dynamic> data = res.data['data'];
+      List<dynamic> data = res.data;
+      List<double> percentages = [];
 
-      for (int i = 0; i < data.length; i++) {
-        double count = (data[i]['count'] as int).toDouble();
-        percentages.add(count);
-        if (i < dataList.length) {
-          dataList[i] = _BarData(dataList[i].color, count);
+      for (var item in data) {
+        // Kiểm tra xem trường count có tồn tại và có kiểu số không
+        if (item['count'] is num) {
+          // Ép kiểu và thêm vào danh sách percentages
+          percentages.add(item['count'].toDouble());
         }
       }
-      setState(() {});
+
+      // Cập nhật dataList với các giá trị mới từ percentages
+      List<_BarData> newDataList = [];
+      for (int i = 0; i < percentages.length && i < colors.length; i++) {
+        newDataList.add(_BarData(colors[i], percentages[i]));
+      }
+
+      // Cập nhật giao diện sau khi đã thu thập và xử lý dữ liệu
+      setState(() {
+        this.percentages = percentages;
+        dataList = newDataList;
+      });
     }
   }
 

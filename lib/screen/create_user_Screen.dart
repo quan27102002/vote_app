@@ -38,7 +38,7 @@ class _CreateUserState extends State<CreateUser> {
       backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.fromLTRB(20, 60, 20, 0),
           child: Column(children: [
             Text(
               "Tạo tài khoản ",
