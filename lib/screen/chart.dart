@@ -25,8 +25,22 @@ class _ChartState extends State<Chart> {
     const _BarData(Colors.green, 5),
     const _BarData(Colors.pink, 2.5),
   ];
-  int role = 1;
+
   String? _selectedOption;
+  int? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRole();
+  }
+
+  Future<void> _loadRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      role = prefs.getInt('role')!;
+    });
+  }
 
   final Map<String, String> options = {
     '': 'Tất cả',
@@ -115,10 +129,14 @@ class _ChartState extends State<Chart> {
     if (res.code == 200) {
       List<dynamic> data = res.data['data'];
 
-      for (var item in data) {
-        double count = (item['count'] as int).toDouble();
+      for (int i = 0; i < data.length; i++) {
+        double count = (data[i]['count'] as int).toDouble();
         percentages.add(count);
+        if (i < dataList.length) {
+          dataList[i] = _BarData(dataList[i].color, count);
+        }
       }
+      setState(() {});
     }
   }
 
@@ -289,31 +307,34 @@ class _ChartState extends State<Chart> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButtonFormField<String>(
-                  value: _selectedOption,
-                  items: options.keys.map((String key) {
-                    return DropdownMenuItem<String>(
-                      value: key,
-                      child: Text(options[key]!),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedOption = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Chọn chi nhánh",
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    enabledBorder: InputBorder.none,
-                  ),
-                  dropdownColor: Colors.white,
-                ),
-              ),
+              role == 1
+                  ? Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedOption,
+                        items: options.keys.map((String key) {
+                          return DropdownMenuItem<String>(
+                            value: key,
+                            child: Text(options[key]!),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            _selectedOption = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Chọn chi nhánh",
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                          enabledBorder: InputBorder.none,
+                        ),
+                        dropdownColor: Colors.white,
+                      ),
+                    )
+                  : Container(),
+
               SizedBox(height: 35),
               ElevatedButton(
                 onPressed: () async {
@@ -322,12 +343,16 @@ class _ChartState extends State<Chart> {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   role = prefs.getInt('role')!;
-                  // exportToExcel(timeCreate, timeEnd, _selectedOption!);
-                  exportToChart(timeCreate, timeEnd, _selectedOption!);
+                  String? codeBr = prefs.getString('codeBr');
+                  if (role == 2) {
+                    exportToChart(timeCreate, timeEnd, codeBr!);
+                  } else {
+                    exportToChart(timeCreate, timeEnd, _selectedOption!);
+                  }
                 },
-                child: Text("Xem thông tin với excel"),
+                child: Text("Xem thông tin với biểu đồ"),
               ),
-              role == 1
+              role == 1 && _selectedOption == ''
                   ? Container(
                       width: 300,
                       height: 300,
@@ -461,16 +486,36 @@ class _ChartState extends State<Chart> {
                   (index) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyListViewScreen(
+                      onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        role = prefs.getInt('role')!;
+                        String? codeBr = prefs.getString('codeBr');
+                        if (role == 2) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyListViewScreen(
                                   index: index,
                                   timeCreate: timeCreate,
                                   timeEnd: timeEnd,
-                                  selectedOption: _selectedOption.toString(),
-                                )),
-                      ),
+                                  selectedOption: codeBr!),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyListViewScreen(
+                                index: index,
+                                timeCreate: timeCreate,
+                                timeEnd: timeEnd,
+                                selectedOption: _selectedOption.toString(),
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [

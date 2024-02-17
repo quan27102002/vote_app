@@ -130,8 +130,26 @@ class HoaDon {
 
   String toJson() => json.encode(toMap());
 
-  factory HoaDon.fromJson(Map<String, dynamic> source) =>
-      HoaDon.fromMap(source);
+  factory HoaDon.fromJson(Map<String, dynamic> json) {
+    return HoaDon(
+      id: json['id'],
+      customerName: json['customerName'],
+      customerCode: json['customerCode'],
+      branchCode: json['branchCode'],
+      branchAddress: json['branchAddress'],
+      phone: json['phone'],
+      billCode: json['billCode'],
+      startTime: json['startTime'],
+      doctor: json['doctor'],
+      serviceName: json['serviceName'],
+      amount: json['amount'],
+      unitPrice: json['unitPrice'],
+      level: json['level'],
+      levelName: json['levelName'],
+      comment: json['comment'],
+      otherComment: json['otherComment'],
+    );
+  }
 
   @override
   String toString() {

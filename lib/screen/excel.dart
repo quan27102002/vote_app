@@ -24,6 +24,21 @@ class Excel extends StatefulWidget {
 }
 
 class _ExcelState extends State<Excel> {
+  int? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRole();
+  }
+
+  Future<void> _loadRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      role = prefs.getInt('role')!;
+    });
+  }
+
   String? _selectedOption;
 
   final Map<String, String> options = {
@@ -94,17 +109,6 @@ class _ExcelState extends State<Excel> {
       "endTime": "$timeEnd",
       // "2024-02-14T19:17:19.453Z",
       "branchCode": "$place"
-      //  "string"
-
-      // "sid": null,
-      // "cmd": "API_DanhSachKhachHang_Select",
-      // "data": {
-      //   "benhnhan": {
-      //     "TuNgay": "$timeStart",
-      //     "DenNgay": "$timeEnd",
-      //     "MaCoSo": "$place"
-      //   }
-      // }
     };
 
     try {
@@ -335,36 +339,44 @@ class _ExcelState extends State<Excel> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: DropdownButtonFormField<String>(
-                value: _selectedOption,
-                items: options.keys.map((String key) {
-                  return DropdownMenuItem<String>(
-                    value: key,
-                    child: Text(options[key]!),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    _selectedOption = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: "Chọn chi nhánh",
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  enabledBorder: InputBorder.none,
-                ),
-                dropdownColor: Colors.white,
-              ),
-            ),
+            role == 1
+                ? Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedOption,
+                      items: options.keys.map((String key) {
+                        return DropdownMenuItem<String>(
+                          value: key,
+                          child: Text(options[key]!),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _selectedOption = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Chọn chi nhánh",
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        enabledBorder: InputBorder.none,
+                      ),
+                      dropdownColor: Colors.white,
+                    ),
+                  )
+                : Container(),
             SizedBox(height: 35),
             ElevatedButton(
-              onPressed: () {
-                print(timeEnd + timeCreate);
-                print(_selectedOption);
-                exportToExcel(timeCreate, timeEnd, _selectedOption!);
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                role = prefs.getInt('role')!;
+                String? codeBr = prefs.getString('codeBr');
+                if (role == 2) {
+                  exportToExcel(timeCreate, timeEnd, codeBr!);
+                } else {
+                  exportToExcel(timeCreate, timeEnd, _selectedOption!);
+                }
               },
               child: Text("Xem thông tin với excel"),
             )

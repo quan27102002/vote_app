@@ -350,7 +350,7 @@ class _CreateUserState extends State<CreateUser> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, RouteName.create,
+                Navigator.pushReplacementNamed(context, RouteName.chart,
                     arguments: false);
               },
               child: Text(
