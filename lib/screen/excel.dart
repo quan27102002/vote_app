@@ -6,11 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:vote_app/model/model_excel.dart';
+import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 
 import 'package:vote_app/widget/excel/helper/save_file_mobile_desktop.dart'
@@ -384,6 +386,9 @@ class _ExcelState extends State<Excel> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove("jwt");
+                Provider.of<UserProvider>(context, listen: false).logout();
                 Navigator.pushReplacementNamed(context, RouteName.logout,
                     arguments: false);
               },

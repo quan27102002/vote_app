@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // _checkToken(); // Gọi hàm để kiểm tra token
+    _checkToken(); // Gọi hàm để kiểm tra token
   }
 
   Future<void> _checkToken() async {
