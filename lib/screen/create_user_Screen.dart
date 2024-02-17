@@ -36,332 +36,337 @@ class _CreateUserState extends State<CreateUser> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(20, 60, 20, 0),
-          child: Column(children: [
-            Text(
-              "Tạo tài khoản ",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Tên ",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Tên ',
-                enabled: true,
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 200),
+            child: Column(children: [
+              Text(
+                "Tạo tài khoản ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 20,
                 ),
               ),
-              validator: (value) {
-                RegExp regex = new RegExp(r'^.{6,}$');
-                if (value!.isEmpty) {
-                  return "Password cannot be empty";
-                }
-                if (!regex.hasMatch(value)) {
-                  return ("please enter valid password min. 6 character");
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                _nameController.text = value!;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Email ",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Email ',
-                enabled: true,
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
+              SizedBox(
+                height: 20,
               ),
-              validator: (value) {
-                RegExp regex = new RegExp(r'^.{6,}$');
-                if (value!.isEmpty) {
-                  return "Email cannot be empty";
-                }
-                if (!regex.hasMatch(value)) {
-                  return ("please enter valid Email min. 6 character");
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                _emailController.text = value!;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Tên cơ sở ",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            TextFormField(
-              controller: _branchController,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Tên cơ sở ',
-                enabled: true,
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Tên ",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
               ),
-              validator: (value) {
-                RegExp regex = new RegExp(r'^.{6,}$');
-                if (value!.isEmpty) {
-                  return "Email cannot be empty";
-                }
-                if (!regex.hasMatch(value)) {
-                  return ("please enter valid Email min. 6 character");
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                _branchController.text = value!;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Mã cơ sở ",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            TextFormField(
-              controller: _branchCodeController,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Mã cơ sở ',
-                enabled: true,
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
-                ),
-              ),
-              validator: (value) {
-                RegExp regex = new RegExp(r'^.{6,}$');
-                if (value!.isEmpty) {
-                  return "Email cannot be empty";
-                }
-                if (!regex.hasMatch(value)) {
-                  return ("please enter valid Email min. 6 character");
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                _branchCodeController.text = value!;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Loại tài khoản",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: DropdownButtonFormField<String>(
-                value: _selectedOption,
-                items: options.keys.map((int key) {
-                  return DropdownMenuItem<String>(
-                    value: key.toString(),
-                    child: Text(options[key]!),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    _selectedOption = value;
-                    print(value);
-                  });
-                },
+              TextFormField(
+                controller: _nameController,
                 decoration: InputDecoration(
-                  hintText: "Chọn loại tài khoản",
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  enabledBorder: InputBorder.none,
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Tên ',
+                  enabled: true,
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
                 ),
-                dropdownColor: Colors.white,
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{6,}$');
+                  if (value!.isEmpty) {
+                    return "Password cannot be empty";
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("please enter valid password min. 6 character");
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  _nameController.text = value!;
+                },
+                keyboardType: TextInputType.emailAddress,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Mật khẩu của người dùng",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Color(0xFF848496),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _isObscure3,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                    icon: Icon(
-                        _isObscure3 ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        _isObscure3 = !_isObscure3;
-                      });
-                    }),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Password',
-                enabled: true,
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Email ",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Email ',
+                  enabled: true,
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
                 ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white),
-                  borderRadius: new BorderRadius.circular(10),
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{6,}$');
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("please enter valid Email min. 6 character");
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  _emailController.text = value!;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Tên cơ sở ",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              TextFormField(
+                controller: _branchController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Tên cơ sở ',
+                  enabled: true,
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{6,}$');
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("please enter valid Email min. 6 character");
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  _branchController.text = value!;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Mã cơ sở ",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              TextFormField(
+                controller: _branchCodeController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Mã cơ sở ',
+                  enabled: true,
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{6,}$');
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("please enter valid Email min. 6 character");
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  _branchCodeController.text = value!;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Loại tài khoản",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedOption,
+                  items: options.keys.map((int key) {
+                    return DropdownMenuItem<String>(
+                      value: key.toString(),
+                      child: Text(options[key]!),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _selectedOption = value;
+                      print(value);
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Chọn loại tài khoản",
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    enabledBorder: InputBorder.none,
+                  ),
+                  dropdownColor: Colors.white,
                 ),
               ),
-              validator: (value) {
-                RegExp regex = new RegExp(r'^.{6,}$');
-                if (value!.isEmpty) {
-                  return "Password cannot be empty";
-                }
-                if (!regex.hasMatch(value)) {
-                  return ("please enter valid password min. 6 character");
-                } else {
-                  return null;
-                }
-              },
-              onSaved: (value) {
-                _passwordController.text = value!;
-              },
-              keyboardType: TextInputType.visiblePassword,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                CreateUser(
-                    _nameController.text,
-                    _emailController.text,
-                    _branchController.text,
-                    _branchCodeController.text,
-                    _passwordController.text,
-                    int.parse(_selectedOption!));
-              },
-              child: Text(
-                "Tạo tài khoản",
-                style: TextStyle(
-                  fontSize: 20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Mật khẩu của người dùng",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: _isObscure3,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      icon: Icon(_isObscure3
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure3 = !_isObscure3;
+                        });
+                      }),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Password',
+                  enabled: true,
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{6,}$');
+                  if (value!.isEmpty) {
+                    return "Password cannot be empty";
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("please enter valid password min. 6 character");
+                  } else {
+                    return null;
+                  }
+                },
+                onSaved: (value) {
+                  _passwordController.text = value!;
+                },
+                keyboardType: TextInputType.visiblePassword,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  CreateUser(
+                      _nameController.text,
+                      _emailController.text,
+                      _branchController.text,
+                      _branchCodeController.text,
+                      _passwordController.text,
+                      int.parse(_selectedOption!));
+                },
+                child: Text(
+                  "Tạo tài khoản",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, RouteName.chart,
-                    arguments: false);
-              },
-              child: Text(
-                "Xem sơ đồ",
-                style: TextStyle(
-                  fontSize: 20,
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, RouteName.chart,
+                      arguments: false);
+                },
+                child: Text(
+                  "Xem sơ đồ",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-            )
-          ]),
-        ),
+              )
+            ]),
+          ),
+        ],
       ),
     );
   }

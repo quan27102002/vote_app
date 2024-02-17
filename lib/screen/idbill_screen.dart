@@ -14,29 +14,36 @@ class _IdBillScreenState extends State<IdBillScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: idBillCustomer,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              String id = idBillCustomer.text;
-              print(id);
-              if (id.isNotEmpty) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BillScreen(data: id),
-                  ),
-                );
-              } else {
-                // Xử lý khi id rỗng
-              }
-            },
-            child: Text("Xác nhận"),
-          )
-        ],
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 600,
+              child: TextField(
+                controller: idBillCustomer,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String id = idBillCustomer.text;
+                print(id);
+                if (id.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BillScreen(data: id),
+                    ),
+                  );
+                } else {
+                  // Xử lý khi id rỗng
+                }
+              },
+              child: Text("Xác nhận"),
+            )
+          ],
+        ),
       ),
     );
   }
