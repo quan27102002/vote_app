@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/bill_customer.dart';
@@ -30,7 +31,10 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   Future<void> getApi(int idBill) async {
-    ApiResponse res = await ApiRequest.getData();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? code = await prefs.getString('codeBr');
+    ApiResponse res = await ApiRequest.getData(code!);
     if (res.result == true) {
       setState(() {
         List<BillCustomer> listBill = [];

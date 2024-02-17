@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: Center(
         child: Container(
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           child: Column(children: [
             Text(
