@@ -11,6 +11,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:vote_app/model/model_excel.dart';
+import 'package:vote_app/router/router_name.dart';
 
 import 'package:vote_app/widget/excel/helper/save_file_mobile_desktop.dart'
     if (dart.library.html) 'package:vote_app/widget/excel/helper/save_file_web.dart'
@@ -379,6 +380,14 @@ class _ExcelState extends State<Excel> {
                 }
               },
               child: Text("Xem thông tin với excel"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pushReplacementNamed(context, RouteName.logout,
+                    arguments: false);
+              },
+              child: Text("Thoát"),
             )
           ]),
         ));
