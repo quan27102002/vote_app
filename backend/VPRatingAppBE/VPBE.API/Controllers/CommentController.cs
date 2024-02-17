@@ -178,10 +178,11 @@ namespace VPBE.API.Controllers
                         Message = "Comments not found"
                     });
                 }
-                foreach (var comment in comments)
+                foreach (var comment in request.Comments)
                 {
-                    var content = request.Comments.First(a => a.Id == comment.Id).Content;
-                    comment.Content = content;
+                    var item = comments.FirstOrDefault(a => a.Id == comment.Id);
+                    if (item == null) continue;
+                    item.Content = comment.Content;
                 }
                 
                 await _dBRepository.SaveChangesAsync();
