@@ -19,7 +19,8 @@ ApiResponse _$ApiResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ApiResponseToJson(ApiResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ApiResponseToJson(ApiResponse instance) =>
+    <String, dynamic>{
       'code': instance.code,
       'data': instance.data,
       'msg': instance.message ?? "",

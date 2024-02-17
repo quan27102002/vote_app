@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
-// import 'package:http_parser/http_parser.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'api_base/api_client.dart';
 import 'api_base/api_response.dart';
 
@@ -11,6 +12,9 @@ class ApiRequest {
   static const String billCustomer =
       "https://10.0.2.2:7257/api/UserBill/create";
   static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
+  static const String uploadImage =
+      "https://10.0.2.2:7257/api/Image/bulkupload";
+  static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
 
   //getBillCustomer
   static Future<ApiResponse> getData() async {
@@ -97,6 +101,51 @@ class ApiRequest {
     return await ApiClient().request(
       url: data,
       method: ApiClient.get,
+    );
+  }
+
+  //upload image
+  // static Future<ApiResponse> upload({
+  //   required XFile image,
+  // }) async {
+  //   MultipartFile imageFiles;
+  //   imageFiles = (await MultipartFile.fromFile(image.path,
+  //       filename: image.path.split('/').last,
+  //       contentType: MediaType('image', 'png')));
+
+  //   return await ApiClient().request(
+  //     url: uploadImage,
+  //     image: imageFiles,
+  //     method: ApiClient.post,
+  //   );
+  // }
+  static Future<ApiResponse> upload({
+    required XFile imagePaths,
+  }) async {
+    MultipartFile imageFiles;
+    imageFiles = (await MultipartFile.fromFile(
+      imagePaths.path,
+      filename: imagePaths.path.split('/').last,
+      contentType: MediaType('image', 'png'),
+    ));
+    Map<String, dynamic> data = {"file": imageFiles};
+    return await ApiClient()
+        .request(url: uploadImage, formData: data, method: ApiClient.post);
+  }
+
+  //edit ccomment
+  static Future<ApiResponse> editComment(
+    int level,
+    List comments,
+  ) async {
+    Map data = {
+      "level": level,
+      "comments": comments,
+    };
+    return await ApiClient().request(
+      url: edit,
+      data: json.encode(data),
+      method: ApiClient.post,
     );
   }
 }

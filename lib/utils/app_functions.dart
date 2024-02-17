@@ -1,11 +1,7 @@
-
-
-
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:provider/provider.dart';
-
 
 class AppFunctions {
   // static showLoading(BuildContext context) {
@@ -300,7 +296,6 @@ class AppFunctions {
 //       }
 //     }
 //   }
-
 
 //   static String hidePartOfString(String? input) {
 //     if (input == null) {

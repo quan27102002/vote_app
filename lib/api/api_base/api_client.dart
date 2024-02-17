@@ -1,7 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -55,6 +54,7 @@ class ApiClient {
       String? data,
       String? deviceId,
       String? token,
+      MultipartFile? image,
       Map<String, dynamic>? formData,
       Map<String, dynamic>? queryParameters,
       bool getFullResponse = false}) async {
@@ -78,16 +78,27 @@ class ApiClient {
     print(headerMap);
     Response response;
     try {
+      FormData? formDataToSend;
+      if (formData != null) {
+        formDataToSend = FormData.fromMap(formData);
+      } else if (data != null) {
+        formDataToSend = FormData.fromMap({"data": data});
+      }
+
+      // Thêm image vào formDataToSend nếu image được cung cấp
+      if (image != null) {
+        formDataToSend?.files.add(MapEntry('image', image));
+      }
+
       response = await _dio.request(url,
-          data: formData != null
-              ? FormData.fromMap(formData)
-              : data ?? jsonEncode({}),
+          data: formDataToSend,
           options: Options(
               method: method,
               sendTimeout: const Duration(milliseconds: 60000),
               receiveTimeout: const Duration(milliseconds: 60000),
               headers: headerMap,
-              contentType: formData != null ? 'multipart/form-data' : null),
+              contentType:
+                  formDataToSend != null ? 'multipart/form-data' : null),
           queryParameters: queryParameters);
       if (_isSuccessful(response.statusCode)) {
         var apiResponse = ApiResponse.fromJson(response.data);

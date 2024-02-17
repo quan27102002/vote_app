@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/router/app_router.dart';
+import 'package:vote_app/screen/edit_comment.dart';
 import 'package:vote_app/screen/home_screen.dart';
+import 'package:vote_app/screen/media_screen.dart';
 import 'package:vote_app/widget/emotion/comment.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -20,7 +22,7 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmlldHBoYXBhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGI0NGNjZGUtNGExMC00MDg4LWE3NmMtOTliNGM3Mzk0NTVkIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzA4MDk0NzQ5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo4MCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAifQ.07ChY7eJ-Ii4D99iJAdaPOsB2eFR5K1EVwBZeSsm45s";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmlldHBoYXBhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGI0NGNjZGUtNGExMC00MDg4LWE3NmMtOTliNGM3Mzk0NTVkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MDgxNDg2MzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjgwIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODAiLCJodHRwOi8vbG9jYWxob3N0OjgwIl19.DAxKxnZcDwTaaJWeZTRX8ADADBUp3JzLNTVbU8XK0yo";
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('jwt', token);
   // HttpClient().badCertificateCallback =
@@ -50,8 +52,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      onGenerateRoute: AppRouter.instance.onGenerateRoute,
+      // onGenerateRoute: AppRouter.instance.onGenerateRoute,
       // home: EmotionScreen(),
+      home: MediaScreen(),
+      // home: EditCommentScreen(),
     );
   }
 }
