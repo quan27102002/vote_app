@@ -20,7 +20,6 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(a => a.UserId).IsRequired();
             builder.HasOne(a => a.UserEntity).WithOne().HasForeignKey<UserResourceMappingEntity>(a => a.UserId).OnDelete(DeleteBehavior.Cascade);
             builder.Property(a => a.BranchId).IsRequired();
-            builder.HasOne(a => a.BranchEntity).WithOne().HasForeignKey<UserResourceMappingEntity>(a => a.BranchId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

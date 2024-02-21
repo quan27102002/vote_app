@@ -82,7 +82,24 @@ namespace VPBE.API
                     };
                     options.Events = new JwtBearerEvents
                     {
-                        OnAuthenticationFailed = context => {
+                        OnChallenge = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnTokenValidated = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnForbidden = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnMessageReceived = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context =>
+                        {
                             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                             {
                                 context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");

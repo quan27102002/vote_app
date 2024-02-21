@@ -37,9 +37,16 @@ namespace VPBE.API.Controllers
                 var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
                 var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
-                var memberHasResource = await _dBRepository.Context.Set<UserResourceMappingEntity>()
-                    .Include(a => a.BranchEntity)
-                    .AnyAsync(a => a.UserId == Guid.Parse(userId) && a.BranchEntity.Code == model.BranchCode);
+                var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
+                                         join b in _dBRepository.Context.Set<BranchEntity>()
+                                         on urm.BranchId equals b.Id
+                                         where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                         select new
+                                         {
+                                             UserId = urm.UserId,
+                                             Code = b.Code
+                                         })
+                                            .AnyAsync();
 
                 if (role == UserRole.Member && !memberHasResource)
                 {
@@ -86,7 +93,7 @@ namespace VPBE.API.Controllers
                 var dataByCode = await _dBRepository.Context.Set<CommentResponseEntity>()
                         .Include(a => a.UserBillEntity)
                         .Where(a => !a.IsDeleted
-                                    && (role == UserRole.Admin 
+                                    && (role == UserRole.Admin
                                             ? (string.IsNullOrEmpty(model.BranchCode) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
                                             : (!string.IsNullOrEmpty(model.BranchCode) && model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower()))
                                     && a.CreatedTime >= model.StartTime
@@ -284,9 +291,16 @@ namespace VPBE.API.Controllers
                 var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
                 var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
-                var memberHasResource = await _dBRepository.Context.Set<UserResourceMappingEntity>()
-                    .Include(a => a.BranchEntity)
-                    .AnyAsync(a => a.UserId == Guid.Parse(userId) && a.BranchEntity.Code == model.BranchCode);
+                var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
+                                               join b in _dBRepository.Context.Set<BranchEntity>()
+                                               on urm.BranchId equals b.Id
+                                               where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                               select new
+                                               {
+                                                   UserId = urm.UserId,
+                                                   Code = b.Code
+                                               })
+                                            .AnyAsync();
 
                 if (role == UserRole.Member && !memberHasResource)
                 {
@@ -401,9 +415,16 @@ namespace VPBE.API.Controllers
                 var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
                 var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
-                var memberHasResource = await _dBRepository.Context.Set<UserResourceMappingEntity>()
-                    .Include(a => a.BranchEntity)
-                    .AnyAsync(a => a.UserId == Guid.Parse(userId) && a.BranchEntity.Code == model.BranchCode);
+                var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
+                                               join b in _dBRepository.Context.Set<BranchEntity>()
+                                               on urm.BranchId equals b.Id
+                                               where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                               select new
+                                               {
+                                                   UserId = urm.UserId,
+                                                   Code = b.Code
+                                               })
+                                            .AnyAsync();
 
                 if (role == UserRole.Member && !memberHasResource)
                 {

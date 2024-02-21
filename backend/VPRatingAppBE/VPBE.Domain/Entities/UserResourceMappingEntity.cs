@@ -12,6 +12,5 @@ namespace VPBE.Domain.Entities
         public Guid UserId { get; set; }
         public virtual UserEntity UserEntity { get; set; }
         public Guid BranchId { get; set; } 
-        public virtual BranchEntity BranchEntity { get; set; }
     }
 }
