@@ -15,21 +15,16 @@ class _MediaScreenState extends State<MediaScreen> {
   late File image;
   ImagePicker picker = ImagePicker();
 
-// Hãy đảm bảo rằng bạn đã import ImagePicker từ thư viện image_picker
-  static final imagePicker = ImagePicker();
-  Future pickImage({ImageSource? source}) async {
-    XFile? image = await imagePicker.pickImage(
-      maxHeight: 480,
-      maxWidth: 640,
-      source: source ?? ImageSource.gallery,
-    );
-    if (image != null) {
-      var res = await ApiRequest.upload(imagePaths: image);
-      if (res.code == 200) {
-        return "ok";
-      }
+  late XFile uploadimage; //variable for choosed file
+
+  Future<void> chooseImage() async {
+    final XFile? choosedimage =
+        await picker.pickImage(source: ImageSource.gallery);
+    if (choosedimage != null) {
+      setState(() {
+        uploadimage = choosedimage;
+      });
     }
-    return null;
   }
 
   Future<void> _getImage() async {
@@ -66,7 +61,7 @@ class _MediaScreenState extends State<MediaScreen> {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
-              onPressed: pickImage,
+              onPressed: chooseImage,
               tooltip: 'Pick Image',
               child: Icon(Icons.photo_library),
             ),

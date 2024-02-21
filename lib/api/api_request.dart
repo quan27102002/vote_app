@@ -129,8 +129,11 @@ class ApiRequest {
       contentType: MediaType('image', 'png'),
     ));
     Map<String, dynamic> data = {"file": imageFiles};
-    return await ApiClient()
-        .request(url: uploadImage, formData: data, method: ApiClient.post);
+    return await ApiClient().request(
+      url: uploadImage,
+      formData: data,
+      method: ApiClient.post,
+    );
   }
 
   //edit ccomment
