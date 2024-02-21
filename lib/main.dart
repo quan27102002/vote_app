@@ -13,6 +13,7 @@ import 'package:vote_app/router/app_router.dart';
 import 'package:vote_app/screen/end_screen.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/screen/idbill_screen.dart';
+import 'package:vote_app/screen/intro_screen.dart';
 import 'package:vote_app/screen/login_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           // onGenerateRoute: AppRouter.instance.onGenerateRoute,
-          home: LoginPage(),
+          home: IntroScreen(),
         ));
   }
 }
