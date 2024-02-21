@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _checkToken(); // Gọi hàm để kiểm tra token
+    // _checkToken(); 
   }
 
   Future<void> _checkToken() async {
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 200),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Column(children: [
               Text(

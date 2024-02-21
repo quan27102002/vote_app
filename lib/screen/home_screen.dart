@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/comment.dart';
-import 'package:vote_app/widget/emotion/comment.dart';
+
 import 'package:vote_app/screen/end_screen.dart';
 
 class EmotionScreen extends StatefulWidget {

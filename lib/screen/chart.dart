@@ -18,6 +18,7 @@ class Chart extends StatefulWidget {
 
 class _ChartState extends State<Chart> {
   List<double> percentages = [];
+   List<double> percentagesType = [];
   List<_BarData> dataList = [
     const _BarData(Colors.red, 10),
     const _BarData(Colors.orange, 10),
@@ -26,15 +27,21 @@ class _ChartState extends State<Chart> {
     const _BarData(Colors.pink, 10),
   ];
 
-  String? _selectedOption;
+
   int? role;
+  String? checktype;
 
   @override
   void initState() {
     super.initState();
     _loadRole();
   }
+  String? _selectedOption;
 
+  final Map<String, String> optionFilter = {
+    '1': 'Xem chi tiết theo từng trạng thái cảm xúc',
+    '2': 'Xem theo chế độ tích cực,tiêu cực'
+  };
   Future<void> _loadRole() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -95,7 +102,11 @@ class _ChartState extends State<Chart> {
     Colors.green,
     Colors.pink,
   ];
-
+ List<Color> colorsType = [
+    Colors.red,
+   
+    Colors.green,
+  ];
   // Danh sách chú thích cho các cảm xúc
   final List<String> emotions = [
     'Rất Tệ',
@@ -103,6 +114,10 @@ class _ChartState extends State<Chart> {
     'Bình thường',
     'Tốt',
     'Hoàn hảo',
+  ];
+   final List<String> emotionsType = [
+   'Tiêu cực',
+   'Tích cực'
   ];
   BarChartGroupData generateBarGroup(
     int x,
@@ -126,27 +141,38 @@ class _ChartState extends State<Chart> {
       String createTime, String timend, String place) async {
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
+        print(res);
+        print(res.headers);
     if (res.code == 200) {
       List<dynamic> data = res.data;
       List<double> percentages = [];
+      
 
       for (var item in data) {
         // Kiểm tra xem trường count có tồn tại và có kiểu số không
         if (item['count'] is num) {
           // Ép kiểu và thêm vào danh sách percentages
           percentages.add(item['count'].toDouble());
+        
         }
       }
+double sumFirstTwo = percentages.take(2).fold(0, (previous, current) => previous + current);
 
-      // Cập nhật dataList với các giá trị mới từ percentages
+
+double sumLastThree = percentages.skip(2).fold(0, (previous, current) => previous + current);
+
+
+List<double> result = [sumFirstTwo, sumLastThree];
+
       List<_BarData> newDataList = [];
       for (int i = 0; i < percentages.length && i < colors.length; i++) {
         newDataList.add(_BarData(colors[i], percentages[i]));
       }
 
-      // Cập nhật giao diện sau khi đã thu thập và xử lý dữ liệu
+      
       setState(() {
         this.percentages = percentages;
+        this.percentagesType=result;
         dataList = newDataList;
       });
     }
@@ -168,18 +194,48 @@ class _ChartState extends State<Chart> {
           ),
         ],
       ),
-      backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+      // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Text(
-                "Chi tiết đánh giá",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 30,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Lọc đánh giá",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Color(0xFF848496),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButtonFormField<String>(
+                  value: checktype,
+                  items: optionFilter.keys.map((String key) {
+                    return DropdownMenuItem<String>(
+                      value: key,
+                      child: Text(optionFilter[key]!),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      checktype = value;
+                      print(value);
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Lọc đánh giá",
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    enabledBorder: InputBorder.none,
+                  ),
+                  dropdownColor: Colors.white,
                 ),
               ),
               SizedBox(
@@ -364,7 +420,7 @@ class _ChartState extends State<Chart> {
                 },
                 child: Text("Xem thông tin với biểu đồ"),
               ),
-              role == 1 && _selectedOption == ''
+            checktype=='1' ? role == 1 && _selectedOption == ''
                   ? Container(
                       width: 300,
                       height: 300,
@@ -488,6 +544,21 @@ class _ChartState extends State<Chart> {
                           ),
                         ),
                       ),
+                    ):Container(
+                      width: 300,
+                      height: 300,
+                      child: PieChart(
+                        PieChartData(
+                          sections: List.generate(
+                            percentages.length,
+                            (index) => PieChartSectionData(
+                              color: colorsType[index],
+                              value: percentagesType[index],
+                              title: emotionsType[index],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
               SizedBox(height: 20),
               // Danh sách chú thích
@@ -544,6 +615,7 @@ class _ChartState extends State<Chart> {
                   ),
                 ),
               ),
+              
             ],
           ),
         ),

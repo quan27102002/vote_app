@@ -11,6 +11,6 @@ class RouteName {
   static const idbillcustomer = '/idbillcustomer';
   static const endscreen = '/endscreen';
   static const excel = '/f';
-  static const chart = '/c';
-  static const totalComment = '/v';
+  static const chart = '/m';
+  static const totalComment = '/c';
 }

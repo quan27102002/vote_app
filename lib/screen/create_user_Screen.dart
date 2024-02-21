@@ -40,7 +40,7 @@ class _CreateUserState extends State<CreateUser> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 200),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(children: [
               Text(
                 "Tạo tài khoản ",

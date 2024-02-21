@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:vote_app/widget/emotion/comment.dart';
+
 import 'package:vote_app/widget/intro/slide.dart';
 
 class IntroScreen extends StatefulWidget {

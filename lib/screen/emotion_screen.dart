@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:vote_app/widget/emotion/Comment.dart';
-
 class EmotionScreen extends StatefulWidget {
   @override
   _EmotionScreenState createState() => _EmotionScreenState();

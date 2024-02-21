@@ -48,14 +48,18 @@ class ApiClient {
   }
 
   static ApiClient get instance => ApiClient();
-
+  void printResponseHeaders(Response response) {
+    print('Headers of the response:');
+    response.headers.forEach((key, values) {
+      print('$key: $values');
+    });
+  }
   Future<ApiResponse> request(
       {required String url,
       String method = post,
       String? data,
       String? deviceId,
       String? token,
-      
       Map<String, dynamic>? formData,
       Map<String, dynamic>? queryParameters,
       bool getFullResponse = false}) async {
@@ -90,15 +94,15 @@ class ApiClient {
               headers: headerMap,
               contentType: formData != null ? 'multipart/form-data' : null),
           queryParameters: queryParameters);
-          print(response);
+      print(response);
       if (_isSuccessful(response.statusCode)) {
-
         var apiResponse = ApiResponse.fromJson(response.data);
         apiResponse.message =
             '${apiResponse.message ?? ''} (Code: ${apiResponse.code != null ? apiResponse.code.toString() : 'Unknown'})';
- apiResponse.headers = response.headers.map.map((key, value) {
-    return MapEntry(key, value.toList());
-  });
+        apiResponse.headers = response.headers.map.map((key, value) {
+          return MapEntry(key, value.toList());
+        });print(apiResponse.headers);
+        printResponseHeaders(response);
         if (getFullResponse) apiResponse.dioResponse = response;
         return apiResponse;
       }
