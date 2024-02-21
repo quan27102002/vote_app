@@ -16,7 +16,7 @@ class ApiRequest {
   static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
 
   //getBillCustomer
-  static Future<ApiResponse> getData(String codeBr) async {
+  static Future<ApiResponse> getData() async {
     Map data = {
       "sid": null,
       "cmd": "API_DanhSachKhachHang_Select",
@@ -24,7 +24,8 @@ class ApiRequest {
         "benhnhan": {
           "TuNgay": "20240123", //truyền date time now
           "DenNgay": "20240123", // truyền date time now
-          "MaCoSo": codeBr, // truyền mã cơ sở
+          // "MaCoSo": codeBr,
+          "MaCoSo": "ND", // truyền mã cơ sở
         }
       }
     };

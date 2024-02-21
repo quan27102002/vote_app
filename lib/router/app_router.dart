@@ -4,7 +4,7 @@ import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/admin_screen.dart';
 import 'package:vote_app/screen/chart.dart';
 import 'package:vote_app/screen/create_user_Screen.dart';
-import 'package:vote_app/screen/emotion_screen.dart';
+
 import 'package:vote_app/screen/excel.dart';
 import 'package:vote_app/screen/bill_screen.dart';
 import 'package:vote_app/screen/home_screen.dart';

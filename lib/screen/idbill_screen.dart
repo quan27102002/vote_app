@@ -19,29 +19,62 @@ class _IdBillScreenState extends State<IdBillScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 600,
-              child: TextField(
-                controller: idBillCustomer,
+            Expanded(
+              child: Image.asset(
+                "assets/images/logo_uc.png",
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                String id = idBillCustomer.text;
-                print(id);
-                if (id.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BillScreen(data: id),
+            Expanded(
+              child: SizedBox(
+                width: 400,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Nhập mã hoá đơn',
+                      ),
+                      controller: idBillCustomer,
                     ),
-                  );
-                } else {
-                  // Xử lý khi id rỗng
-                }
-              },
-              child: Text("Xác nhận"),
-            )
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                            ),
+                        onPressed: () async {
+                          String id = idBillCustomer.text;
+                          print(id);
+                          if (id.isNotEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BillScreen(data: id),
+                              ),
+                            );
+                          } else {
+                            // Xử lý khi id rỗng
+                          }
+                        },
+                        child: Text(
+                          "Xem hoá đơn",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
