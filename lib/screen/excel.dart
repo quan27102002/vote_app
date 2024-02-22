@@ -90,7 +90,7 @@ class _ExcelState extends State<Excel> {
   }
 
   Duration? executionTime;
-  List<HoaDon> hoaDonList = [];
+List<HoaDon> hoaDonList = [];
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
 
   Future<void> exportToExcel(
@@ -148,31 +148,31 @@ class _ExcelState extends State<Excel> {
         sheet.getRangeByIndex(1, 16).setText('Comment khác');
 
         // Add data
-        for (int i = 0; i < hoaDonList.length; i++) {
-          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
-          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
-          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
-          sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
-
-          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
-          sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
-          sheet.getRangeByIndex(i + 2, 7).setNumber(hoaDonList[i].billCode);
-          sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
-          sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
-          sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
-          sheet
-              .getRangeByIndex(i + 2, 11)
-              .setNumber(hoaDonList[i].amount as double?);
-          sheet.getRangeByIndex(i + 2, 12).setNumber(hoaDonList[i].unitPrice);
-          sheet
-              .getRangeByIndex(i + 2, 13)
-              .setNumber(hoaDonList[i].level as double?);
-          sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
-          sheet
-              .getRangeByIndex(i + 2, 15)
-              .setText(hoaDonList[i].comment.toString());
-          sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
-        }
+       // Add data
+for (int i = 0; i < hoaDonList.length; i++) {
+  sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
+  sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
+  sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
+  sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
+  sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
+  sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
+  sheet.getRangeByIndex(i + 2, 7).setNumber(hoaDonList[i].billCode.toDouble());
+  sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
+sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
+  sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
+  sheet.getRangeByIndex(i + 2, 11).setNumber(hoaDonList[i].amount.toDouble());
+  sheet.getRangeByIndex(i + 2, 12).setNumber(hoaDonList[i].unitPrice.toDouble());
+  sheet.getRangeByIndex(i + 2, 13).setNumber(hoaDonList[i].level.toDouble());
+  sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
+  
+  // Đối với trường comment, bạn cần xử lý danh sách các comment
+  // Bạn có thể sử dụng một phương thức để chuyển đổi danh sách comment thành một chuỗi
+  // Ví dụ:
+  String comments = hoaDonList[i].comments.map((comment) => comment.content).join(", ");
+  sheet.getRangeByIndex(i + 2, 15).setText(comments);
+  
+  sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
+}
 
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
@@ -235,7 +235,7 @@ class _ExcelState extends State<Excel> {
 
                         ,
                         decoration: InputDecoration(
-                          prefixIcon: Container(
+prefixIcon: Container(
                             margin: const EdgeInsets.only(left: 8, right: 8),
                             child: const ImageIcon(
                               AssetImage('assets/images/calendar.png'),
@@ -296,7 +296,7 @@ class _ExcelState extends State<Excel> {
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                             color: Colors.black26)
-                        // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+// AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
 
                         ,
                         decoration: InputDecoration(
@@ -361,7 +361,7 @@ class _ExcelState extends State<Excel> {
                         });
                       },
                       decoration: InputDecoration(
-                        hintText: "Chọn chi nhánh",
+hintText: "Chọn chi nhánh",
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         enabledBorder: InputBorder.none,
                       ),
