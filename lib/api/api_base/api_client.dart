@@ -80,7 +80,7 @@ class ApiClient {
         ? {'Authorization': "Bearer $token", 'deviceId': deviceId}
         : {'deviceId': deviceId};
     headerMap.putIfAbsent("accept", () => "*/*");
-    print(headerMap);
+    // print(headerMap);
     Response response;
     try {
       response = await _dio.request(url,
