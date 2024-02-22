@@ -550,7 +550,7 @@ List<double> result = [sumFirstTwo, sumLastThree];
                       child: PieChart(
                         PieChartData(
                           sections: List.generate(
-                            percentages.length,
+                            percentagesType.length,
                             (index) => PieChartSectionData(
                               color: colorsType[index],
                               value: percentagesType[index],

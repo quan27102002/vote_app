@@ -56,7 +56,7 @@ void initState() {
             description: "Thông tin của những người đánh giá",dialogDismiss: true);
               },
               title: Text(comment['content']),
-              subtitle: Text('Count: ${comment['count']}'),
+            
             ),
           for (var comment in otherComments)
             ListTile(
@@ -69,7 +69,7 @@ void initState() {
             description: "Thông tin của những người đánh giá",dialogDismiss: true);
               },
               title: Text(comment['content']),
-              subtitle: Text('Count: ${comment['count']}'),
+             
             ),
         ],
       ),
@@ -85,10 +85,10 @@ void initState() {
       List<dynamic> otherData = res.data['otherComments'];
 
       // Thêm dữ liệu vào userComments và otherComments
-setState(() {
+      setState(() {
         userComments.clear();
         otherComments.clear();
-        userComments.addAll(userData);
+userComments.addAll(userData);
         otherComments.addAll(otherData);
       });
     }
@@ -167,9 +167,10 @@ Future<void> excelFiter(String comment) async {
     print('Lỗi: ${res.code}');
   }
 }
+
 Future<void> excelFiter2(String comment) async {
   ApiResponse res = await ApiRequest.getfilterTotalComment(
-    widget.timeCreate, 
+widget.timeCreate, 
     widget.timeEnd,
     widget.selectedOption, 
     widget.index,
@@ -179,9 +180,8 @@ Future<void> excelFiter2(String comment) async {
 
   if (res.code == 200) {
     final Map<String, dynamic> data = res.data;
-    final List<dynamic> otherComments = data['otherComments'] ;
+    final List<dynamic> otherComments = data['otherComments'];
 
-    // Tìm phần tử trong danh sách otherComments có nội dung trùng với comment
     var foundComment = otherComments.firstWhere(
       (element) => element['content'] == comment,
       orElse: () => null,
@@ -189,18 +189,17 @@ Future<void> excelFiter2(String comment) async {
 
     if (foundComment != null) {
       final Map<String, dynamic> createdBy = foundComment['createdBy'] ?? {};
-      final List<dynamic> userData = createdBy['createdBy'] ?? [];
+     
       final List<Invoice> invoices = [];
 
-      for (var itemData in userData) {
-        final Invoice invoice = Invoice.fromJson(itemData);
+  if(createdBy!={}){
+        final Invoice invoice = Invoice.fromJson(createdBy);
         invoices.add(invoice);
-      }
+  }
 
       final Workbook workbook = Workbook();
       final Worksheet sheet = workbook.worksheets[0];
 
-      // Add headers
       sheet.getRangeByIndex(1, 1).setText('Mã hóa đơn');
       sheet.getRangeByIndex(1, 2).setText('Tên khách hàng');
       sheet.getRangeByIndex(1, 3).setText('Mã khách hàng');
@@ -210,18 +209,16 @@ Future<void> excelFiter2(String comment) async {
       sheet.getRangeByIndex(1, 7).setText('Bác sĩ');
       sheet.getRangeByIndex(1, 8).setText('Dịch vụ');
 
-      // Add data
       for (int i = 0; i < invoices.length; i++) {
         final Invoice invoice = invoices[i];
         sheet.getRangeByIndex(i + 2, 1).setNumber(invoice.billCode.toDouble());
         sheet.getRangeByIndex(i + 2, 2).setText(invoice.customerName);
         sheet.getRangeByIndex(i + 2, 3).setText(invoice.customerCode);
-        sheet.getRangeByIndex(i + 2, 4).setText(invoice.branchCode);
+        sheet.getRangeByIndex(i + 2, 4).setText(invoice.phone);
         sheet.getRangeByIndex(i + 2, 5).setText(invoice.startTime);
-        sheet.getRangeByIndex(i + 2, 6).setText(invoice.phone);
+        sheet.getRangeByIndex(i + 2, 6).setText(invoice.branchCode);
         sheet.getRangeByIndex(i + 2, 7).setText(invoice.doctor);
         
-        // Extract service information from the Service object and display it
         final Service service = invoice.service;
         final String fullServiceInfo = '${service.name} - ${service.amount} - ${service.unitPrice}';
         sheet.getRangeByIndex(i + 2, 8).setText(fullServiceInfo);
@@ -241,5 +238,6 @@ Future<void> excelFiter2(String comment) async {
     print('Lỗi: ${res.code}');
   }
 }
+
 
 }
