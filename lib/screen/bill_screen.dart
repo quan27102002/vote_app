@@ -6,6 +6,7 @@ import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/bill_customer.dart';
 import 'package:intl/intl.dart';
 import 'package:vote_app/model/id_bill_customer.dart';
+import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/widget/row_in_card_product.dart';
 
@@ -209,6 +210,49 @@ class _BillScreenState extends State<BillScreen> {
                     },
                     child: Text(
                       "Xác nhận hoá đơn",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  width: width * 0.3,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                        ),
+                    onPressed: () async {
+                      Navigator.pushNamed(context, RouteName.intro);
+                    },
+                    child: Text(
+                      "Không đánh giá",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: width * 0.3,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                        ),
+                    onPressed: () async {
+                      Navigator.pushNamed(context, RouteName.login);
+                    },
+                    child: Text(
+                      "Đăng xuất",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

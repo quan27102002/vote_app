@@ -30,13 +30,19 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _checkToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('jwt');
+    int? role = prefs.getInt('role');
     if (token != null) {
       // Token tồn tại, chuyển hướng tới màn hình tiếp theo
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => IntroScreen(),
-        ),
-      );
+      if (role == 1) {
+        Navigator.pushReplacementNamed(context, RouteName.create,
+            arguments: false);
+      } else if (role == 2) {
+        Navigator.pushReplacementNamed(context, RouteName.chart,
+            arguments: false);
+      } else {
+        Navigator.pushReplacementNamed(context, RouteName.intro,
+            arguments: false);
+      }
     }
   }
 
@@ -55,7 +61,8 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            // width: size / 2,
+            padding: EdgeInsets.symmetric(horizontal: 200),
             alignment: Alignment.center,
             child: Column(children: [
               Container(

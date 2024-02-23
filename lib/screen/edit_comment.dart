@@ -6,14 +6,13 @@ import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/comment.dart';
 import 'package:vote_app/provider/comment.dart';
+import 'package:vote_app/provider/userProvider.dart';
+import 'package:vote_app/router/router_name.dart';
 
 import 'package:vote_app/screen/end_screen.dart';
 
 class EditCommentScreen extends StatefulWidget {
-  // const EditCommentScreen({super.key, required this.userBillId});
-  const EditCommentScreen({
-    Key? key,
-  }) : super(key: key);
+  const EditCommentScreen({Key? key}) : super(key: key);
 
   @override
   _EditCommentScreenState createState() => _EditCommentScreenState();
@@ -85,6 +84,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     double width = MediaQuery.of(context).size.width;
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
+        // appBar: AppBar(
+        //     backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+        //     title: const Center(
+        //       child: Text(
+        //         'Mời bạn đánh giá chất lượng dịch vụ',
+        //         style: TextStyle(
+        //           fontSize: 24,
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //       ),
+        //     )),
         body: Stack(
           children: [
             Container(

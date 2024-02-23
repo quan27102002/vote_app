@@ -204,16 +204,87 @@ class _ExcelState extends State<Excel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Tạo tài khoản'),
+                onTap: () {
+                  // Add your logic here for Button 1
+                  Navigator.pushReplacementNamed(context, RouteName.create,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.insert_chart),
+                title: Text('Xem biểu đồ thống kê'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.chart,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Chỉnh sửa comment'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.editComment,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.file_download),
+                title: Text('Xuất file excel'),
+                onTap: () {
+                  // Add your logic here for Button 3
+                  Navigator.pushNamed(context, RouteName.excel);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () async {
+                  // Add your logic here for Button 4
+                  Navigator.pushNamed(context, '/');
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove("jwt");
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                },
+              ),
+            ],
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(children: [
+            Container(
+                height: 300,
+                child: Image.asset(
+                  "assets/images/logo_uc.png",
+                  fit: BoxFit.fill,
+                )),
             Text(
               "Chi tiết đánh giá",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 30,
+                color: Color.fromRGBO(47, 179, 178, 1),
+                fontSize: 25,
               ),
             ),
             SizedBox(
@@ -394,17 +465,6 @@ class _ExcelState extends State<Excel> {
               },
               child: Text("Xem thông tin với excel"),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.remove("jwt");
-                Provider.of<UserProvider>(context, listen: false).logout();
-                Navigator.pushReplacementNamed(context, RouteName.logout,
-                    arguments: false);
-              },
-              child: Text("Thoát"),
-            )
           ]),
         ));
   }

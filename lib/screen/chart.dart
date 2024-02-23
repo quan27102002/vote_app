@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
+import 'package:vote_app/provider/userProvider.dart';
 import 'dart:math' as math;
 
 import 'package:vote_app/router/router_name.dart';
@@ -18,7 +20,7 @@ class Chart extends StatefulWidget {
 
 class _ChartState extends State<Chart> {
   List<double> percentages = [];
-   List<double> percentagesType = [];
+  List<double> percentagesType = [];
   List<_BarData> dataList = [
     const _BarData(Colors.red, 10),
     const _BarData(Colors.orange, 10),
@@ -26,7 +28,6 @@ class _ChartState extends State<Chart> {
     const _BarData(Colors.green, 10),
     const _BarData(Colors.pink, 10),
   ];
-
 
   int? role;
   String? checktype;
@@ -36,6 +37,7 @@ class _ChartState extends State<Chart> {
     super.initState();
     _loadRole();
   }
+
   String? _selectedOption;
 
   final Map<String, String> optionFilter = {
@@ -102,9 +104,8 @@ class _ChartState extends State<Chart> {
     Colors.green,
     Colors.pink,
   ];
- List<Color> colorsType = [
+  List<Color> colorsType = [
     Colors.red,
-   
     Colors.green,
   ];
   // Danh sách chú thích cho các cảm xúc
@@ -115,10 +116,7 @@ class _ChartState extends State<Chart> {
     'Tốt',
     'Hoàn hảo',
   ];
-   final List<String> emotionsType = [
-   'Tiêu cực',
-   'Tích cực'
-  ];
+  final List<String> emotionsType = ['Tiêu cực', 'Tích cực'];
   BarChartGroupData generateBarGroup(
     int x,
     Color color,
@@ -141,38 +139,37 @@ class _ChartState extends State<Chart> {
       String createTime, String timend, String place) async {
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
-        print(res);
-        print(res.headers);
+    print(res);
+    print(res.headers);
     if (res.code == 200) {
       List<dynamic> data = res.data;
       List<double> percentages = [];
-      
 
       for (var item in data) {
         // Kiểm tra xem trường count có tồn tại và có kiểu số không
         if (item['count'] is num) {
           // Ép kiểu và thêm vào danh sách percentages
           percentages.add(item['count'].toDouble());
-        
         }
       }
-double sumFirstTwo = percentages.take(2).fold(0, (previous, current) => previous + current);
+      double sumFirstTwo = percentages
+          .take(2)
+          .fold(0, (previous, current) => previous + current);
 
+      double sumLastThree = percentages
+          .skip(2)
+          .fold(0, (previous, current) => previous + current);
 
-double sumLastThree = percentages.skip(2).fold(0, (previous, current) => previous + current);
-
-
-List<double> result = [sumFirstTwo, sumLastThree];
+      List<double> result = [sumFirstTwo, sumLastThree];
 
       List<_BarData> newDataList = [];
       for (int i = 0; i < percentages.length && i < colors.length; i++) {
         newDataList.add(_BarData(colors[i], percentages[i]));
       }
 
-      
       setState(() {
         this.percentages = percentages;
-        this.percentagesType=result;
+        this.percentagesType = result;
         dataList = newDataList;
       });
     }
@@ -182,17 +179,81 @@ List<double> result = [sumFirstTwo, sumLastThree];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Điều khiển',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person_add),
+              title: Text('Tạo tài khoản'),
+              onTap: () {
+                // Add your logic here for Button 1
+                Navigator.pushReplacementNamed(context, RouteName.create,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.insert_chart),
+              title: Text('Xem biểu đồ thống kê'),
+              onTap: () {
+                // Add your logic here for Button 2
+                Navigator.pushReplacementNamed(context, RouteName.chart,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.insert_chart),
+              title: Text('Chỉnh sửa comment'),
+              onTap: () {
+                // Add your logic here for Button 2
+                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.file_download),
+              title: Text('Xuất file excel'),
+              onTap: () {
+                // Add your logic here for Button 3
+                Navigator.pushNamed(context, RouteName.excel);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Đăng xuất'),
+              onTap: () async {
+                // Add your logic here for Button 4
+                Navigator.pushNamed(context, RouteName.login);
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove("jwt");
+                Provider.of<UserProvider>(context, listen: false).logout();
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
-        title: Text('Chi tiết các đánh giá'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.arrow_right),
-            onPressed: () {
-              // Gọi hàm exportToChart khi người dùng nhấn nút refresh
-              Navigator.pushNamed(context, RouteName.excel);
-            },
+        title: Center(
+            child: Text(
+          'Chi tiết các đánh giá',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color.fromRGBO(47, 179, 178, 1),
+            fontSize: 25,
           ),
-        ],
+        )),
       ),
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: SingleChildScrollView(
@@ -248,9 +309,11 @@ List<double> result = [sumFirstTwo, sumLastThree];
                     child: Container(
                         height: 50,
                         padding: const EdgeInsets.all(0),
-                        decoration: const BoxDecoration(
-                            // borderRadius: BorderRadius.circular(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(47, 179, 178, 1),
                             ),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextFormField(
                           readOnly: true,
                           onTap: () {
@@ -313,9 +376,11 @@ List<double> result = [sumFirstTwo, sumLastThree];
                     child: Container(
                         height: 50,
                         padding: const EdgeInsets.all(0),
-                        decoration: const BoxDecoration(
-                            // borderRadius: BorderRadius.circular(10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(47, 179, 178, 1),
                             ),
+                            borderRadius: BorderRadius.circular(10)),
                         child: TextFormField(
                           readOnly: true,
                           onTap: () {
@@ -420,131 +485,138 @@ List<double> result = [sumFirstTwo, sumLastThree];
                 },
                 child: Text("Xem thông tin với biểu đồ"),
               ),
-            checktype=='1' ? role == 1 && _selectedOption == ''
-                  ? Container(
-                      width: 300,
-                      height: 300,
-                      child: PieChart(
-                        PieChartData(
-                          sections: List.generate(
-                            percentages.length,
-                            (index) => PieChartSectionData(
-                              color: colors[index],
-                              value: percentages[index],
-                              title: emotions[index],
+              checktype == '1'
+                  ? role == 1 && _selectedOption == ''
+                      ? Container(
+                          width: 300,
+                          height: 300,
+                          child: PieChart(
+                            PieChartData(
+                              sections: List.generate(
+                                percentages.length,
+                                (index) => PieChartSectionData(
+                                  color: colors[index],
+                                  value: percentages[index],
+                                  title: emotions[index],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: AspectRatio(
-                        aspectRatio: 1.4,
-                        child: BarChart(
-                          BarChartData(
-                            alignment: BarChartAlignment.spaceBetween,
-                            borderData: FlBorderData(
-                              show: true,
-                              border: Border.symmetric(
-                                horizontal: BorderSide(
-                                    color: const Color.fromARGB(
-                                        137, 235, 119, 119)),
-                              ),
-                            ),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              leftTitles: AxisTitles(
-                                drawBelowEverything: true,
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 30,
-                                  getTitlesWidget: (value, meta) {
-                                    return Text(
-                                      value.toInt().toString(),
-                                      textAlign: TextAlign.left,
-                                    );
-                                  },
-                                ),
-                              ),
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 36,
-                                  getTitlesWidget: (value, meta) {
-                                    final index = value.toInt();
-                                    return SideTitleWidget(
-                                      axisSide: meta.axisSide,
-                                      child: _IconWidget(
-                                        color: dataList[index].color,
-                                        isSelected: touchedGroupIndex == index,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              rightTitles: const AxisTitles(),
-                              topTitles: const AxisTitles(),
-                            ),
-                            gridData: FlGridData(
-                              show: true,
-                              drawVerticalLine: false,
-                              getDrawingHorizontalLine: (value) => FlLine(
-                                color: const Color.fromARGB(137, 235, 119, 119),
-                                strokeWidth: 1,
-                              ),
-                            ),
-                            barGroups: dataList.asMap().entries.map((e) {
-                              final index = e.key;
-                              final data = e.value;
-                              return generateBarGroup(
-                                index,
-                                data.color,
-                                data.value,
-                              );
-                            }).toList(),
-                            maxY: 20,
-                            barTouchData: BarTouchData(
-                              enabled: true,
-                              handleBuiltInTouches: false,
-                              touchTooltipData: BarTouchTooltipData(
-                                tooltipBgColor: Colors.transparent,
-                                tooltipMargin: 0,
-                                getTooltipItem: (
-                                  BarChartGroupData group,
-                                  int groupIndex,
-                                  BarChartRodData rod,
-                                  int rodIndex,
-                                ) {
-                                  return BarTooltipItem(
-                                    rod.toY.toString(),
-                                    TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: rod.color,
-                                      fontSize: 18,
+                        )
+                      : Container(
+                          height: 400,
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: AspectRatio(
+                              aspectRatio: 1.4,
+                              child: BarChart(
+                                BarChartData(
+                                  alignment: BarChartAlignment.spaceBetween,
+                                  borderData: FlBorderData(
+                                    show: true,
+                                    border: Border.symmetric(
+                                      horizontal: BorderSide(
+                                          color: const Color.fromARGB(
+                                              137, 235, 119, 119)),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  titlesData: FlTitlesData(
+                                    show: true,
+                                    leftTitles: AxisTitles(
+                                      drawBelowEverything: true,
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        reservedSize: 30,
+                                        getTitlesWidget: (value, meta) {
+                                          return Text(
+                                            value.toInt().toString(),
+                                            textAlign: TextAlign.left,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        reservedSize: 36,
+                                        getTitlesWidget: (value, meta) {
+                                          final index = value.toInt();
+                                          return SideTitleWidget(
+                                            axisSide: meta.axisSide,
+                                            child: _IconWidget(
+                                              color: dataList[index].color,
+                                              isSelected:
+                                                  touchedGroupIndex == index,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    rightTitles: const AxisTitles(),
+                                    topTitles: const AxisTitles(),
+                                  ),
+                                  gridData: FlGridData(
+                                    show: true,
+                                    drawVerticalLine: false,
+                                    getDrawingHorizontalLine: (value) => FlLine(
+                                      color: const Color.fromARGB(
+                                          137, 235, 119, 119),
+                                      strokeWidth: 1,
+                                    ),
+                                  ),
+                                  barGroups: dataList.asMap().entries.map((e) {
+                                    final index = e.key;
+                                    final data = e.value;
+                                    return generateBarGroup(
+                                      index,
+                                      data.color,
+                                      data.value,
+                                    );
+                                  }).toList(),
+                                  maxY: 20,
+                                  barTouchData: BarTouchData(
+                                    enabled: true,
+                                    handleBuiltInTouches: false,
+                                    touchTooltipData: BarTouchTooltipData(
+                                      tooltipBgColor: Colors.transparent,
+                                      tooltipMargin: 0,
+                                      getTooltipItem: (
+                                        BarChartGroupData group,
+                                        int groupIndex,
+                                        BarChartRodData rod,
+                                        int rodIndex,
+                                      ) {
+                                        return BarTooltipItem(
+                                          rod.toY.toString(),
+                                          TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: rod.color,
+                                            fontSize: 18,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    touchCallback: (event, response) {
+                                      if (event.isInterestedForInteractions &&
+                                          response != null &&
+                                          response.spot != null) {
+                                        setState(() {
+                                          touchedGroupIndex = response
+                                              .spot!.touchedBarGroupIndex;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          touchedGroupIndex = -1;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
-                              touchCallback: (event, response) {
-                                if (event.isInterestedForInteractions &&
-                                    response != null &&
-                                    response.spot != null) {
-                                  setState(() {
-                                    touchedGroupIndex =
-                                        response.spot!.touchedBarGroupIndex;
-                                  });
-                                } else {
-                                  setState(() {
-                                    touchedGroupIndex = -1;
-                                  });
-                                }
-                              },
                             ),
                           ),
-                        ),
-                      ),
-                    ):Container(
+                        )
+                  : Container(
                       width: 300,
                       height: 300,
                       child: PieChart(
@@ -615,7 +687,6 @@ List<double> result = [sumFirstTwo, sumLastThree];
                   ),
                 ),
               ),
-              
             ],
           ),
         ),
