@@ -12,37 +12,32 @@ class MediaScreen extends StatefulWidget {
 }
 
 class _MediaScreenState extends State<MediaScreen> {
-  late File image;
-  ImagePicker picker = ImagePicker();
+  ImagePicker imagePicker = ImagePicker();
+  List<XFile> images = []; // List chứa các hình ảnh đã chọn
 
-  late XFile uploadimage; //variable for choosed file
-
-  Future<void> chooseImage() async {
-    final XFile? choosedimage =
-        await picker.pickImage(source: ImageSource.gallery);
-    if (choosedimage != null) {
+  Future<void> pickImages({ImageSource? source}) async {
+    List<XFile>? pickedImages = await imagePicker.pickMultiImage(
+      maxHeight: 480,
+      maxWidth: 640,
+      imageQuality: 80, // Chất lượng ảnh
+      // source: source ?? ImageSource.gallery,
+    );
+    if (pickedImages != null) {
       setState(() {
-        uploadimage = choosedimage;
+        images.addAll(pickedImages);
       });
+    } else {
+      // Xử lý trường hợp không chọn được ảnh
+      print("Không chọn được ảnh");
     }
   }
 
-  Future<void> _getImage() async {
-    try {
-      // Chọn ảnh từ thư viện của thiết bị
-      final XFile? pickedImage =
-          await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedImage != null) {
-        // Nếu ảnh đã được chọn thành công, ta tạo một File từ đường dẫn của ảnh
-        setState(() {
-          image = File(pickedImage.path);
-        });
-      } else {
-        print('No image selected');
-      }
-    } catch (e) {
-      print('Error picking image: $e');
+  Future<void> uploadImages() async {
+    var res = await ApiRequest.uploadImages(imagePaths: images);
+    if (res.result == true) {
+      print("Upload thành công");
+    } else {
+      print("Upload thất bại");
     }
   }
 
@@ -50,31 +45,43 @@ class _MediaScreenState extends State<MediaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload Image'),
+        title: Text('Upload Images'),
       ),
       body: Stack(
         children: [
-          // Hiển thị hình ảnh được chọn (nếu có).
-          // if (_image != null) Image.file(File(_image!.path)),
-          // // Nút để chọn hình ảnh từ thiết bị.
+          // Hiển thị các hình ảnh đã chọn
+          GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // Số cột trong grid view
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+            ),
+            itemCount: images.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Image.file(File(images[index].path));
+            },
+          ),
+          // Nút để chọn hình ảnh từ thiết bị
           Positioned(
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
-              onPressed: chooseImage,
-              tooltip: 'Pick Image',
+              onPressed: () {
+                pickImages();
+              },
+              tooltip: 'Pick Images',
               child: Icon(Icons.photo_library),
             ),
           ),
-          // Nút để thực hiện upload hình ảnh.
+          // Nút để thực hiện upload hình ảnh
           Positioned(
             bottom: 16,
             left: 16,
             child: FloatingActionButton(
               onPressed: () async {
-                // var res = await ApiRequest.upload(image: image);
+                uploadImages();
               },
-              tooltip: 'Upload Image',
+              tooltip: 'Upload Images',
               child: Icon(Icons.cloud_upload),
             ),
           ),

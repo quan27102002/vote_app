@@ -119,19 +119,22 @@ class ApiRequest {
   //     method: ApiClient.post,
   //   );
   // }
-  static Future<ApiResponse> upload({
-    required XFile imagePaths,
+  static Future<ApiResponse> uploadImages({
+    required List<XFile> imagePaths,
   }) async {
-    MultipartFile imageFiles;
-    imageFiles = (await MultipartFile.fromFile(
-      imagePaths.path,
-      filename: imagePaths.path.split('/').last,
-      contentType: MediaType('image', 'png'),
-    ));
-    Map<String, dynamic> data = {"file": imageFiles};
+    List<MultipartFile> files = [];
+    for (XFile imagePath in imagePaths) {
+      files.add(await MultipartFile.fromFile(imagePath.path,
+          filename: imagePath.path.split('/').last));
+    }
+
+    FormData formData = FormData.fromMap({
+      for (int i = 0; i < files.length; i++) 'file$i': files[i],
+    });
+
     return await ApiClient().request(
       url: uploadImage,
-      formData: data,
+      file: formData,
       method: ApiClient.post,
     );
   }

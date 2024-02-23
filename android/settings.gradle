@@ -27,3 +27,5 @@ plugins {
 }
 
 include ":app"
+assert localPropertiesFile.exists()
+localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }

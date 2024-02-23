@@ -55,6 +55,7 @@ class ApiClient {
       String? deviceId,
       String? token,
       MultipartFile? image,
+      FormData? file,
       Map<String, dynamic>? formData,
       Map<String, dynamic>? queryParameters,
       bool getFullResponse = false}) async {
@@ -76,6 +77,19 @@ class ApiClient {
         : {'deviceId': deviceId};
     headerMap.putIfAbsent("accept", () => "*/*");
     print(headerMap);
+    FormData formDataToSend = FormData();
+
+    // Thêm dữ liệu cần gửi vào formDataToSend
+    if (formData != null) {
+      formData.forEach((key, value) {
+        formDataToSend.fields.add(MapEntry(key, value.toString()));
+      });
+    }
+
+    // Thêm image vào formDataToSend nếu image được cung cấp
+    if (image != null) {
+      formDataToSend.files.add(MapEntry('image', image));
+    }
     Response response;
     try {
       FormData? formDataToSend;
