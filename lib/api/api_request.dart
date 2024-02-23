@@ -14,6 +14,7 @@ class ApiRequest {
   static const String billCustomer =
       "https://10.0.2.2:7257/api/UserBill/create";
   static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
+  static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
 
   //getBillCustomer
   static Future<ApiResponse> getData() async {
@@ -162,6 +163,22 @@ class ApiRequest {
     };
     return await ApiClient().request(
       url: comment,
+      data: json.encode(data),
+      method: ApiClient.post,
+    );
+  }
+
+//edit Comment
+  static Future<ApiResponse> editComment(
+    int level,
+    List comments,
+  ) async {
+    Map data = {
+      "level": level,
+      "comments": comments,
+    };
+    return await ApiClient().request(
+      url: edit,
       data: json.encode(data),
       method: ApiClient.post,
     );

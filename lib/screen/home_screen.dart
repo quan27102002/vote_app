@@ -103,6 +103,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   child: GestureDetector(
                     onTap: () {
                       resetEmotionSelections();
+                      resetCommentSelections();
                       isTapped0 = !isTapped0;
 
                       if (isTapped0) {
@@ -166,6 +167,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   child: GestureDetector(
                     onTap: () {
                       resetEmotionSelections();
+                      resetCommentSelections();
                       isTapped1 = !isTapped1;
 
                       if (isTapped1) {
@@ -229,6 +231,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   child: GestureDetector(
                     onTap: () {
                       resetEmotionSelections();
+                      resetCommentSelections();
                       isTapped2 = !isTapped2;
 
                       if (isTapped2) {
@@ -292,6 +295,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   child: GestureDetector(
                     onTap: () {
                       resetEmotionSelections();
+                      resetCommentSelections();
                       isTapped3 = !isTapped3;
                       if (isTapped3) {
                         setState(() {
@@ -354,6 +358,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   child: GestureDetector(
                     onTap: () {
                       resetEmotionSelections();
+                      resetCommentSelections();
                       isTapped4 = !isTapped4;
                       if (isTapped4) {
                         setState(() {
