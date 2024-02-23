@@ -10,10 +10,10 @@ import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/screen/end_screen.dart';
 
 class EditCommentScreen extends StatefulWidget {
-  final String userBillId;
   // const EditCommentScreen({super.key, required this.userBillId});
-  const EditCommentScreen({Key? key, required this.userBillId})
-      : super(key: key);
+  const EditCommentScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _EditCommentScreenState createState() => _EditCommentScreenState();
@@ -23,6 +23,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
   TextEditingController comment1 = TextEditingController();
   TextEditingController comment2 = TextEditingController();
   TextEditingController comment3 = TextEditingController();
+  void reset() {
+    comment1.clear();
+    comment2.clear();
+    comment3.clear();
+  }
+
   List<Map<String, dynamic>> commentData = [];
   List selectCmt = [false, false, false, false];
   List cmt = [];
@@ -45,21 +51,6 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
   List<Map> selectedOptions = []; // Đổi sang kiểu List<String>
   List<ListComment> listComment = [];
 
-  // Future<void> getApi() async {
-  //   listComment.clear();
-  //   ApiResponse res = await ApiRequest.getComment();
-
-  //   if (res.code == 200) {
-  //     setState(() {
-  //       for (var e in res.data) {
-  //         listComment.add(ListComment.fromJson(e));
-  //       }
-  //     });
-  //     print(listComment);
-  //   } else {
-  //     print(res.message ?? "Lỗi");
-  //   }
-  // }
   initData() async {
     var comment = Provider.of<CommentProvider>(context, listen: false);
     await comment.getApi();
@@ -94,17 +85,6 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     double width = MediaQuery.of(context).size.width;
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
-        // appBar: AppBar(
-        //     backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-        //     title: const Center(
-        //       child: Text(
-        //         'Mời bạn đánh giá chất lượng dịch vụ',
-        //         style: TextStyle(
-        //           fontSize: 24,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //     )),
         body: Stack(
           children: [
             Container(
@@ -116,6 +96,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         resetEmotionSelections();
+                        reset();
                         isTapped0 = !isTapped0;
 
                         if (isTapped0) {
@@ -179,6 +160,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         resetEmotionSelections();
+                        reset();
                         isTapped1 = !isTapped1;
 
                         if (isTapped1) {
@@ -242,6 +224,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         resetEmotionSelections();
+                        reset();
                         isTapped2 = !isTapped2;
 
                         if (isTapped2) {
@@ -305,6 +288,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         resetEmotionSelections();
+                        reset();
                         isTapped3 = !isTapped3;
                         if (isTapped3) {
                           setState(() {
@@ -367,6 +351,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         resetEmotionSelections();
+                        reset();
                         isTapped4 = !isTapped4;
                         if (isTapped4) {
                           setState(() {
@@ -393,7 +378,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                 )),
                             padding: EdgeInsets.only(bottom: 5),
                             child: Image.asset(
-                              "assets/images/icon1.png",
+                              "assets/images/icon5.png",
                               width: 100,
                             ),
                           ),
@@ -446,33 +431,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                   : Column(
                                       children: [
                                         GestureDetector(
-                                          onTap: () {
-                                            // setState(() {
-                                            //   var value1 =
-                                            //       listComment[selectedEmotion]
-                                            //           .comments![0]
-                                            //           .content;
-                                            //   var id1 =
-                                            //       listComment[selectedEmotion]
-                                            //               .comments?[0]
-                                            //               .id ??
-                                            //           "";
-                                            //   isComment1 = !isComment1;
-                                            //   Map map = {
-                                            //     "id": id1,
-                                            //     "content": value1,
-                                            //   };
-                                            //   if (isComment1) {
-                                            //     if (!selectedOptions
-                                            //         .contains(map)) {
-                                            //       selectedOptions.add(map);
-                                            //     }
-                                            //   } else {
-                                            //     selectedOptions.remove(
-                                            //         map); // Remove the value if it exists
-                                            //   }
-                                            // });
-                                          },
+                                          onTap: () {},
                                           child: Container(
                                             width: double.infinity,
                                             padding: EdgeInsets.all(8.0),
@@ -502,34 +461,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {
-                                            // setState(() {
-                                            //   var value2 =
-                                            //       listComment[selectedEmotion]
-                                            //               .comments?[1]
-                                            //               .content ??
-                                            //           "";
-                                            //   var id2 =
-                                            //       listComment[selectedEmotion]
-                                            //               .comments?[1]
-                                            //               .id ??
-                                            //           "";
-                                            //   isComment2 = !isComment2;
-                                            //   Map map = {
-                                            //     "id": id2,
-                                            //     "content": value2,
-                                            //   };
-                                            //   if (isComment2) {
-                                            //     if (!selectedOptions
-                                            //         .contains(map)) {
-                                            //       selectedOptions.add(map);
-                                            //     }
-                                            //   } else {
-                                            //     selectedOptions.remove(
-                                            //         map); // Remove the value if it exists
-                                            //   }
-                                            // });
-                                          },
+                                          onTap: () {},
                                           child: Container(
                                             width: double.infinity,
                                             padding: EdgeInsets.all(8.0),
@@ -559,34 +491,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {
-                                            // setState(() {
-                                            //   var value3 =
-                                            //       listComment[selectedEmotion]
-                                            //               .comments![2]
-                                            //               .content ??
-                                            //           "";
-                                            //   var id3 =
-                                            //       listComment[selectedEmotion]
-                                            //               .comments?[2]
-                                            //               .id ??
-                                            //           "";
-                                            //   isComment3 = !isComment3;
-                                            //   Map map = {
-                                            //     "id": id3,
-                                            //     "content": value3,
-                                            //   };
-                                            //   if (isComment3) {
-                                            //     if (!selectedOptions
-                                            //         .contains(map)) {
-                                            //       selectedOptions.add(map);
-                                            //     }
-                                            //   } else {
-                                            //     selectedOptions.remove(
-                                            //         map); // Remove the value if it exists
-                                            //   }
-                                            // });
-                                          },
+                                          onTap: () {},
                                           child: Container(
                                             width: double.infinity,
                                             padding: EdgeInsets.all(8.0),
@@ -618,30 +523,6 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                             ),
                                           ),
                                         ),
-                                        // Container(
-                                        //   width: double.infinity,
-                                        //   padding: EdgeInsets.only(left: 8.0),
-                                        //   margin:
-                                        //       EdgeInsets.symmetric(vertical: 8.0),
-                                        //   decoration: BoxDecoration(
-                                        //     border: Border.all(
-                                        //         color: Color.fromRGBO(
-                                        //             47, 179, 178, 1)),
-                                        //     color: Colors.white,
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(16.0),
-                                        //   ),
-                                        //   child: TextField(
-                                        //     controller: commentDifferen,
-                                        //     decoration: InputDecoration(
-                                        //         border: InputBorder.none,
-                                        //         hintText: 'Ý kiến khác...',
-                                        //         hintStyle: TextStyle(
-                                        //           fontSize: 18.0,
-                                        //           color: Colors.black,
-                                        //         )),
-                                        //   ),
-                                        // ),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -664,15 +545,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                             selectedEmotion]
                                                         .comments?[0]
                                                         .id,
-                                                    "content": comment1
-                                                            .text.isEmpty
-                                                        ? {
-                                                            listComment[
-                                                                    selectedEmotion]
-                                                                .comments?[0]
-                                                                .content
-                                                          }
-                                                        : comment1.text,
+                                                    "content": comment1.text,
                                                   },
                                                   {
                                                     "id": comment
@@ -680,15 +553,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                             selectedEmotion]
                                                         .comments?[1]
                                                         .id,
-                                                    "content": comment2
-                                                            .text.isEmpty
-                                                        ? {
-                                                            listComment[
-                                                                    selectedEmotion]
-                                                                .comments?[1]
-                                                                .content
-                                                          }
-                                                        : comment2.text
+                                                    "content": comment2.text
                                                   },
                                                   {
                                                     "id": comment
@@ -696,15 +561,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                             selectedEmotion]
                                                         .comments?[2]
                                                         .id,
-                                                    "content": comment3
-                                                            .text.isEmpty
-                                                        ? {
-                                                            listComment[
-                                                                    selectedEmotion]
-                                                                .comments?[2]
-                                                                .content
-                                                          }
-                                                        : comment3.text
+                                                    "content": comment3.text
                                                   }
                                                 ];
                                               });
@@ -715,8 +572,30 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 commentData,
                                               );
                                               if (res.code == 200) {
-                                                print("ok");
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Thông báo'),
+                                                      content: Text(
+                                                          'Cập nhật thành công.'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('OK'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
                                               }
+                                              comment.listComment.clear();
+                                              await comment.getApi();
                                             },
                                             child: Text(
                                               'Cập nhật thông tin',

@@ -89,7 +89,7 @@ class _SlideState extends State<Slide> {
                     const SizedBox(height: 30),
 
                     Text(
-                      "Chia sẻ trải nghiệm của quý khách",
+                      "Công nghệ đi đầu",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 50,
@@ -97,7 +97,7 @@ class _SlideState extends State<Slide> {
                       ),
                     ),
                     Text(
-                      "tại Nha Khoa Quốc tế Úc Châu",
+                      "Cam kết bền lâu",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 50,

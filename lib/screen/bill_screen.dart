@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
@@ -58,12 +60,29 @@ class _BillScreenState extends State<BillScreen> {
 
     if (_isLoading) {
       return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Center(child: CircularProgressIndicator()),
       );
     }
-
+    Timer(Duration(seconds: 30), () {
+      // Sử dụng Navigator để quay lại màn hình trước
+      Navigator.pop(context);
+    });
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           "HOÁ ĐƠN DỊCH VỤ",
           style: TextStyle(
@@ -72,14 +91,14 @@ class _BillScreenState extends State<BillScreen> {
           ),
         ),
         centerTitle: true, // Canh giữa tiêu đề
-        leading: Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Image.asset(
-            "assets/images/logo_uc.png",
-            fit: BoxFit.contain, // Đảm bảo kích thước ảnh vừa với container
-          ),
-        ),
-        leadingWidth: 100,
+        // leading: Container(
+        //   margin: EdgeInsets.only(top: 20),
+        //   child: Image.asset(
+        //     "assets/images/logo_uc.png",
+        //     fit: BoxFit.contain, // Đảm bảo kích thước ảnh vừa với container
+        //   ),
+        // ),
+        // leadingWidth: 100,
       ),
       body: SingleChildScrollView(
         child: Center(
