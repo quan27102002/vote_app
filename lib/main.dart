@@ -29,10 +29,6 @@ class MyHttpOverrides extends HttpOverrides {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmlldHBoYXBhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGI0NGNjZGUtNGExMC00MDg4LWE3NmMtOTliNGM3Mzk0NTVkIiwicm9sZSI6IkFkbWluIiwiZXhwIjoxNzA4Njc1Njk1LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo4MCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAifQ.GVSA8Zsc4If2E-gs3ASCkLSiHQ_oQOYavTU0WWisKkU";
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('jwt', token);
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }

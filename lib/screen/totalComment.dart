@@ -34,47 +34,53 @@ void initState() {
   exportToChart(widget.timeCreate, widget.timeEnd,
                   widget.selectedOption, widget.index);
 }
-  @override
-  Widget build(BuildContext context) {
-    // Lấy tham số từ route arguments
+ @override
+Widget build(BuildContext context) {
+  // Lấy tham số từ route arguments
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chi tiết các đánh giá'),
-       
-      ),
-      body: ListView(
-        children: [
-          for (var comment in userComments)
-            ListTile(
-              onTap: (){
-  AppFuntion.showDialogError(context, '', onPressButton: () {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Chi tiết các đánh giá'),
+      backgroundColor: Colors.blue, // Đặt màu cho AppBar
+    ),
+    body: ListView.separated(
+      itemCount: userComments.length + otherComments.length,
+      separatorBuilder: (context, index) => Divider(), // Sử dụng Divider() để ngăn cách giữa các hàng
+      itemBuilder: (context, index) {
+        if (index < userComments.length) {
+          var comment = userComments[index];
+          return ListTile(
+            onTap: () {
+             AppFuntion.showDialogError(context, '', onPressButton: () {
          excelFiter(comment['content']);
-        },
-            textButton: "Xem chi tiết",
-            title: comment['content'],
-            description: "Thông tin của những người đánh giá",dialogDismiss: true);
               },
-              title: Text(comment['content']),
-              subtitle: Text('Count: ${comment['count']}'),
-            ),
-          for (var comment in otherComments)
-            ListTile(
-              onTap: (){
-   AppFuntion.showDialogError(context, '', onPressButton: () {
+                  textButton: "Xem chi tiết",
+                  title: comment['content'],
+                  description: "Thông tin của những người đánh giá",
+                  dialogDismiss: true);
+            },
+            title: Text(comment['content']),
+          );
+        } else {
+          var comment = otherComments[index - userComments.length];
+          return ListTile(
+            onTap: () {
+              AppFuntion.showDialogError(context, '', onPressButton: () {
          excelFiter2(comment['content']);
-        },
-            textButton: "Xem chi tiết",
-            title: comment['content'],
-            description: "Thông tin của những người đánh giá",dialogDismiss: true);
               },
-              title: Text(comment['content']),
-              subtitle: Text('Count: ${comment['count']}'),
-            ),
-        ],
-      ),
-    );
-  }
+                  textButton: "Xem chi tiết",
+                  title: comment['content'],
+                  description: "Thông tin của những người đánh giá",
+                  dialogDismiss: true);
+            },
+            title: Text(comment['content']),
+          );
+        }
+      },
+    ),
+  );
+}
+
 
   Future<void> exportToChart(
       String createTime, String timend, String place, int level) async {
@@ -189,11 +195,11 @@ Future<void> excelFiter2(String comment) async {
 
     if (foundComment != null) {
       final Map<String, dynamic> createdBy = foundComment['createdBy'] ?? {};
-      final List<dynamic> userData = createdBy['createdBy'] ?? [];
+     
       final List<Invoice> invoices = [];
 
-      for (var itemData in userData) {
-        final Invoice invoice = Invoice.fromJson(itemData);
+      if(createdBy!={}) {
+        final Invoice invoice = Invoice.fromJson(createdBy);
         invoices.add(invoice);
       }
 
