@@ -90,7 +90,7 @@ class _ExcelState extends State<Excel> {
   }
 
   Duration? executionTime;
-List<HoaDon> hoaDonList = [];
+  List<HoaDon> hoaDonList = [];
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
 
   Future<void> exportToExcel(
@@ -148,31 +148,42 @@ List<HoaDon> hoaDonList = [];
         sheet.getRangeByIndex(1, 16).setText('Comment khác');
 
         // Add data
-       // Add data
-for (int i = 0; i < hoaDonList.length; i++) {
-  sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
-  sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
-  sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
-  sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
-  sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
-  sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
-  sheet.getRangeByIndex(i + 2, 7).setNumber(hoaDonList[i].billCode.toDouble());
-  sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
-sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
-  sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
-  sheet.getRangeByIndex(i + 2, 11).setNumber(hoaDonList[i].amount.toDouble());
-  sheet.getRangeByIndex(i + 2, 12).setNumber(hoaDonList[i].unitPrice.toDouble());
-  sheet.getRangeByIndex(i + 2, 13).setNumber(hoaDonList[i].level.toDouble());
-  sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
-  
-  // Đối với trường comment, bạn cần xử lý danh sách các comment
-  // Bạn có thể sử dụng một phương thức để chuyển đổi danh sách comment thành một chuỗi
-  // Ví dụ:
-  String comments = hoaDonList[i].comments.map((comment) => comment.content).join(", ");
-  sheet.getRangeByIndex(i + 2, 15).setText(comments);
-  
-  sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
-}
+        // Add data
+        for (int i = 0; i < hoaDonList.length; i++) {
+          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
+          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
+          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
+          sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
+          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
+          sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
+          sheet
+              .getRangeByIndex(i + 2, 7)
+              .setNumber(hoaDonList[i].billCode.toDouble());
+          sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
+          sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
+          sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
+          sheet
+              .getRangeByIndex(i + 2, 11)
+              .setNumber(hoaDonList[i].amount.toDouble());
+          sheet
+              .getRangeByIndex(i + 2, 12)
+              .setNumber(hoaDonList[i].unitPrice.toDouble());
+          sheet
+              .getRangeByIndex(i + 2, 13)
+              .setNumber(hoaDonList[i].level.toDouble());
+          sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
+
+          // Đối với trường comment, bạn cần xử lý danh sách các comment
+          // Bạn có thể sử dụng một phương thức để chuyển đổi danh sách comment thành một chuỗi
+          // Ví dụ:
+          String comments = hoaDonList[i]
+              .comments
+              .map((comment) => comment.content)
+              .join(", ");
+          sheet.getRangeByIndex(i + 2, 15).setText(comments);
+
+          sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
+        }
 
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
@@ -193,16 +204,87 @@ sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Tạo tài khoản'),
+                onTap: () {
+                  // Add your logic here for Button 1
+                  Navigator.pushReplacementNamed(context, RouteName.create,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.insert_chart),
+                title: Text('Xem biểu đồ thống kê'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.chart,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Chỉnh sửa comment'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.editComment,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.file_download),
+                title: Text('Xuất file excel'),
+                onTap: () {
+                  // Add your logic here for Button 3
+                  Navigator.pushNamed(context, RouteName.excel);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () async {
+                  // Add your logic here for Button 4
+                  Navigator.pushNamed(context, '/');
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove("jwt");
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                },
+              ),
+            ],
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(children: [
+            Container(
+                height: 300,
+                child: Image.asset(
+                  "assets/images/logo_uc.png",
+                  fit: BoxFit.fill,
+                )),
             Text(
               "Chi tiết đánh giá",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 30,
+                color: Color.fromRGBO(47, 179, 178, 1),
+                fontSize: 25,
               ),
             ),
             SizedBox(
@@ -235,7 +317,7 @@ sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
 
                         ,
                         decoration: InputDecoration(
-prefixIcon: Container(
+                          prefixIcon: Container(
                             margin: const EdgeInsets.only(left: 8, right: 8),
                             child: const ImageIcon(
                               AssetImage('assets/images/calendar.png'),
@@ -361,7 +443,7 @@ prefixIcon: Container(
                         });
                       },
                       decoration: InputDecoration(
-hintText: "Chọn chi nhánh",
+                        hintText: "Chọn chi nhánh",
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         enabledBorder: InputBorder.none,
                       ),
@@ -383,17 +465,6 @@ hintText: "Chọn chi nhánh",
               },
               child: Text("Xem thông tin với excel"),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.remove("jwt");
-                Provider.of<UserProvider>(context, listen: false).logout();
-                Navigator.pushReplacementNamed(context, RouteName.logout,
-                    arguments: false);
-              },
-              child: Text("Thoát"),
-            )
           ]),
         ));
   }

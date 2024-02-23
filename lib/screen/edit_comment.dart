@@ -6,14 +6,13 @@ import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/comment.dart';
 import 'package:vote_app/provider/comment.dart';
+import 'package:vote_app/provider/userProvider.dart';
+import 'package:vote_app/router/router_name.dart';
 
 import 'package:vote_app/screen/end_screen.dart';
 
 class EditCommentScreen extends StatefulWidget {
-  final String userBillId;
-  // const EditCommentScreen({super.key, required this.userBillId});
-  const EditCommentScreen({Key? key, required this.userBillId})
-      : super(key: key);
+  const EditCommentScreen({Key? key}) : super(key: key);
 
   @override
   _EditCommentScreenState createState() => _EditCommentScreenState();
@@ -94,6 +93,72 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     double width = MediaQuery.of(context).size.width;
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Tạo tài khoản'),
+                onTap: () {
+                  // Add your logic here for Button 1
+                  Navigator.pushReplacementNamed(context, RouteName.create,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.insert_chart),
+                title: Text('Xem biểu đồ thống kê'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.chart,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Chỉnh sửa comment'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushReplacementNamed(context, RouteName.editComment,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.file_download),
+                title: Text('Xuất file excel'),
+                onTap: () {
+                  // Add your logic here for Button 3
+                  Navigator.pushNamed(context, RouteName.excel);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () async {
+                  // Add your logic here for Button 4
+                  Navigator.pushNamed(context, RouteName.login);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove("jwt");
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                },
+              ),
+            ],
+          ),
+        ),
         // appBar: AppBar(
         //     backgroundColor: Color.fromRGBO(47, 179, 178, 1),
         //     title: const Center(

@@ -4,6 +4,7 @@ import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/admin_screen.dart';
 import 'package:vote_app/screen/chart.dart';
 import 'package:vote_app/screen/create_user_Screen.dart';
+import 'package:vote_app/screen/edit_comment.dart';
 
 import 'package:vote_app/screen/excel.dart';
 import 'package:vote_app/screen/bill_screen.dart';
@@ -52,6 +53,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => Chart(),
             settings: const RouteSettings(name: RouteName.chart));
+      case RouteName.editComment:
+        return MaterialPageRoute(
+            builder: (context) => EditCommentScreen(),
+            settings: const RouteSettings(name: RouteName.editComment));
     }
     return null;
   }

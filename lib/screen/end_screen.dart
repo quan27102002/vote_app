@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/logout_screen.dart';
 
 class EndScreen extends StatelessWidget {
@@ -6,23 +7,8 @@ class EndScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Chi tiết các đánh giá'),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.arrow_right),
-      //       onPressed: () {
-      //         // Gọi hàm exportToChart khi người dùng nhấn nút refresh
-      //         Navigator.of(context).pushReplacement(
-      //           MaterialPageRoute(
-      //             builder: (context) => LogoutScreen(),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -57,7 +43,47 @@ class EndScreen extends StatelessWidget {
               ),
             ),
           ),
-          Image.asset("assets/images/end.jpg")
+          Image.asset("assets/images/end.jpg"),
+          SizedBox(
+            width: width * 0.3,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                  ),
+              onPressed: () async {
+                Navigator.pushNamed(context, RouteName.intro);
+              },
+              child: Text(
+                "Thoát",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: width * 0.3,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                  ),
+              onPressed: () async {
+                Navigator.pushNamed(context, RouteName.login);
+              },
+              child: Text(
+                "Đăng xuất",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -24,19 +24,25 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // _checkToken(); 
+    // _checkToken();
   }
 
   Future<void> _checkToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('jwt');
+    int? role = prefs.getInt('role');
     if (token != null) {
       // Token tồn tại, chuyển hướng tới màn hình tiếp theo
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => IntroScreen(),
-        ),
-      );
+      if (role == 1) {
+        Navigator.pushReplacementNamed(context, RouteName.create,
+            arguments: false);
+      } else if (role == 2) {
+        Navigator.pushReplacementNamed(context, RouteName.chart,
+            arguments: false);
+      } else {
+        Navigator.pushReplacementNamed(context, RouteName.intro,
+            arguments: false);
+      }
     }
   }
 
@@ -48,14 +54,15 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // double size = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            // width: size / 2,
+            padding: EdgeInsets.symmetric(horizontal: 200),
             alignment: Alignment.center,
             child: Column(children: [
               Container(
@@ -77,7 +84,6 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               Container(
-                
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: Color.fromRGBO(47, 179, 178, 1),
@@ -279,5 +285,5 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 }
-  //  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     token = prefs.getString('jwt');
+//  SharedPreferences prefs = await SharedPreferences.getInstance();
+//     token = prefs.getString('jwt');
