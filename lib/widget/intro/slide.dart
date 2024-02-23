@@ -57,6 +57,7 @@ class _SlideState extends State<Slide> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       // backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
       body: Stack(
@@ -73,6 +74,7 @@ class _SlideState extends State<Slide> {
           //   child: Image.asset("assets/images/logo_uc.png"),
           // ),
           Positioned(
+            // top: 0,
             bottom: 0,
             left: 0,
             right: 0,
@@ -81,12 +83,18 @@ class _SlideState extends State<Slide> {
                   .withOpacity(0.3), // Màu mờ (đen với độ mờ 0.5)
               child: Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 400, // Điều chỉnh kích thước của hình ảnh
+                    SizedBox(
+                      height: height, // Điều chỉnh kích thước của hình ảnh
                     ),
                     const SizedBox(height: 30),
+                    // Row(
+                    //   children: [
+                    //     Image.asset("assets/images/logo_uc.png"),
+                    //     Image.asset("assets/images/logovietphap.png"),
+                    //   ],
+                    // ),
 
                     Text(
                       "Công nghệ đi đầu",

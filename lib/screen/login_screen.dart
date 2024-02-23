@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // _checkToken(); 
+    // _checkToken();
   }
 
   Future<void> _checkToken() async {
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: Column(
@@ -77,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               Container(
-                
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: Color.fromRGBO(47, 179, 178, 1),
@@ -279,5 +278,5 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 }
-  //  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     token = prefs.getString('jwt');
+//  SharedPreferences prefs = await SharedPreferences.getInstance();
+//     token = prefs.getString('jwt');

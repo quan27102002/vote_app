@@ -30,6 +30,7 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+
   runApp(const MyApp());
 }
 
@@ -54,7 +55,6 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           onGenerateRoute: AppRouter.instance.onGenerateRoute,
-          home: EmotionScreen(userBillId: "jgdajashj"),
         ));
   }
 }
