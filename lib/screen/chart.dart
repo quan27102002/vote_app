@@ -214,7 +214,7 @@ class _ChartState extends State<Chart> {
                     arguments: false);
               },
             ),
-            ListTile(
+          role==1?  ListTile(
               leading: Icon(Icons.insert_chart),
               title: Text('Chỉnh sửa comment'),
               onTap: () {
@@ -222,7 +222,7 @@ class _ChartState extends State<Chart> {
                 Navigator.pushReplacementNamed(context, RouteName.editComment,
                     arguments: false);
               },
-            ),
+            ):Container(height: 0,),
             ListTile(
               leading: Icon(Icons.file_download),
               title: Text('Xuất file excel'),

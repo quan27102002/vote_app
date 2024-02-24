@@ -238,7 +238,7 @@ class _ExcelState extends State<Excel> {
                       arguments: false);
                 },
               ),
-              ListTile(
+             role==1? ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Chỉnh sửa comment'),
                 onTap: () {
@@ -246,7 +246,7 @@ class _ExcelState extends State<Excel> {
                   Navigator.pushReplacementNamed(context, RouteName.editComment,
                       arguments: false);
                 },
-              ),
+              ):Container(height: 0,),
               ListTile(
                 leading: Icon(Icons.file_download),
                 title: Text('Xuất file excel'),
@@ -270,202 +270,204 @@ class _ExcelState extends State<Excel> {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(children: [
-            Container(
-                height: 300,
-                child: Image.asset(
-                  "assets/images/logo_uc.png",
-                  fit: BoxFit.fill,
-                )),
-            Text(
-              "Chi tiết đánh giá",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(47, 179, 178, 1),
-                fontSize: 25,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(children: [
+              Container(
+                  height: 300,
+                  child: Image.asset(
+                    "assets/images/logo_uc.png",
+                    fit: BoxFit.fill,
+                  )),
+              Text(
+                "Chi tiết đánh giá",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(47, 179, 178, 1),
+                  fontSize: 25,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      height: 50,
-                      padding: const EdgeInsets.all(0),
-                      decoration: const BoxDecoration(
-                          // borderRadius: BorderRadius.circular(10),
-                          ),
-                      child: TextFormField(
-                        readOnly: true,
-                        onTap: () {
-                          selectDateStart(context);
-                        },
-                        controller: dateStartController,
-                        textInputAction: TextInputAction.newline,
-                        textAlignVertical: TextAlignVertical.bottom,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black26)
-                        // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-
-                        ,
-                        decoration: InputDecoration(
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 8, right: 8),
-                            child: const ImageIcon(
-                              AssetImage('assets/images/calendar.png'),
-                              size: 24,
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        height: 50,
+                        padding: const EdgeInsets.all(0),
+                        decoration: const BoxDecoration(
+                            // borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          labelText: "Chọn ngày bắt đầu",
-                          labelStyle: TextStyle(
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            selectDateStart(context);
+                          },
+                          controller: dateStartController,
+                          textInputAction: TextInputAction.newline,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
-                              color: Colors.black),
-                          prefixIconConstraints:
-                              const BoxConstraints(minWidth: 20, minHeight: 20),
-                          prefixIconColor: Colors.black26,
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFC7C9D9), width: 1),
-                              borderRadius: BorderRadius.circular(12)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0xFFC7C9D9),
-                                width: 1,
+                              color: Colors.black26)
+                          // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+          
+                          ,
+                          decoration: InputDecoration(
+                            prefixIcon: Container(
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              child: const ImageIcon(
+                                AssetImage('assets/images/calendar.png'),
+                                size: 24,
                               ),
-                              borderRadius: BorderRadius.circular(12)),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 1,
-                              color: Color(0xFFC7C9D9),
                             ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                      height: 50,
-                      padding: const EdgeInsets.all(0),
-                      decoration: const BoxDecoration(
-                          // borderRadius: BorderRadius.circular(10),
-                          ),
-                      child: TextFormField(
-                        readOnly: true,
-                        onTap: () {
-                          selectDateEnd(context);
-                        },
-                        controller: dateEndController,
-                        textInputAction: TextInputAction.newline,
-                        textAlignVertical: TextAlignVertical.bottom,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black26)
-// AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-
-                        ,
-                        decoration: InputDecoration(
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 8, right: 8),
-                            child: const ImageIcon(
-                              AssetImage('assets/images/calendar.png'),
-                              size: 24,
+                            labelText: "Chọn ngày bắt đầu",
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black),
+                            prefixIconConstraints:
+                                const BoxConstraints(minWidth: 20, minHeight: 20),
+                            prefixIconColor: Colors.black26,
+                            filled: true,
+                            fillColor: Colors.white,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xFFC7C9D9), width: 1),
+                                borderRadius: BorderRadius.circular(12)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFC7C9D9),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(12)),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: Color(0xFFC7C9D9),
+                              ),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          labelText: "Đến ngày",
-                          labelStyle: TextStyle(
+                        )),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        height: 50,
+                        padding: const EdgeInsets.all(0),
+                        decoration: const BoxDecoration(
+                            // borderRadius: BorderRadius.circular(10),
+                            ),
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            selectDateEnd(context);
+                          },
+                          controller: dateEndController,
+                          textInputAction: TextInputAction.newline,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
-                              color: Colors.black),
-                          prefixIconConstraints:
-                              const BoxConstraints(minWidth: 20, minHeight: 20),
-                          prefixIconColor: Colors.black26,
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFC7C9D9), width: 1),
-                              borderRadius: BorderRadius.circular(12)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0xFFC7C9D9),
-                                width: 1,
+                              color: Colors.black26)
+          // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+          
+                          ,
+                          decoration: InputDecoration(
+                            prefixIcon: Container(
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              child: const ImageIcon(
+                                AssetImage('assets/images/calendar.png'),
+                                size: 24,
                               ),
-                              borderRadius: BorderRadius.circular(12)),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 1,
-                              color: Color(0xFFC7C9D9),
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            labelText: "Đến ngày",
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black),
+                            prefixIconConstraints:
+                                const BoxConstraints(minWidth: 20, minHeight: 20),
+                            prefixIconColor: Colors.black26,
+                            filled: true,
+                            fillColor: Colors.white,
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xFFC7C9D9), width: 1),
+                                borderRadius: BorderRadius.circular(12)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFC7C9D9),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(12)),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: Color(0xFFC7C9D9),
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
+                        )),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              role == 1
+                  ? Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedOption,
+                        items: options.keys.map((String key) {
+                          return DropdownMenuItem<String>(
+                            value: key,
+                            child: Text(options[key]!),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            _selectedOption = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Chọn chi nhánh",
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                          enabledBorder: InputBorder.none,
                         ),
-                      )),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            role == 1
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedOption,
-                      items: options.keys.map((String key) {
-                        return DropdownMenuItem<String>(
-                          value: key,
-                          child: Text(options[key]!),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _selectedOption = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Chọn chi nhánh",
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        enabledBorder: InputBorder.none,
+                        dropdownColor: Colors.white,
                       ),
-                      dropdownColor: Colors.white,
-                    ),
-                  )
-                : Container(),
-            SizedBox(height: 35),
-            ElevatedButton(
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                role = prefs.getInt('role')!;
-                String? codeBr = prefs.getString('codeBr');
-                if (role == 2) {
-                  exportToExcel(timeCreate, timeEnd, codeBr!);
-                } else {
-                  exportToExcel(timeCreate, timeEnd, _selectedOption!);
-                }
-              },
-              child: Text("Xem thông tin với excel"),
-            ),
-          ]),
+                    )
+                  : Container(),
+              SizedBox(height: 35),
+              ElevatedButton(
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  role = prefs.getInt('role')!;
+                  String? codeBr = prefs.getString('codeBr');
+                  if (role == 2) {
+                    exportToExcel(timeCreate, timeEnd, codeBr!);
+                  } else {
+                    exportToExcel(timeCreate, timeEnd, _selectedOption!);
+                  }
+                },
+                child: Text("Xem thông tin với excel"),
+              ),
+            ]),
+          ),
         ));
   }
 }

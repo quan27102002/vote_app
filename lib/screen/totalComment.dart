@@ -86,7 +86,7 @@ _loadRole();
                     arguments: false);
               },
             ),
-            ListTile(
+            role==1?  ListTile(
               leading: Icon(Icons.settings),
               title: Text('Chỉnh sửa comment'),
               onTap: () {
@@ -94,7 +94,7 @@ _loadRole();
                 Navigator.pushReplacementNamed(context, RouteName.editComment,
                     arguments: false);
               },
-            ),
+            ):Container(height: 0,),
             ListTile(
               leading: Icon(Icons.file_download),
               title: Text('Xuất file excel'),
