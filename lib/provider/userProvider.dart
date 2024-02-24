@@ -91,7 +91,7 @@ class UserProvider extends ChangeNotifier {
   // Hàm này sẽ được gọi mỗi 2 giờ để refresh token
   void startTokenRefreshTimer(String? token, String? refreshToken) {
     // Tạo Timer.periodic và gọi hàm refresh token mỗi 2 giờ
-    _refreshTimer = Timer.periodic(Duration(hours: 1), (timer) {
+    _refreshTimer = Timer.periodic(Duration(minutes: 30), (timer) {
       FunctionrefreshToken(token, refreshToken);
     });
   }

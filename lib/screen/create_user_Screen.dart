@@ -151,7 +151,7 @@ class _CreateUserState extends State<CreateUser> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Tên ',
+                 
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 15.0),
@@ -204,7 +204,7 @@ class _CreateUserState extends State<CreateUser> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Email ',
+                  
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 15.0),
@@ -257,7 +257,7 @@ class _CreateUserState extends State<CreateUser> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Tên cơ sở ',
+                   
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 15.0),
@@ -310,7 +310,7 @@ class _CreateUserState extends State<CreateUser> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Mã cơ sở ',
+                    
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 15.0),
@@ -373,7 +373,7 @@ class _CreateUserState extends State<CreateUser> {
                       });
                     },
                     decoration: InputDecoration(
-                      hintText: "Chọn loại tài khoản",
+                  
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                       enabledBorder: InputBorder.none,
                     ),
@@ -413,7 +413,7 @@ class _CreateUserState extends State<CreateUser> {
                           }),
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Password',
+                   
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 15.0),

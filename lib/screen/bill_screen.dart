@@ -218,49 +218,7 @@ class _BillScreenState extends State<BillScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
-                SizedBox(
-                  width: width * 0.3,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
-                        ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context, RouteName.intro);
-                    },
-                    child: Text(
-                      "Không đánh giá",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: width * 0.3,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
-                        ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context, RouteName.login);
-                    },
-                    child: Text(
-                      "Đăng xuất",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+             
               ],
             ),
           ),
