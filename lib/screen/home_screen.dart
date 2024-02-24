@@ -833,7 +833,6 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                             ),
                                           ),
                                         ),
-<<<<<<< HEAD
                                         comment.listComment[selectedEmotion]
                                                     .comments!.length ==
                                                 4
@@ -902,70 +901,6 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 ),
                                               )
                                             : SizedBox(),
-=======
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              var value4 = comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments![3]
-                                                      .content ??
-                                                  "";
-                                              var id4 = comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments?[3]
-                                                      .id ??
-                                                  "";
-                                              isComment4 = !isComment4;
-                                              Map map = {
-                                                "id": id4,
-                                                "content": value4,
-                                              };
-                                              if (isComment4) {
-                                                if (!selectedOptions
-                                                    .contains(map)) {
-                                                  selectedOptions.add(map);
-                                                }
-                                              } else {
-                                                selectedOptions.remove(
-                                                    map); // Remove the value if it exists
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Color.fromRGBO(
-                                                      47, 179, 178, 1)),
-                                              color: isComment3
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: Text(
-                                              comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments?[2]
-                                                      .content ??
-                                                  "",
-                                              style: TextStyle(
-                                                fontSize: 18.0,
-                                                color: isComment3
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
->>>>>>> 885169d (update domain)
                                         Container(
                                           width: double.infinity,
                                           padding: EdgeInsets.only(left: 8.0),
