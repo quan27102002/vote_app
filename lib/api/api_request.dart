@@ -44,7 +44,7 @@ class ApiRequest {
       "refreshToken": refreshToken,
     };
     return await ApiClient().request(
-        url: "$domain/api/v1/auth/user/register",
+        url: "https://10.0.2.2:7257/api/User/refreshtoken",
         data: json.encode(data),
         method: ApiClient.post);
   }

@@ -36,10 +36,17 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
   @override
   void initState() {
     super.initState();
+_loadRole();
     exportToChart(
         widget.timeCreate, widget.timeEnd, widget.selectedOption, widget.index);
   }
-
+  int? role;
+   Future<void> _loadRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      role = prefs.getInt('role')!;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // Lấy tham số từ route arguments
@@ -61,7 +68,7 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
                 ),
               ),
             ),
-            ListTile(
+          role==1?  ListTile(
               leading: Icon(Icons.person_add),
               title: Text('Tạo tài khoản'),
               onTap: () {
@@ -69,7 +76,7 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
                 Navigator.pushReplacementNamed(context, RouteName.create,
                     arguments: false);
               },
-            ),
+            ):Container(),
             ListTile(
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
