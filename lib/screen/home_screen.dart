@@ -111,7 +111,6 @@ class _EmotionScreenState extends State<EmotionScreen> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(top: 50),
               child: Row(
                 children: [
                   Expanded(
@@ -438,7 +437,10 @@ class _EmotionScreenState extends State<EmotionScreen> {
             Positioned(
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.only(right: 30, left: 30),
+                padding: EdgeInsets.only(
+                  right: 30,
+                  left: 30,
+                ),
                 width: width,
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
@@ -447,10 +449,204 @@ class _EmotionScreenState extends State<EmotionScreen> {
                         ? Container()
                         : Column(
                             children: [
-                              comment.listComment[selectedEmotion].comments![0]
-                                          .content ==
-                                      ""
-                                  ? Container()
+                              comment.listComment[selectedEmotion].comments!
+                                          .length ==
+                                      2
+                                  ? Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              var value1 = comment
+                                                  .listComment[selectedEmotion]
+                                                  .comments![0]
+                                                  .content;
+                                              var id1 = comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments?[0]
+                                                      .id ??
+                                                  "";
+                                              isComment1 = !isComment1;
+                                              Map map = {
+                                                "id": id1,
+                                                "content": value1,
+                                              };
+                                              if (isComment1) {
+                                                if (!selectedOptions
+                                                    .contains(map)) {
+                                                  selectedOptions.add(map);
+                                                }
+                                              } else {
+                                                selectedOptions.remove(
+                                                    map); // Remove the value if it exists
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(8.0),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      47, 179, 178, 1)),
+                                              color: isComment1
+                                                  ? Colors.blue
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16.0),
+                                            ),
+                                            child: Text(
+                                              comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments![0]
+                                                      .content ??
+                                                  "",
+                                              style: TextStyle(
+                                                fontSize: 18.0,
+                                                color: isComment1
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              var value2 = comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments?[1]
+                                                      .content ??
+                                                  "";
+                                              var id2 = comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments?[1]
+                                                      .id ??
+                                                  "";
+                                              isComment2 = !isComment2;
+                                              Map map = {
+                                                "id": id2,
+                                                "content": value2,
+                                              };
+                                              if (isComment2) {
+                                                if (!selectedOptions
+                                                    .contains(map)) {
+                                                  selectedOptions.add(map);
+                                                }
+                                              } else {
+                                                selectedOptions.remove(
+                                                    map); // Remove the value if it exists
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(8.0),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      47, 179, 178, 1)),
+                                              color: isComment2
+                                                  ? Colors.blue
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            ),
+                                            child: Text(
+                                              comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments![1]
+                                                      .content ??
+                                                  "",
+                                              style: TextStyle(
+                                                fontSize: 18.0,
+                                                color: isComment2
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Color.fromRGBO(
+                                                    47,
+                                                    179,
+                                                    178,
+                                                    1) // Màu của nút
+                                                ),
+                                            onPressed: () async {
+                                              setState(() {
+                                                if (selectedOptions
+                                                            .isNotEmpty ==
+                                                        true &&
+                                                    commentDifferen
+                                                            .text.isEmpty ==
+                                                        true) {
+                                                  commentType = 0;
+                                                }
+                                                if (selectedOptions.isEmpty ==
+                                                        true &&
+                                                    commentDifferen
+                                                            .text.isNotEmpty ==
+                                                        true) {
+                                                  commentType = 1;
+                                                }
+                                                if (selectedOptions
+                                                            .isNotEmpty ==
+                                                        true &&
+                                                    commentDifferen
+                                                            .text.isNotEmpty ==
+                                                        true) {
+                                                  commentType = 2;
+                                                }
+                                                level = selectedEmotion;
+                                              });
+                                              final res = await ApiRequest
+                                                  .uploadComment(
+                                                widget.userBillId,
+                                                level ?? 0,
+                                                commentType ?? 0,
+                                                selectedOptions,
+                                                commentDifferen.text,
+                                              );
+                                              if (res.code == 200) {
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EndScreen(),
+                                                  ),
+                                                );
+                                                print("ok");
+                                              }
+                                            },
+                                            child: Text(
+                                              'Hoàn thành đánh giá',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    )
                                   : Column(
                                       children: [
                                         GestureDetector(
@@ -637,68 +833,74 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                             ),
                                           ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              var value4 = comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments![3]
-                                                      .content ??
-                                                  "";
-                                              var id4 = comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments?[3]
-                                                      .id ??
-                                                  "";
-                                              isComment4 = !isComment4;
-                                              Map map = {
-                                                "id": id4,
-                                                "content": value4,
-                                              };
-                                              if (isComment4) {
-                                                if (!selectedOptions
-                                                    .contains(map)) {
-                                                  selectedOptions.add(map);
-                                                }
-                                              } else {
-                                                selectedOptions.remove(
-                                                    map); // Remove the value if it exists
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Color.fromRGBO(
-                                                      47, 179, 178, 1)),
-                                              color: isComment3
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                            ),
-                                            child: Text(
-                                              comment
-                                                      .listComment[
-                                                          selectedEmotion]
-                                                      .comments?[2]
-                                                      .content ??
-                                                  "",
-                                              style: TextStyle(
-                                                fontSize: 18.0,
-                                                color: isComment3
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        comment.listComment[selectedEmotion]
+                                                    .comments!.length ==
+                                                4
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    var value4 = comment
+                                                            .listComment[
+                                                                selectedEmotion]
+                                                            .comments![3]
+                                                            .content ??
+                                                        "";
+                                                    var id4 = comment
+                                                            .listComment[
+                                                                selectedEmotion]
+                                                            .comments?[3]
+                                                            .id ??
+                                                        "";
+                                                    isComment4 = !isComment4;
+                                                    Map map = {
+                                                      "id": id4,
+                                                      "content": value4,
+                                                    };
+                                                    if (isComment4) {
+                                                      if (!selectedOptions
+                                                          .contains(map)) {
+                                                        selectedOptions
+                                                            .add(map);
+                                                      }
+                                                    } else {
+                                                      selectedOptions.remove(
+                                                          map); // Remove the value if it exists
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.all(8.0),
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            47, 179, 178, 1)),
+                                                    color: isComment4
+                                                        ? Colors.blue
+                                                        : Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16.0),
+                                                  ),
+                                                  child: Text(
+                                                    comment
+                                                            .listComment[
+                                                                selectedEmotion]
+                                                            .comments?[3]
+                                                            .content ??
+                                                        "",
+                                                    style: TextStyle(
+                                                      fontSize: 18.0,
+                                                      color: isComment4
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox(),
                                         Container(
                                           width: double.infinity,
                                           padding: EdgeInsets.only(left: 8.0),

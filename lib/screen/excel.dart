@@ -96,7 +96,7 @@ class _ExcelState extends State<Excel> {
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
     final stopwatch = Stopwatch()..start();
-    final apiUrl = 'https://10.0.2.2:7257/api/Report/export';
+    final apiUrl = 'http//103.72.99.63/api/Report/export';
     //  'http://103.226.249.65:8081/api/AppService';
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');

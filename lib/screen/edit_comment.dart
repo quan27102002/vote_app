@@ -22,10 +22,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
   TextEditingController comment1 = TextEditingController();
   TextEditingController comment2 = TextEditingController();
   TextEditingController comment3 = TextEditingController();
+  TextEditingController comment4 = TextEditingController();
   void reset() {
     comment1.clear();
     comment2.clear();
     comment3.clear();
+    comment4.clear();
   }
 
   List<Map<String, dynamic>> commentData = [];
@@ -39,6 +41,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
   bool isComment1 = false;
   bool isComment2 = false;
   bool isComment3 = false;
+  bool isComment4 = false;
   TextEditingController commentDifferen = TextEditingController();
   int? level;
   int? commentType;
@@ -59,6 +62,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     isComment1 = false;
     isComment2 = false;
     isComment3 = false;
+    isComment4 = false;
     selectedOptions.clear();
   }
 
@@ -84,21 +88,26 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     double width = MediaQuery.of(context).size.width;
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
-        // appBar: AppBar(
-        //     backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-        //     title: const Center(
-        //       child: Text(
-        //         'Mời bạn đánh giá chất lượng dịch vụ',
-        //         style: TextStyle(
-        //           fontSize: 24,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //     )),
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              "Chỉnh sửa ý kiến đánh giá",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(top: 50),
               child: Row(
                 children: [
                   Expanded(
@@ -434,10 +443,159 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                         ? Container()
                         : Column(
                             children: [
-                              comment.listComment[selectedEmotion].comments![0]
-                                          .content ==
-                                      ""
-                                  ? Container()
+                              comment.listComment[selectedEmotion].comments!
+                                          .length ==
+                                      2
+                                  ? Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(8.0),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      47, 179, 178, 1)),
+                                              borderRadius:
+                                                  BorderRadius.circular(16.0),
+                                            ),
+                                            child: TextField(
+                                              controller: comment1,
+                                              decoration:
+                                                  new InputDecoration.collapsed(
+                                                hintText: comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments![0]
+                                                        .content ??
+                                                    "",
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(8.0),
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      47, 179, 178, 1)),
+                                              borderRadius:
+                                                  BorderRadius.circular(16.0),
+                                            ),
+                                            child: TextField(
+                                              controller: comment2,
+                                              decoration:
+                                                  new InputDecoration.collapsed(
+                                                hintText: comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments![1]
+                                                        .content ??
+                                                    "",
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Color.fromRGBO(
+                                                    47,
+                                                    179,
+                                                    178,
+                                                    1) // Màu của nút
+                                                ),
+                                            onPressed: () async {
+                                              setState(() {
+                                                commentData = [
+                                                  {
+                                                    "id": comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments?[0]
+                                                        .id,
+                                                    "content": comment1.text,
+                                                  },
+                                                  {
+                                                    "id": comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments?[1]
+                                                        .id,
+                                                    "content": comment2.text
+                                                  },
+                                                  {
+                                                    "id": comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments?[2]
+                                                        .id,
+                                                    "content": comment3.text
+                                                  }
+                                                ];
+                                              });
+
+                                              ApiResponse res =
+                                                  await ApiRequest.editComment(
+                                                selectedEmotion,
+                                                commentData,
+                                              );
+                                              if (res.code == 200) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Thông báo'),
+                                                      content: Text(
+                                                          'Cập nhật thành công.'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('OK'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                              comment.listComment.clear();
+                                              await comment.getApi();
+                                            },
+                                            child: Text(
+                                              'Cập nhật thông tin',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    )
                                   : Column(
                                       children: [
                                         GestureDetector(
@@ -533,6 +691,43 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                             ),
                                           ),
                                         ),
+                                        comment.listComment[selectedEmotion]
+                                                    .comments!.length ==
+                                                4
+                                            ? GestureDetector(
+                                                onTap: () {},
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.all(8.0),
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Color.fromRGBO(
+                                                            47, 179, 178, 1)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16.0),
+                                                  ),
+                                                  child: TextField(
+                                                    controller: comment4,
+                                                    decoration:
+                                                        new InputDecoration
+                                                            .collapsed(
+                                                      hintText: comment
+                                                              .listComment[
+                                                                  selectedEmotion]
+                                                              .comments![3]
+                                                              .content ??
+                                                          "",
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontSize: 18.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox(),
                                         SizedBox(
                                           height: 10,
                                         ),

@@ -65,12 +65,24 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.symmetric(horizontal: 200),
             alignment: Alignment.center,
             child: Column(children: [
-              Container(
-                  height: 300,
-                  child: Image.asset(
-                    "assets/images/logo_uc.png",
-                    fit: BoxFit.fill,
-                  )),
+              Row(
+                children: [
+                  Container(
+                    height: 260,
+                    child: Image.asset(
+                      "assets/images/logovietphap.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: Image.asset(
+                      "assets/images/logo_uc.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
