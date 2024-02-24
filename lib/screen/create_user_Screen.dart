@@ -108,12 +108,25 @@ class _CreateUserState extends State<CreateUser> {
         padding: const EdgeInsets.symmetric(horizontal: 150),
         child: Column(
           children: [
-            Container(
-                height: 300,
-                child: Image.asset(
-                  "assets/images/logo_uc.png",
-                  fit: BoxFit.fill,
-                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 260,
+                    child: Image.asset(
+                      "assets/images/logovietphap.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: Image.asset(
+                      "assets/images/logo_uc.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+              ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: [
@@ -132,12 +145,12 @@ class _CreateUserState extends State<CreateUser> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Tên ",
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                         style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(
@@ -181,16 +194,17 @@ class _CreateUserState extends State<CreateUser> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                 ),
+                SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Email ",
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                         style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(
@@ -234,16 +248,17 @@ class _CreateUserState extends State<CreateUser> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                 ),
+                 SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Tên cơ sở ",
                         style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(
@@ -287,16 +302,17 @@ class _CreateUserState extends State<CreateUser> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                 ),
+                 SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Mã cơ sở ",
                         style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(
@@ -340,16 +356,17 @@ class _CreateUserState extends State<CreateUser> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                 ),
+                 SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Loại tài khoản",
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                         style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(
@@ -380,16 +397,17 @@ class _CreateUserState extends State<CreateUser> {
                     dropdownColor: Colors.white,
                   ),
                 ),
+                 SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Mật khẩu của người dùng",
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Color(0xFF848496),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
+                         style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   ],
                 ),
                 Container(

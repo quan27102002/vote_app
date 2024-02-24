@@ -96,7 +96,7 @@ class _ExcelState extends State<Excel> {
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
     final stopwatch = Stopwatch()..start();
-    final apiUrl = 'http//103.72.99.63/api/Report/export';
+    final apiUrl = 'http://103.72.99.63/api/Report/export';
     //  'http://103.226.249.65:8081/api/AppService';
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('jwt');
@@ -274,12 +274,25 @@ class _ExcelState extends State<Excel> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(children: [
-              Container(
-                  height: 300,
-                  child: Image.asset(
-                    "assets/images/logo_uc.png",
-                    fit: BoxFit.fill,
-                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 260,
+                    child: Image.asset(
+                      "assets/images/logovietphap.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: Image.asset(
+                      "assets/images/logo_uc.png",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+              ),
               Text(
                 "Chi tiết đánh giá",
                 style: TextStyle(

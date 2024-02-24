@@ -14,6 +14,24 @@ class _IdBillScreenState extends State<IdBillScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+       
+        centerTitle: true, // Canh giữa tiêu đề
+        // leading: Container(
+        //   margin: EdgeInsets.only(top: 20),
+        //   child: Image.asset(
+        //     "assets/images/logo_uc.png",
+        //     fit: BoxFit.contain, // Đảm bảo kích thước ảnh vừa với container
+        //   ),
+        // ),
+        // leadingWidth: 100,
+      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
