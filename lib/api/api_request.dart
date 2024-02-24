@@ -9,12 +9,15 @@ import 'api_base/api_response.dart';
 import 'package:http/http.dart' as http;
 
 class ApiRequest {
-  static const String domain = "http://103.226.249.65:8081/api/AppService";
-  static const String data = "https://10.0.2.2:7257/api/Comment/getallcomments";
-  static const String billCustomer =
-      "https://10.0.2.2:7257/api/UserBill/create";
-  static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
-  static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
+  static const String dataBill = "http://103.226.249.65:8081/api/AppService";
+  static const String domain = "http://103.72.99.63/api";
+
+  //edit
+  // static const String data = "https://10.0.2.2:7257/api/Comment/getallcomments";
+  // static const String billCustomer =
+  //     "https://10.0.2.2:7257/api/UserBill/create";
+  // static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
+  // static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
 
   //getBillCustomer
   static Future<ApiResponse> getData() async {
@@ -31,7 +34,7 @@ class ApiRequest {
       }
     };
     return await ApiClient().request(
-      url: domain,
+      url: dataBill,
       data: json.encode(data),
       method: ApiClient.post,
     );
@@ -44,7 +47,7 @@ class ApiRequest {
       "refreshToken": refreshToken,
     };
     return await ApiClient().request(
-        url: "$domain/api/v1/auth/user/register",
+        url: "$domain/v1/auth/user/register",
         data: json.encode(data),
         method: ApiClient.post);
   }
@@ -57,7 +60,7 @@ class ApiRequest {
       "branchCode": place
     };
     return await ApiClient().request(
-        url: "https://10.0.2.2:7257/api/Report/filter",
+        url: "$domain/Report/filter",
         data: json.encode(data),
         method: ApiClient.post);
   }
@@ -71,7 +74,7 @@ class ApiRequest {
       "level": level
     };
     return await ApiClient().request(
-        url: "https://10.0.2.2:7257/api/Report/filterlevel",
+        url: "$domain/Report/filterlevel",
         data: json.encode(data),
         method: ApiClient.post);
   }
@@ -108,7 +111,7 @@ class ApiRequest {
       }
     ];
     return await ApiClient().request(
-      url: billCustomer,
+      url: "$domain/UserBill/create",
       data: json.encode(data),
       method: ApiClient.post,
     );
@@ -127,7 +130,7 @@ class ApiRequest {
       "branchAddress": place
     };
     return await ApiClient().request(
-      url: "https://10.0.2.2:7257/api/User/register",
+      url: "$domain/User/register",
       data: json.encode(data),
     );
   }
@@ -162,7 +165,7 @@ class ApiRequest {
       "otherComment": otherComment,
     };
     return await ApiClient().request(
-      url: comment,
+      url: "$domain/Comment/submit",
       data: json.encode(data),
       method: ApiClient.post,
     );
@@ -178,7 +181,7 @@ class ApiRequest {
       "comments": comments,
     };
     return await ApiClient().request(
-      url: edit,
+      url: "$domain/Comment/edit",
       data: json.encode(data),
       method: ApiClient.post,
     );
@@ -187,7 +190,7 @@ class ApiRequest {
 //getListEmotion_Comment
   static Future<ApiResponse> getComment() async {
     return await ApiClient().request(
-      url: data,
+      url: "$domain/Comment/getallcomments",
       method: ApiClient.get,
     );
   }
@@ -199,7 +202,7 @@ class ApiRequest {
     final data = {"username": username, "password": passWord};
 
     return ApiClient().request(
-      url: "https://10.0.2.2:7257/api/User/login",
+      url: "$domain/User/login",
       data: json.encode(data),
     );
   }
