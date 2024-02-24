@@ -30,7 +30,7 @@ namespace VPBE.Domain.Attributes
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var param = context.ActionArguments.SingleOrDefault(p => p.Value is IFormFileCollection);
-            _logger.Info("Executing upload files");
+            _logger.Info($"Executing upload files, param: {param}");
             if (param.Value is not IFormFileCollection files || files.Count == 0)
             {
                 _logger.Error($"File is null");

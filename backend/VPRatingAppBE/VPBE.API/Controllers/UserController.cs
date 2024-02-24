@@ -160,6 +160,37 @@ namespace VPBE.API.Controllers
                 throw;
             }
         }
+        [HttpPost("get")]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<UserDtos>))]
+        [Role(new UserRole[] { UserRole.Admin })]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _dBRepository.Context.Set<UserEntity>().Select(a => new UserDtos
+                {
+                    DisplayName = a.DisplayName,
+                    Email = a.Email,
+                    UserName = a.UserName,
+                    Code = a.Code,
+                    BranchAddress = a.BranchAddress,
+                    UserRole = a.UserRole == UserRole.Admin ? "Admin" : a.UserRole == UserRole.Member ? "Quản lý cơ sở" : a.UserRole == UserRole.Guest ? "Thiết bị" : "",
+                    UserStatus = a.UserStatus == UserStatus.Active ? "Đang hoạt động" : "Không hoạt động",
+                    CreatedOn = a.CreatedOn
+                }).ToListAsync();
+
+                return Ok(new CustomResponse
+                {
+                    Result = users,
+                    Message = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Error getting all users. {ex.Message}", ex);
+                throw;
+            }
+        }
 
         [HttpPost("refreshtoken")]
         [AllowAnonymous]
@@ -177,6 +208,7 @@ namespace VPBE.API.Controllers
                 }
                 if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
                 {
+                    logger.Error("Token expired header is empty");
                     return NoContent();
                 }
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);

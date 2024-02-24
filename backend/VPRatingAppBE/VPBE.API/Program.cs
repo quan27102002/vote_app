@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ namespace VPBE.API
             try
             {
                 var builder = WebApplication.CreateBuilder(args);
+
+                builder.Configuration.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true);
                 var services = builder.Services;
                 var host = builder.Host;
 
@@ -31,6 +34,14 @@ namespace VPBE.API
                 services.AddHttpContextAccessor();
                 services.AddCors();
                 services.AddEndpointsApiExplorer();
+
+                services.AddMemoryCache();
+                services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+                services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+                services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+                services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+                services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
                 services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "VP API", Version = "v1" });
@@ -124,6 +135,7 @@ namespace VPBE.API
                 app.UseMiddleware<RequestTimingMiddleware>();
                 app.UseRouting();
 
+                app.UseIpRateLimiting();
                 if (app.Environment.IsDevelopment())
                 {
                     app.UseCors();
