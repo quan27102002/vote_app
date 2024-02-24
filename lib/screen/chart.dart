@@ -178,6 +178,7 @@ class _ChartState extends State<Chart> {
   int touchedGroupIndex = -1;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -195,7 +196,7 @@ class _ChartState extends State<Chart> {
                 ),
               ),
             ),
-            ListTile(
+          role==1?  ListTile(
               leading: Icon(Icons.person_add),
               title: Text('Tạo tài khoản'),
               onTap: () {
@@ -203,7 +204,7 @@ class _ChartState extends State<Chart> {
                 Navigator.pushReplacementNamed(context, RouteName.create,
                     arguments: false);
               },
-            ),
+            ):Container(height:0),
             ListTile(
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
@@ -573,7 +574,7 @@ class _ChartState extends State<Chart> {
                                       data.value,
                                     );
                                   }).toList(),
-                                  maxY: 20,
+                                  maxY:getMaxValue(dataList)+10,
                                   barTouchData: BarTouchData(
                                     enabled: true,
                                     handleBuiltInTouches: false,
@@ -694,15 +695,15 @@ class _ChartState extends State<Chart> {
     );
   }
 
-  double getMaxValue() {
-    double max = 0;
-    for (double value in percentages) {
-      if (value > max) {
-        max = value;
-      }
+double getMaxValue(List<_BarData> dataList) {
+  double max = 0;
+  for (_BarData data in dataList) {
+    if (data.value > max) {
+      max = data.value;
     }
-    return max;
   }
+  return max;
+}
 }
 
 class _BarData {

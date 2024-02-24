@@ -220,7 +220,7 @@ class _ExcelState extends State<Excel> {
                   ),
                 ),
               ),
-              ListTile(
+             role==1? ListTile(
                 leading: Icon(Icons.person_add),
                 title: Text('Tạo tài khoản'),
                 onTap: () {
@@ -228,7 +228,7 @@ class _ExcelState extends State<Excel> {
                   Navigator.pushReplacementNamed(context, RouteName.create,
                       arguments: false);
                 },
-              ),
+              ):Container(height: 0,),
               ListTile(
                 leading: Icon(Icons.insert_chart),
                 title: Text('Xem biểu đồ thống kê'),
