@@ -52,7 +52,7 @@ class ApiClient {
   void printResponseHeaders(Response response) {
     print('Headers of the response:');
     response.headers.forEach((key, values) {
-      print('$key: $values');
+      // print('$key: $values');
     });
   }
   Future<ApiResponse> request(
@@ -139,7 +139,7 @@ class ApiClient {
           await prefs.setString('jwtrefresh', newRefreshToken);
         }
       }
-      print("test 2");
+      // print("test 2");
       // Sau khi refreshToken hoàn tất, thực hiện lại yêu cầu ban đầu
       // Lưu ý: Đây là một ví dụ đơn giản, cách xử lý này có thể cần điều chỉnh tùy thuộc vào logic cụ thể của ứng dụng bạn
       return request(url: url, method: method, data: data, deviceId: deviceId, token: token, formData: formData, queryParameters: queryParameters, getFullResponse: getFullResponse);
