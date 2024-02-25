@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,33 +18,33 @@ using VPBE.Domain.Entities;
 namespace VPBE.Domain.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-    public class RoleAttribute : Attribute, IAuthorizationFilter
+    public class RoleAttribute : Attribute, IAsyncActionFilter
     {
         private readonly IList<UserRole> _roles;
-        private readonly bool _isAdmin;
 
         public RoleAttribute(UserRole[] roles)
         {
             _roles = roles ?? new UserRole[] { };
         }
 
-        public RoleAttribute(UserRole[] roles, bool isAdmin)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            _roles = roles ?? new UserRole[] { };
-            _isAdmin = isAdmin;
-        }
-        public RoleAttribute(UserRole[] roles, string resource)
-        {
-            
-        }
-
-        public void OnAuthorization(AuthorizationFilterContext context)
-        {
-            var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-            if (allowAnonymous || _isAdmin)
+            if (context?.HttpContext.User.Identity != null && !context.HttpContext.User.Identity.IsAuthenticated)
             {
+                context.Result = new ObjectResult(new APIResponseDto
+                {
+                    Code = StatusCodes.Status401Unauthorized,
+                    Status = (int)HttpStatusCode.Unauthorized,
+                });
                 return;
             }
+            //var currentPath = context.HttpContext.Request.Path.ToString().ToLower();
+            //if (currentPath.Contains("/api"))
+            //{
+            //    var accessToken = await context.HttpContext.GetTokenAsync("access_token");
+
+            //}
+
             var userRole = context.HttpContext.User.FindFirstValue(ClaimTypes.Role);
             var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
             if (_roles.Any() && !_roles.Contains(role))
@@ -52,7 +54,10 @@ namespace VPBE.Domain.Attributes
                     Code = StatusCodes.Status403Forbidden,
                     Status = (int)HttpStatusCode.Forbidden,
                 });
+                return;
             }
+
+            await next();
         }
     }
 }
