@@ -1,19 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using VPBE.Domain.Logging;
 using VPBE.Service.Interfaces;
 
 namespace VPBE.Service.Implementations
 {
     public class TokenService : ITokenService
     {
+        private static readonly Logger _logger = LoggerHelper.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly IConfiguration _configuration;
 
         public TokenService(IConfiguration configuration)
@@ -52,7 +57,7 @@ namespace VPBE.Service.Implementations
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidIssuer = _configuration["JwtAuthentication:ValidIssuer"],
                 ValidAudience = _configuration["JwtAuthentication:ValidAudience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtAuthentication:SecretKey"])),
@@ -62,6 +67,7 @@ namespace VPBE.Service.Implementations
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
+                _logger.Error("Failed to validate token");
                 throw new SecurityTokenException("Invalid token");
             }
             return principal;

@@ -39,16 +39,10 @@ namespace VPBE.Domain.Attributes
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-            if (allowAnonymous)
+            if (allowAnonymous || _isAdmin)
             {
                 return;
             }
-
-            if (_isAdmin)
-            {
-                return;
-            }
-
             var userRole = context.HttpContext.User.FindFirstValue(ClaimTypes.Role);
             var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
             if (_roles.Any() && !_roles.Contains(role))
