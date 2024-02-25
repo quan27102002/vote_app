@@ -90,6 +90,7 @@ namespace VPBE.API
                         ValidIssuer = builder.Configuration["JwtAuthentication:ValidIssuer"],
                         ValidAudience = builder.Configuration["JwtAuthentication:ValidAudience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuthentication:SecretKey"])),
+                        ClockSkew = TimeSpan.FromSeconds(10)
                     };
                     options.Events = new JwtBearerEvents
                     {
@@ -165,7 +166,6 @@ namespace VPBE.API
             finally
             {
                 logger.Info($"Application is running at {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
-                logger.Info($"Application is running at {Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}");
                 LogManager.Shutdown();
             }
 

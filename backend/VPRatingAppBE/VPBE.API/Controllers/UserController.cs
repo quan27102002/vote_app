@@ -191,6 +191,40 @@ namespace VPBE.API.Controllers
                 throw;
             }
         }
+        [HttpPost("signout")]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
+        public async Task<IActionResult> SignOut()
+        {
+            try
+            {
+                var userId = Guid.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.Id == userId && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    logger.Error($"User not found, id: {userId}");
+                    return NoContent();
+                }
+                var newTokenBlacklist = new TokenBlacklistEntity
+                {
+                    AccessToken = user.AccessToken,
+                    RefreshToken = user.RefreshToken,
+                    CreatedOn = DateTime.Now,
+                };
+                await _dBRepository.AddAsync(newTokenBlacklist);
+                await _dBRepository.SaveChangesAsync();
+
+                return Ok(new CustomResponse
+                {
+                    Result = true,
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Error logging out. Message: {ex.Message}", ex);
+                throw;
+            }
+        }
 
         [HttpPost("refreshtoken")]
         [AllowAnonymous]
@@ -206,22 +240,35 @@ namespace VPBE.API.Controllers
                     logger.Error("Invalid token");
                     return BadRequest();
                 }
-                // if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
-                // {
-                //     logger.Error("Token expired header is empty");
-                //     return NoContent();
-                // }
+                //if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
+                //{
+                //    logger.Error("Token expired header is empty");
+                //    return BadRequest();
+                //}
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
                 var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.UserName == username && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();
-                if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpireTime <= DateTime.Now)
+                if (user is null)
                 {
                     logger.Error($"Invalid user data");
                     return Ok(new CustomResponse
                     {
-                        Result = false,
+                        Result = null,
                         Message = "Invalid user data"
                     });
+                }
+                var isInBlacklist = await _dBRepository.Context.Set<TokenBlacklistEntity>().AnyAsync(a => a.AccessToken == request.AccessToken && a.RefreshToken == request.RefreshToken);
+                if (isInBlacklist)
+                {
+                    user.RefreshToken = string.Empty;
+                    user.RefreshTokenExpireTime = default;
+                    user.AccessToken = string.Empty;
+                    user.AccessTokenExpireTime = default;
+
+                    await _dBRepository.SaveChangesAsync();
+                    logger.Error($"Untrusted refresh token request.");
+                    return NoContent();
+
                 }
                 var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims.ToList());
                 var newRefreshToken = _tokenService.GenerateRefreshToken();
@@ -229,6 +276,13 @@ namespace VPBE.API.Controllers
                 user.RefreshToken = newRefreshToken;
                 user.AccessTokenExpireTime = DateTime.Now.AddMinutes(Double.Parse(_configuration["JwtAuthentication:AccessTokenExpireInMinutes"]));
                 user.RefreshTokenExpireTime = DateTime.Now.AddMinutes(Double.Parse(_configuration["JwtAuthentication:RefreshTokenExpireInMinutes"]));
+                var newTokenBlacklist = new TokenBlacklistEntity
+                {
+                    AccessToken = request.AccessToken,
+                    RefreshToken = request.RefreshToken,
+                    CreatedOn = DateTime.Now,
+                };
+                await _dBRepository.AddAsync(newTokenBlacklist);
                 await _dBRepository.SaveChangesAsync();
 
                 return Ok(new CustomResponse
