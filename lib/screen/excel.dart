@@ -204,6 +204,12 @@ class _ExcelState extends State<Excel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Danh mục các tài khoản trên hệ thống", style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ))),),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -281,7 +287,7 @@ class _ExcelState extends State<Excel> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
             child: Column(children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -302,14 +308,7 @@ class _ExcelState extends State<Excel> {
                   ),
                 ],
               ),
-              Text(
-                "Chi tiết đánh giá",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(47, 179, 178, 1),
-                  fontSize: 25,
-                ),
-              ),
+          
               SizedBox(
                 height: 20,
               ),

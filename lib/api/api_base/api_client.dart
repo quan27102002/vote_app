@@ -55,6 +55,7 @@ class ApiClient {
       // print('$key: $values');
     });
   }
+  
   Future<ApiResponse> request(
       {required String url,
       String method = post,
@@ -119,31 +120,19 @@ class ApiClient {
             : !AppFunctions.isNullEmpty(e.response?.statusMessage as Object)
                 ? e.response?.statusMessage
                 : e.message;
-                 Headers? headers = e.response!.headers;
-
-    // Kiểm tra xem header có tồn tại và chứa trường 'is-token-expired' không
-    if (headers != null && headers.value('is-token-expired') == '[true]') {
-      // Gọi hàm refreshToken ở đây
-      print("test4");
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('jwt');
-      String? refreshToken = prefs.getString('jwtrefresh');
-      if (token != null && refreshToken != null) {
-        ApiResponse res = await ApiRequest.getTokenByRefreshtoken(token, refreshToken);
-        if (res.result == true) {
-          String newToken = res.data["accessToken"];
-          String newRefreshToken = res.data["refreshToken"];
-          print(newToken);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('jwt', newToken);
-          await prefs.setString('jwtrefresh', newRefreshToken);
+        if (e.response?.statusCode == 401) {
+          await _refreshToken();
+          // Retry the request after refreshing the token
+          return await request(
+              url: url,
+              method: method,
+              data: data,
+              deviceId: deviceId,
+              token: token,
+              formData: formData,
+              queryParameters: queryParameters,
+              getFullResponse: getFullResponse);
         }
-      }
-      // print("test 2");
-      // Sau khi refreshToken hoàn tất, thực hiện lại yêu cầu ban đầu
-      // Lưu ý: Đây là một ví dụ đơn giản, cách xử lý này có thể cần điều chỉnh tùy thuộc vào logic cụ thể của ứng dụng bạn
-      return request(url: url, method: method, data: data, deviceId: deviceId, token: token, formData: formData, queryParameters: queryParameters, getFullResponse: getFullResponse);
-    }
         return ApiResponse(
           data: null,
           message: errorMessage,
@@ -172,6 +161,23 @@ class ApiClient {
       return false;
     } else {
       return i >= 200 && i <= 299;
+    }
+  }
+
+  Future<void> _refreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('jwt');
+    String? refreshToken = prefs.getString('jwtrefresh');
+    if (token != null && refreshToken != null) {
+      ApiResponse res =
+          await ApiRequest.getTokenByRefreshtoken(token, refreshToken);
+      if (res.result == true) {
+        String newToken = res.data["accessToken"];
+        String newRefreshToken = res.data["refreshToken"];
+        print(newToken);
+        await prefs.setString('jwt', newToken);
+        await prefs.setString('jwtrefresh', newRefreshToken);
+      }
     }
   }
 }
