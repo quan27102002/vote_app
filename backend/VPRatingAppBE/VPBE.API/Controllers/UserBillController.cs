@@ -29,13 +29,13 @@ namespace VPBE.API.Controllers
             {
                 logger.Debug("Start creating user bill");
                 var billCodes = request.Select(a => a.BillCode).ToList();
-                var isExisted = await _dBRepository.Context.Set<UserBillEntity>().AnyAsync(a => !a.IsDeleted && billCodes.Contains(a.BillCode));
-                if (isExisted)
+                var existedBills = await _dBRepository.Context.Set<UserBillEntity>().Where(a => !a.IsDeleted && billCodes.Contains(a.BillCode)).ToListAsync();
+                if (existedBills.Any())
                 {
-                    logger.Error("User bill already existed");
+                    logger.Debug($"User bill already existed, skip creating.");
                     return Ok(new CustomResponse
                     {
-                        Result = false,
+                        Result = existedBills.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Doctor = a.Doctor, Service = JsonConvert.DeserializeObject<BranchService>(a.Service) }).ToList(),
                         Message = "User bill already existed"
                     });
                 }
