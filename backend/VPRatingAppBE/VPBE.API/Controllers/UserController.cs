@@ -206,11 +206,11 @@ namespace VPBE.API.Controllers
                     logger.Error("Invalid token");
                     return BadRequest();
                 }
-                if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
-                {
-                    logger.Error("Token expired header is empty");
-                    return NoContent();
-                }
+                // if (!HttpContext.Response.Headers["IS-TOKEN-EXPIRED"].Any())
+                // {
+                //     logger.Error("Token expired header is empty");
+                //     return NoContent();
+                // }
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
                 var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.UserName == username && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();

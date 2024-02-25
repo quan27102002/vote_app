@@ -65,8 +65,8 @@ class UserProvider extends ChangeNotifier {
       await prefs.setString('jwtrefresh', refreshToken);
 
       // Gọi hàm refresh token một lần sau khi nhận được token mới
-      FunctionrefreshToken(token, refreshToken);
-      startTokenRefreshTimer(token, refreshToken);
+      // FunctionrefreshToken(token, refreshToken);
+      // startTokenRefreshTimer(token, refreshToken);
 
       User user = User.fromJson(res.data);
       modelLogIn = user;

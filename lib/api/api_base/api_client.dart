@@ -171,7 +171,7 @@ class ApiClient {
     if (token != null && refreshToken != null) {
       ApiResponse res =
           await ApiRequest.getTokenByRefreshtoken(token, refreshToken);
-      if (res.result == true) {
+      if (res.code == 200) {
         String newToken = res.data["accessToken"];
         String newRefreshToken = res.data["refreshToken"];
         print(newToken);

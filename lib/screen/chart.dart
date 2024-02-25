@@ -63,6 +63,8 @@ class _ChartState extends State<Chart> {
     'UB': 'Nha khoa Úc Châu 3',
     'HD': 'Cơ sở Hà Đông'
   };
+   int touchedIndex = 0;
+
   late String timeCreate;
   late String timeEnd;
   TextEditingController dateStartController = TextEditingController();
@@ -95,8 +97,6 @@ class _ChartState extends State<Chart> {
       dateEndController.text = formatDated;
     }
   }
-
-  // Danh sách màu sắc tương ứng với mỗi phần
   List<Color> colors = [
     Colors.red,
     Colors.orange,
@@ -493,23 +493,8 @@ class _ChartState extends State<Chart> {
                     )
                   : Container(),
 
-              SizedBox(height: 35),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     print(timeEnd + timeCreate);
-              //     print(_selectedOption);
-              //     SharedPreferences prefs =
-              //         await SharedPreferences.getInstance();
-              //     role = prefs.getInt('role')!;
-              //     String? codeBr = prefs.getString('codeBr');
-              //     if (role == 2) {
-              //       exportToChart(timeCreate, timeEnd, codeBr!);
-              //     } else {
-              //       exportToChart(timeCreate, timeEnd, _selectedOption!);
-              //     }
-              //   },
-              //   child: Text("Xem thông tin với biểu đồ"),
-              // ),
+              SizedBox(height: 15),
+          
                 SizedBox(
                 height: 50,
                 width: 200,
@@ -542,16 +527,21 @@ class _ChartState extends State<Chart> {
                   ),
                 ),
               ),
+                SizedBox(height: 15),
               checktype == '1'
                   ? role == 1 && _selectedOption == ''
                       ? Container(
                           width: 300,
                           height: 300,
                           child: PieChart(
+                            
                             PieChartData(
+                              
                               sections: List.generate(
+                                
                                 percentages.length,
                                 (index) => PieChartSectionData(
+                                    showTitle:false,
                                   color: colors[index],
                                   value: percentages[index],
                                   title: emotions[index],
@@ -692,6 +682,7 @@ class _ChartState extends State<Chart> {
                     ),
               SizedBox(height: 20),
               // Danh sách chú thích
+              checktype == '1'  ? 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(
@@ -744,7 +735,30 @@ class _ChartState extends State<Chart> {
                     ),
                   ),
                 ),
-              ),
+              )
+              
+              :Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(
+                  emotionsType.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 20,
+                            height: 20,
+                            color: colorsType[index],
+                          ),
+                          SizedBox(width: 8),
+                          Text(emotionsType[index]),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+          //  :Container(),
             ],
           ),
         ),

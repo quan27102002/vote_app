@@ -113,6 +113,12 @@ class _CreateUserState extends State<CreateUser> {
           ],
         ),
       ),
+        appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Tạo tài khoản", style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ))),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 150),
         child: Column(
@@ -137,20 +143,9 @@ class _CreateUserState extends State<CreateUser> {
                 ],
               ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: [
-                Text(
-                  "Tạo tài khoản ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(47, 179, 178, 1),
-                    fontSize: 25,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Tên ",

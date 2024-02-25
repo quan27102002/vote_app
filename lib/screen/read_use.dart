@@ -121,35 +121,43 @@ class _ReadUserState extends State<ReadUser> {
                   final user = _users[index];
                   return GestureDetector(
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Thông tin người dùng'),
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Tên người dùng: ${user.userName}'),
-                                Text('Email: ${user.email}'),
-                                Text('Mã cơ sở: ${user.code}'),
-                                Text('Địa chỉ chi nhánh: ${user.branchAddress}'),
-                                Text('Vai trò: ${user.userRole}'),
-                                Text('Trạng thái: ${user.userStatus}'),
-                                Text('Ngày tạo: ${user.createdOn.toString()}'),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Đóng'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                    showDialog(
+  context: context,
+  builder: (context) {
+    return AlertDialog(
+      contentPadding: EdgeInsets.all(20),
+      title: Text(
+        'Thông tin người dùng',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBoldText('Tên người dùng: ', user.userName),
+          _buildBoldText('Email: ', user.email),
+          _buildBoldText('Mã cơ sở: ', user.code),
+          _buildBoldText('Địa chỉ chi nhánh: ', user.branchAddress),
+          _buildBoldText('Vai trò: ', user.userRole),
+          _buildBoldText('Trạng thái: ', user.userStatus),
+          _buildBoldText('Ngày tạo: ', user.createdOn.toString()),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            'Đóng',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+      ],
+    );
+  },
+);
+
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -187,4 +195,21 @@ class _ReadUserState extends State<ReadUser> {
             ),
     );
   }
+  Widget _buildBoldText(String title, String content) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: RichText(
+      text: TextSpan(
+        style: TextStyle(fontSize: 20, color: Colors.black),
+        children: [
+          TextSpan(
+            text: title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: content),
+        ],
+      ),
+    ),
+  );
+}
 }
