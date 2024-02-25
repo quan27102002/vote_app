@@ -220,6 +220,15 @@ class _ExcelState extends State<Excel> {
                   ),
                 ),
               ),
+                 role==1?   ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Xem các tài khoản'),
+              onTap: () {
+                // Add your logic here for Button 1
+                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                    arguments: false);
+              },
+            ):Container(height: 0,),
              role==1? ListTile(
                 leading: Icon(Icons.person_add),
                 title: Text('Tạo tài khoản'),

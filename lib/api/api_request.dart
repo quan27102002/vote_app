@@ -194,6 +194,12 @@ class ApiRequest {
       method: ApiClient.get,
     );
   }
+   static Future<ApiResponse> getUser() async {
+    return await ApiClient().request(
+      url: "$domain/User/get",
+    );
+  }
+  
 
   static Future<ApiResponse> userLogin(
     String username,

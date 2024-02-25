@@ -13,6 +13,7 @@ import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 import 'package:vote_app/screen/login_screen.dart';
 import 'package:vote_app/screen/logout_screen.dart';
+import 'package:vote_app/screen/read_use.dart';
 import 'package:vote_app/screen/totalComment.dart';
 
 class AppRouter {
@@ -39,7 +40,7 @@ class AppRouter {
             settings: const RouteSettings(name: RouteName.idbillcustomer));
       case RouteName.logout:
         return MaterialPageRoute(
-            builder: (context) => LogoutScreen(),
+            builder: (context) => const LogoutScreen(),
             settings: const RouteSettings(name: RouteName.logout));
       case RouteName.login:
         return MaterialPageRoute(
@@ -47,16 +48,20 @@ class AppRouter {
             settings: const RouteSettings(name: RouteName.login));
       case RouteName.excel:
         return MaterialPageRoute(
-            builder: (context) => Excel(),
+            builder: (context) => const Excel(),
             settings: const RouteSettings(name: RouteName.excel));
       case RouteName.chart:
         return MaterialPageRoute(
-            builder: (context) => Chart(),
+            builder: (context) => const Chart(),
             settings: const RouteSettings(name: RouteName.chart));
       case RouteName.editComment:
         return MaterialPageRoute(
-            builder: (context) => EditCommentScreen(),
+            builder: (context) => const EditCommentScreen(),
             settings: const RouteSettings(name: RouteName.editComment));
+        case RouteName.readuser:
+        return MaterialPageRoute(
+            builder: (context) => const ReadUser(),
+            settings: const RouteSettings(name: RouteName.readuser));
     }
     return null;
   }

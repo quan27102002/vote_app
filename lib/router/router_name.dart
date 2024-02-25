@@ -14,4 +14,5 @@ class RouteName {
   static const chart = '/chart';
   static const totalComment = '/totalComment';
   static const editComment = '/editComment';
+    static const readuser = '/readuser';
 }
