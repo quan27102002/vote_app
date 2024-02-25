@@ -106,73 +106,82 @@ class _ReadUserState extends State<ReadUser> {
           ],
         ),
       ),
+      appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Danh mục các tài khoản trên hệ thống", style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ))),),
       body: _users != null
-          ? ListView.builder(
-              itemCount: _users.length,
-              itemBuilder: (context, index) {
-                final user = _users[index];
-                return GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Thông tin người dùng'),
-                          content: Column(
+          ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 30),
+            child: ListView.builder(
+                itemCount: _users.length,
+                itemBuilder: (context, index) {
+                  final user = _users[index];
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Thông tin người dùng'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Tên người dùng: ${user.userName}'),
+                                Text('Email: ${user.email}'),
+                                Text('Mã cơ sở: ${user.code}'),
+                                Text('Địa chỉ chi nhánh: ${user.branchAddress}'),
+                                Text('Vai trò: ${user.userRole}'),
+                                Text('Trạng thái: ${user.userStatus}'),
+                                Text('Ngày tạo: ${user.createdOn.toString()}'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Đóng'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.person, color: Colors.blue),
+                          SizedBox(width: 10.0),
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('Tên người dùng: ${user.userName}'),
-                              Text('Email: ${user.email}'),
-                              Text('Mã cơ sở: ${user.code}'),
-                              Text('Địa chỉ chi nhánh: ${user.branchAddress}'),
-                              Text('Vai trò: ${user.userRole}'),
-                              Text('Trạng thái: ${user.userStatus}'),
-                              Text('Ngày tạo: ${user.createdOn.toString()}'),
+                              Text(
+                                user.userName,
+                                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                user.branchAddress,
+                                style: TextStyle(fontSize: 12.0),
+                              ),
                             ],
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Đóng'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10.0),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.person, color: Colors.blue),
-                        SizedBox(width: 10.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.userName,
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              user.branchAddress,
-                              style: TextStyle(fontSize: 12.0),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
+                  );
+                },
+              ),
+          )
           : Center(
               child: CircularProgressIndicator(),
             ),

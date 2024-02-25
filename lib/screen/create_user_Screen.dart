@@ -473,8 +473,33 @@ class _CreateUserState extends State<CreateUser> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
+                // ElevatedButton(
+                //   onPressed: () {
+                //     CreateUser(
+                //         _nameController.text,
+                //         _emailController.text,
+                //         _branchController.text,
+                //         _branchCodeController.text,
+                //         _passwordController.text,
+                //         int.parse(_selectedOption!));
+                //   },
+                //   child: Text(
+                //     "Tạo tài khoản",
+                //     style: TextStyle(
+                //       fontSize: 20,
+                //     ),
+                //   ),
+                // ),
+                  SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                      ),
                   onPressed: () {
+                    // login();
                     CreateUser(
                         _nameController.text,
                         _emailController.text,
@@ -486,10 +511,13 @@ class _CreateUserState extends State<CreateUser> {
                   child: Text(
                     "Tạo tài khoản",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+              )
               ]),
             ),
           ],

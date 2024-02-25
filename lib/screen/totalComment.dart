@@ -126,46 +126,58 @@ _loadRole();
           ],
         ),
       ),
-      appBar: AppBar(
-        title: Text('Chi tiết các đánh giá'),
-        backgroundColor: Colors.blue, // Đặt màu cho AppBar
-      ),
-      body: ListView.separated(
-        itemCount: userComments.length + otherComments.length,
-        separatorBuilder: (context, index) =>
-            Divider(), // Sử dụng Divider() để ngăn cách giữa các hàng
-        itemBuilder: (context, index) {
-          if (index < userComments.length) {
-            var comment = userComments[index];
-            return ListTile(
-              onTap: () {
-                AppFuntion.showDialogError(context, '', onPressButton: () {
-                  excelFiter(comment['content']);
-                },
-                    textButton: "Xem chi tiết",
-                    title: comment['content'],
-                    description: "Thông tin của những người đánh giá",
-                    dialogDismiss: true);
-              },
-              title: Text(comment['content']),
-            );
-          } else {
-            var comment = otherComments[index - userComments.length];
-            return ListTile(
-              onTap: () {
-                AppFuntion.showDialogError(context, '', onPressButton: () {
-                  excelFiter2(comment['content']);
-                },
-                    textButton: "Xem chi tiết",
-                    title: comment['content'],
-                    description: "Thông tin của những người đánh giá",
-                    dialogDismiss: true);
-              },
-              title: Text(comment['content']),
-            );
-          }
-        },
-      ),
+    appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Chi tiết các đánh giá", style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ))),),
+   body: Padding(
+     padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
+     child: ListView.builder(
+       itemCount: userComments.length + otherComments.length,
+       itemBuilder: (context, index) {
+      var comment;
+      var onTapFunction;
+      if (index < userComments.length) {
+        comment = userComments[index];
+        onTapFunction = () {
+          AppFuntion.showDialogError(context, '', onPressButton: () {
+            excelFiter(comment['content']);
+          },
+          textButton: "Xem chi tiết",
+          title:"Thông tin của những người đánh giá" ,
+          description: comment['content'],
+          dialogDismiss: true);
+        };
+      } else {
+        comment = otherComments[index - userComments.length];
+        onTapFunction = () {
+          AppFuntion.showDialogError(context, '', onPressButton: () {
+            excelFiter2(comment['content']);
+          },
+          textButton: "Xem chi tiết",
+          title: "Thông tin của những người đánh giá",
+          description: comment['content'],
+          dialogDismiss: true);
+        };
+      }
+     
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.grey[200], // Màu nền của mỗi dòng
+          borderRadius: BorderRadius.circular(10.0), // Bo góc
+        ),
+        child: ListTile(
+          onTap: onTapFunction,
+          title: Text(comment['content']),
+        ),
+      );
+       },
+     ),
+   ),
+
     );
   }
 

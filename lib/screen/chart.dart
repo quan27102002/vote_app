@@ -254,17 +254,12 @@ class _ChartState extends State<Chart> {
           ],
         ),
       ),
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-          'Chi tiết các đánh giá',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(47, 179, 178, 1),
-            fontSize: 25,
-          ),
-        )),
-      ),
+   appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Biểu đồ thống kê", style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ))),),
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: SingleChildScrollView(
         child: Padding(
@@ -350,8 +345,8 @@ class _ChartState extends State<Chart> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: Colors.black26)
+                                  fontSize: 18,
+                                  color: Colors.black)
                               // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
                         
                               ,
@@ -366,23 +361,23 @@ class _ChartState extends State<Chart> {
                              
                                 prefixIconConstraints: const BoxConstraints(
                                     minWidth: 20, minHeight: 20),
-                                prefixIconColor: Colors.black26,
+                                prefixIconColor: Colors.black,
                                 filled: true,
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Color(0xFFC7C9D9), width: 1),
                                     borderRadius: BorderRadius.circular(12)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFC7C9D9),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12)),
+                                // focusedBorder: OutlineInputBorder(
+                                //     borderSide: const BorderSide(
+                                //       color: Color(0xFFC7C9D9),
+                                //       width: 1,
+                                //     ),
+                                //     borderRadius: BorderRadius.circular(12)),
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     width: 1,
-                                    color: Color(0xFFC7C9D9),
+                                    color: Colors.white,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -428,8 +423,8 @@ class _ChartState extends State<Chart> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: Colors.black26)
+                                  fontSize: 18,
+                                  color: Colors.black)
                               // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
                         
                               ,
@@ -445,26 +440,21 @@ class _ChartState extends State<Chart> {
                               
                                 prefixIconConstraints: const BoxConstraints(
                                     minWidth: 20, minHeight: 20),
-                                prefixIconColor: Colors.black26,
+                                prefixIconColor: Colors.black,
                                 filled: true,
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Color(0xFFC7C9D9), width: 1),
                                     borderRadius: BorderRadius.circular(12)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFC7C9D9),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12)),
-                                border: OutlineInputBorder(
+                                    border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     width: 1,
-                                    color: Color(0xFFC7C9D9),
+                                    color: Colors.white,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
+                             
                               ),
                             )),
                       ],
@@ -504,9 +494,33 @@ class _ChartState extends State<Chart> {
                   : Container(),
 
               SizedBox(height: 35),
-              ElevatedButton(
-                onPressed: () async {
-                  print(timeEnd + timeCreate);
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     print(timeEnd + timeCreate);
+              //     print(_selectedOption);
+              //     SharedPreferences prefs =
+              //         await SharedPreferences.getInstance();
+              //     role = prefs.getInt('role')!;
+              //     String? codeBr = prefs.getString('codeBr');
+              //     if (role == 2) {
+              //       exportToChart(timeCreate, timeEnd, codeBr!);
+              //     } else {
+              //       exportToChart(timeCreate, timeEnd, _selectedOption!);
+              //     }
+              //   },
+              //   child: Text("Xem thông tin với biểu đồ"),
+              // ),
+                SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                      ),
+                  onPressed: () async {
+                    // login();
+                       print(timeEnd + timeCreate);
                   print(_selectedOption);
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
@@ -517,8 +531,16 @@ class _ChartState extends State<Chart> {
                   } else {
                     exportToChart(timeCreate, timeEnd, _selectedOption!);
                   }
-                },
-                child: Text("Xem thông tin với biểu đồ"),
+                  },
+                  child: Text(
+                    "Xem biểu đồ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
               checktype == '1'
                   ? role == 1 && _selectedOption == ''
@@ -659,6 +681,7 @@ class _ChartState extends State<Chart> {
                           sections: List.generate(
                             percentagesType.length,
                             (index) => PieChartSectionData(
+                              showTitle:false,
                               color: colorsType[index],
                               value: percentagesType[index],
                               title: emotionsType[index],
