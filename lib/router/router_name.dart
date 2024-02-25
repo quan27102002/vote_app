@@ -1,6 +1,18 @@
 class RouteName {
-  static const login = '/x';
-  static const intro = '/';
+  static const login = '/';
+  static const intro = '/intro';
   static const home = '/home';
-  static const item = '/y';
+  static const emotion = '/emotion';
+  static const create = '/create';
+  static const admin = '/admin';
+  static const logout = '/logout';
+  static const item = '/item';
+  static const billcustomer = '/billcustomer';
+  static const idbillcustomer = '/idbillcustomer';
+  static const endscreen = '/endscreen';
+  static const excel = '/excel';
+  static const chart = '/chart';
+  static const totalComment = '/totalComment';
+  static const editComment = '/editComment';
+    static const readuser = '/readuser';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:vote_app/widget/intro/slide.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -11,6 +12,6 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Slide();
+    return Slide();
   }
 }

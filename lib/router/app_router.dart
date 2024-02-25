@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+
 import 'package:vote_app/router/router_name.dart';
+import 'package:vote_app/screen/admin_screen.dart';
+import 'package:vote_app/screen/chart.dart';
+import 'package:vote_app/screen/create_user_Screen.dart';
+import 'package:vote_app/screen/edit_comment.dart';
+
+import 'package:vote_app/screen/excel.dart';
+import 'package:vote_app/screen/bill_screen.dart';
 import 'package:vote_app/screen/home_screen.dart';
+import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
-import 'package:vote_app/test/add_item.dart';
+import 'package:vote_app/screen/login_screen.dart';
+import 'package:vote_app/screen/logout_screen.dart';
+import 'package:vote_app/screen/read_use.dart';
+import 'package:vote_app/screen/totalComment.dart';
 
 class AppRouter {
   AppRouter._instance();
@@ -13,14 +25,43 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const IntroScreen(),
             settings: const RouteSettings(name: RouteName.intro));
-      case RouteName.home:
+      case RouteName.admin:
         return MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-            settings: const RouteSettings(name: RouteName.home));
-      // case RouteName.item:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const AddItem(),
-      //       settings: const RouteSettings(name: RouteName.item));
+            builder: (context) => const Admin(),
+            settings: const RouteSettings(name: RouteName.admin));
+
+      case RouteName.create:
+        return MaterialPageRoute(
+            builder: (context) => const CreateUser(),
+            settings: const RouteSettings(name: RouteName.create));
+      case RouteName.idbillcustomer:
+        return MaterialPageRoute(
+            builder: (context) => const IdBillScreen(),
+            settings: const RouteSettings(name: RouteName.idbillcustomer));
+      case RouteName.logout:
+        return MaterialPageRoute(
+            builder: (context) => const LogoutScreen(),
+            settings: const RouteSettings(name: RouteName.logout));
+      case RouteName.login:
+        return MaterialPageRoute(
+            builder: (context) => LoginPage(),
+            settings: const RouteSettings(name: RouteName.login));
+      case RouteName.excel:
+        return MaterialPageRoute(
+            builder: (context) => const Excel(),
+            settings: const RouteSettings(name: RouteName.excel));
+      case RouteName.chart:
+        return MaterialPageRoute(
+            builder: (context) => const Chart(),
+            settings: const RouteSettings(name: RouteName.chart));
+      case RouteName.editComment:
+        return MaterialPageRoute(
+            builder: (context) => const EditCommentScreen(),
+            settings: const RouteSettings(name: RouteName.editComment));
+        case RouteName.readuser:
+        return MaterialPageRoute(
+            builder: (context) => const ReadUser(),
+            settings: const RouteSettings(name: RouteName.readuser));
     }
     return null;
   }
