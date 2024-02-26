@@ -91,7 +91,7 @@ namespace VPBE.API.Controllers
                         string imagepath = path + "\\" + item;
                         if (System.IO.File.Exists(imagepath))
                         {
-                            string url = host + "/assets/images/" + item;
+                            string url = host + "/assets/images/" + item.Replace(" ", "%20");
                             imageUrls.Add(url);
                         }
                     }
