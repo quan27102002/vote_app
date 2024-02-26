@@ -278,7 +278,7 @@ class _ExcelState extends State<Excel> {
                   Navigator.pushNamed(context, '/');
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.remove("jwt");
+                
                   Provider.of<UserProvider>(context, listen: false).logout();
                 },
               ),

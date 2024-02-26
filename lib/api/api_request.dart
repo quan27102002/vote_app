@@ -199,6 +199,12 @@ class ApiRequest {
       url: "$domain/User/get",
     );
   }
+
+     static Future<ApiResponse> logOut() async {
+    return await ApiClient().request(
+      url: "$domain/User/signout",
+    );
+  }
   
 
   static Future<ApiResponse> userLogin(

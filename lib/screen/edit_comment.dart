@@ -155,7 +155,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 // Add your logic here for Button 4
                 Navigator.pushNamed(context, RouteName.login);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.remove("jwt");
+             
                 Provider.of<UserProvider>(context, listen: false).logout();
               },
             ),

@@ -79,7 +79,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+      ApiResponse res =
+          await ApiRequest.logOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(res.code==200){
+      print(res);
+    }
     await prefs.remove('role'); // Xóa thông tin về vai trò của người dùng
     await prefs.remove('codeBr'); // Xóa mã chi nhánh
     await prefs.remove('jwt'); // Xóa mã token

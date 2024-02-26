@@ -99,7 +99,7 @@ class _ReadUserState extends State<ReadUser> {
               onTap: () async {
                 Navigator.pushNamed(context, RouteName.login);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.remove("jwt");
+           
                 Provider.of<UserProvider>(context, listen: false).logout();
               },
             ),
