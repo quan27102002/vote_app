@@ -12,8 +12,7 @@ class ApiRequest {
   static const String billCustomer =
       "https://10.0.2.2:7257/api/UserBill/create";
   static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
-  static const String uploadImage =
-      "https://10.0.2.2:7257/api/Image/bulkupload";
+  static const String uploadImage = "http://103.72.99.63/api/Image/bulkupload";
   static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
 
   //getBillCustomer
@@ -122,19 +121,21 @@ class ApiRequest {
   static Future<ApiResponse> uploadImages({
     required List<XFile> imagePaths,
   }) async {
-    List<MultipartFile> files = [];
-    for (XFile imagePath in imagePaths) {
-      files.add(await MultipartFile.fromFile(imagePath.path,
-          filename: imagePath.path.split('/').last));
-    }
+    FormData formData = FormData();
 
-    FormData formData = FormData.fromMap({
-      for (int i = 0; i < files.length; i++) 'formFiles': files[i],
-    });
+    for (int i = 0; i < imagePaths.length; i++) {
+      String fileName = imagePaths[i].path.split('/').last;
+      MultipartFile file = await MultipartFile.fromFile(
+        imagePaths[i].path,
+        filename: fileName,
+        contentType: MediaType('image', 'jpg'),
+      );
+      formData.files.add(MapEntry('formFiles', file));
+    }
 
     return await ApiClient().request(
       url: uploadImage,
-      file: formData,
+      formData: formData,
       method: ApiClient.post,
     );
   }
