@@ -188,11 +188,13 @@ class _ChartState extends State<Chart> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Điều khiển',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
@@ -224,7 +226,7 @@ class _ChartState extends State<Chart> {
               },
             ),
           role==1?  ListTile(
-              leading: Icon(Icons.insert_chart),
+              leading: Icon(Icons.settings),
               title: Text('Chỉnh sửa comment'),
               onTap: () {
                 // Add your logic here for Button 2
@@ -551,7 +553,7 @@ class _ChartState extends State<Chart> {
                           ),
                         )
                       : Container(
-                          height: 400,
+                          height: 300,
                           child: Padding(
                             padding: const EdgeInsets.all(24),
                             child: AspectRatio(

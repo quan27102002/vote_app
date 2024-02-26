@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                        mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 260,
+                        height: 290,
                         child: Image.asset(
                           "assets/images/logovietphap.png",
                           fit: BoxFit.fill,
@@ -263,12 +263,12 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       if (context.mounted) {
         hideLoading();
-        AppFuntion.showDialogError(context, getUserData, onPressButton: () {
+        AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();
         },
             textButton: "Đăng nhập lại",
             title: "Thông báo lỗi",
-            description: "Vui lòng nhập lại tên và mật khẩu");
+            description: "\t\t"+getUserData+"\nVui lòng nhập lại tên mật khẩu"??"Vui lòng nhập lại tên và mật khẩu");
       }
     }
   }

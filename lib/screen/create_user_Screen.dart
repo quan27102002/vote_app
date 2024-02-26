@@ -47,11 +47,13 @@ class _CreateUserState extends State<CreateUser> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Điều khiển',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
@@ -127,7 +129,7 @@ class _CreateUserState extends State<CreateUser> {
               mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 260,
+                    height: 290,
                     child: Image.asset(
                       "assets/images/logovietphap.png",
                       fit: BoxFit.fill,

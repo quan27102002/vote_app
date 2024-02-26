@@ -60,11 +60,13 @@ _loadRole();
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Điều khiển',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
@@ -90,7 +92,7 @@ _loadRole();
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
-                // Add your logic here for Button 2
+            
                 Navigator.pushReplacementNamed(context, RouteName.chart,
                     arguments: false);
               },
@@ -99,7 +101,7 @@ _loadRole();
               leading: Icon(Icons.settings),
               title: Text('Chỉnh sửa comment'),
               onTap: () {
-                // Add your logic here for Button 2
+               
                 Navigator.pushReplacementNamed(context, RouteName.editComment,
                     arguments: false);
               },

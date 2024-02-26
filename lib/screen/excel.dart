@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
+import 'package:vote_app/api/api_base/api_response.dart';
+import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/model_excel.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
@@ -95,34 +97,21 @@ class _ExcelState extends State<Excel> {
 
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
+         ApiResponse res = await ApiRequest.exportExcel(
+     timeStart,
+      timeEnd,
+      place
+    );
     final stopwatch = Stopwatch()..start();
-    final apiUrl = 'http://103.72.99.63/api/Report/export';
-    //  'http://103.226.249.65:8081/api/AppService';
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('jwt');
-    print(token);
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-      'accept': '*/*',
-    };
-    final requestBody = {
-      "startTime": "$timeStart",
-      // "2024-02-14T19:17:19.453Z",
-      "endTime": "$timeEnd",
-      // "2024-02-14T19:17:19.453Z",
-      "branchCode": "$place"
-    };
+  
 
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: headers,
-        body: json.encode(requestBody),
-      );
+    
+    
 
-      if (response.statusCode == 200) {
-        List responseObject = json.decode(response.body)["data"];
+      if (res.code == 200) {
+        List<dynamic> responseObject=res.data;
+        print(res.data);
+        print(responseObject);
         for (var itemData in responseObject) {
           hoaDonList.add(HoaDon.fromJson(itemData));
         }
@@ -147,8 +136,6 @@ class _ExcelState extends State<Excel> {
         sheet.getRangeByIndex(1, 15).setText('Comment');
         sheet.getRangeByIndex(1, 16).setText('Comment khác');
 
-        // Add data
-        // Add data
         for (int i = 0; i < hoaDonList.length; i++) {
           sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
           sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
@@ -172,10 +159,6 @@ class _ExcelState extends State<Excel> {
               .getRangeByIndex(i + 2, 13)
               .setNumber(hoaDonList[i].level.toDouble());
           sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
-
-          // Đối với trường comment, bạn cần xử lý danh sách các comment
-          // Bạn có thể sử dụng một phương thức để chuyển đổi danh sách comment thành một chuỗi
-          // Ví dụ:
           String comments = hoaDonList[i]
               .comments
               .map((comment) => comment.content)
@@ -192,14 +175,8 @@ class _ExcelState extends State<Excel> {
         setState(() {
           executionTime = stopwatch.elapsed;
         });
-      } else {
-        print('Lỗi: ${response.statusCode}');
-        print(response.body);
       }
-    } catch (e) {
-      print('Lỗi kết nối: $e');
-    }
-  }
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -218,11 +195,13 @@ class _ExcelState extends State<Excel> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text(
-                  'Điều khiển',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                child: Center(
+                  child: Text(
+                    'Điều khiển',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
               ),
@@ -293,7 +272,7 @@ class _ExcelState extends State<Excel> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 260,
+                    height: 290,
                     child: Image.asset(
                       "assets/images/logovietphap.png",
                       fit: BoxFit.fill,
@@ -334,7 +313,7 @@ class _ExcelState extends State<Excel> {
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
-                              color: Colors.black26)
+                              color: Colors.black)
                           // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
           
                           ,
@@ -353,23 +332,23 @@ class _ExcelState extends State<Excel> {
                                 color: Colors.black),
                             prefixIconConstraints:
                                 const BoxConstraints(minWidth: 20, minHeight: 20),
-                            prefixIconColor: Colors.black26,
+                            prefixIconColor: Colors.black,
                             filled: true,
                             fillColor: Colors.white,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color(0xFFC7C9D9), width: 1),
+                                    color: Color.fromARGB(255, 28, 28, 29), width: 1),
                                 borderRadius: BorderRadius.circular(12)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                  color: Color(0xFFC7C9D9),
+                                  color: Color.fromARGB(255, 28, 28, 29),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(12)),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 width: 1,
-                                color: Color(0xFFC7C9D9),
+                                color: Color.fromARGB(255, 28, 28, 29),
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -399,7 +378,7 @@ class _ExcelState extends State<Excel> {
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
-                              color: Colors.black26)
+                              color: Colors.black)
           // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
           
                           ,
@@ -418,23 +397,23 @@ class _ExcelState extends State<Excel> {
                                 color: Colors.black),
                             prefixIconConstraints:
                                 const BoxConstraints(minWidth: 20, minHeight: 20),
-                            prefixIconColor: Colors.black26,
+                            prefixIconColor: Colors.black,
                             filled: true,
                             fillColor: Colors.white,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                    color: Color(0xFFC7C9D9), width: 1),
+                                    color: Color.fromARGB(255, 28, 28, 29), width: 1),
                                 borderRadius: BorderRadius.circular(12)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
-                                  color: Color(0xFFC7C9D9),
+                                  color: Color.fromARGB(255, 28, 28, 29),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(12)),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 width: 1,
-                                color: Color(0xFFC7C9D9),
+                                color: Color.fromARGB(255, 28, 28, 29),
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),

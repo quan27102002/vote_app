@@ -64,7 +64,18 @@ class ApiRequest {
         data: json.encode(data),
         method: ApiClient.post);
   }
-
+  static Future<ApiResponse> exportExcel(
+      String createTime, String timend, String place) async {
+    Map data = {
+      "startTime": createTime,
+      "endTime": timend,
+      "branchCode": place
+    };
+    return await ApiClient().request(
+        url: "$domain/Report/export",
+        data: json.encode(data),
+        method: ApiClient.post);
+  }
   static Future<ApiResponse> getfilterTotalComment(
       String createTime, String timend, String place, int level) async {
     Map data = {

@@ -96,11 +96,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Điều khiển',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
