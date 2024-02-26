@@ -129,7 +129,7 @@ class ApiRequest {
     }
 
     FormData formData = FormData.fromMap({
-      for (int i = 0; i < files.length; i++) 'file$i': files[i],
+      for (int i = 0; i < files.length; i++) 'formFiles': files[i],
     });
 
     return await ApiClient().request(
