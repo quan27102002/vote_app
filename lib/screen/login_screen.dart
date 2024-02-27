@@ -211,8 +211,8 @@ class _LoginPageState extends State<LoginPage> {
                               Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                           ),
                       onPressed: () {
-                        // login();
-                        logIn(usernameController.text, passwordController.text);
+                        if(usernameController.text.trim().isNotEmpty&& passwordController.text.trim().isNotEmpty){
+                        logIn(usernameController.text, passwordController.text);}
                       },
                       child: Text(
                         "Đăng nhập",

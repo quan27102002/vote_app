@@ -1,7 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -73,30 +72,30 @@ class ApiClient {
         code: 2106,
       );
     }
-    if (url == "") {
-      AppFunctions.log('!!!!!!EMPTY URL!!!!!! - data: $data');
+    if (url.isEmpty) {
+      print('!!!!!!EMPTY URL!!!!!! - data: $data');
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('jwt');
-    Map<String, dynamic> headerMap = (token != null && token != '')
-        ? {'Authorization': "Bearer $token", 'deviceId': deviceId}
+    Map<String, dynamic> headerMap = (token != null && token.isNotEmpty)
+        ? {'Authorization': 'Bearer $token', 'deviceId': deviceId}
         : {'deviceId': deviceId};
-    headerMap.putIfAbsent("accept", () => "*/*");
-    // print(headerMap);
-    Response response;
+    headerMap.putIfAbsent("accept", () => "/");
+    print(headerMap);
     try {
-      response = await _dio.request(url,
-          data: formData != null
-              ? FormData.fromMap(formData)
-              : data ?? jsonEncode({}),
-          options: Options(
-              method: method,
-              sendTimeout: const Duration(milliseconds: 60000),
-              receiveTimeout: const Duration(milliseconds: 60000),
-              headers: headerMap,
-              contentType: formData != null ? 'multipart/form-data' : null),
-          queryParameters: queryParameters);
-      print(response);
+      Response response = await _dio.request(
+        url,
+        data: formData ?? data ?? jsonEncode({}),
+        options: Options(
+          method: method,
+          sendTimeout: const Duration(milliseconds: 60000),
+          receiveTimeout: const Duration(milliseconds: 60000),
+          headers: headerMap,
+          contentType:
+              formData != null ? 'multipart/form-data' : contentTypeJson,
+        ),
+        queryParameters: queryParameters,
+      );
       if (_isSuccessful(response.statusCode)) {
         var apiResponse = ApiResponse.fromJson(response.data);
         apiResponse.message =
@@ -107,20 +106,23 @@ class ApiClient {
         printResponseHeaders(response);
         if (getFullResponse) apiResponse.dioResponse = response;
         return apiResponse;
+      } else {
+        return ApiResponse(
+          data: null,
+          message: 'Request was not successful',
+          code: response.statusCode,
+        );
       }
-    } on DioException catch (e) {
-      // Sentry.captureException(e);
+    } on DioError catch (e) {
+      String errorMessage;
       if (e.response != null) {
-        // e.response.data có thể trả về _InternalLinkedHashMap hoặc 1 kiểu nào đó (String), tạm thời check thủ công theo runtimeType
-        String? errorMessage = e.response?.data != null &&
+        errorMessage = e.response!.data != null &&
                 e.response!.data.runtimeType.toString().contains('Map') &&
-                !AppFunctions.isNullEmpty(e.response?.data['message'] ??
-                    "Lỗi ${e.response?.statusCode}")
-            ? e.response?.data['message']
-            : !AppFunctions.isNullEmpty(e.response?.statusMessage as Object)
-                ? e.response?.statusMessage
-                : e.message;
-        if (e.response?.statusCode == 401) {
+                e.response!.data['message'] != null
+            ? e.response!.data['message']
+            : e.response!.statusMessage ?? 'Unknown error occurred';
+ //chỗ này t thêm           
+ if (e.response?.statusCode == 401) {
           await _refreshToken();
           // Retry the request after refreshing the token
           return await request(
@@ -138,22 +140,25 @@ class ApiClient {
           message: errorMessage,
           code: e.response?.statusCode,
         );
-      }
-      if (e.error is SocketException) {
+// đến đay thôi
+      } else if (e.error is SocketException) {
         SocketException socketException = e.error as SocketException;
-        return ApiResponse(
-          data: null,
-          message: socketException.osError?.message ?? "",
-          code: socketException.osError?.errorCode ?? 0,
-        );
+        errorMessage = socketException.osError?.message ?? "Socket Exception";
+      } else {
+        errorMessage = e.error.toString();
       }
       return ApiResponse(
         data: null,
-        message: e.error != null ? e.error.toString() : "",
+        message: errorMessage,
+        code: -9999,
+      );
+    } catch (e) {
+      return ApiResponse(
+        data: null,
+        message: e.toString(),
         code: -9999,
       );
     }
-    throw ('Request NOT successful');
   }
 
   bool _isSuccessful(int? i) {

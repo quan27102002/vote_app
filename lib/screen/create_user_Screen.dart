@@ -27,6 +27,26 @@ class _CreateUserState extends State<CreateUser> {
     3: 'Khách hàng',
   };
   bool _isObscure3 = true;
+String? validateInputs(
+  String name,
+  String email,
+  String branch,
+  String branchCode,
+  String password,
+  int? selectedOption,
+) {
+  if (name.isEmpty || email.isEmpty || branch.isEmpty || branchCode.isEmpty || password.isEmpty || selectedOption == null) {
+    return 'Vui lòng điền đầy đủ thông tin';
+  }
+
+  // Kiểm tra email có chứa ký tự '@' không
+  if (!email.contains('@')) {
+    return 'Email phải chứa ký tự "@"';
+  }
+
+  // Trả về null nếu không có lỗi
+  return null;
+}
 
   bool visible = false;
 
@@ -496,14 +516,27 @@ class _CreateUserState extends State<CreateUser> {
                           Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                       ),
                   onPressed: () {
-                    // login();
-                    CreateUser(
-                        _nameController.text,
-                        _emailController.text,
-                        _branchController.text,
-                        _branchCodeController.text,
-                        _passwordController.text,
-                        int.parse(_selectedOption!));
+                    
+                  String? validateResult = validateInputs(
+  _nameController.text,
+  _emailController.text,
+  _branchController.text,
+  _branchCodeController.text,
+  _passwordController.text,
+  int.parse(_selectedOption!),
+);
+if (validateResult != null) {
+} else {
+  CreateUser(
+    _nameController.text,
+    _emailController.text,
+    _branchController.text,
+    _branchCodeController.text,
+    _passwordController.text,
+    int.parse(_selectedOption!),
+  );
+}
+
                   },
                   child: Text(
                     "Tạo tài khoản",
@@ -521,6 +554,7 @@ class _CreateUserState extends State<CreateUser> {
         ),
       ),
     );
+    
   }
 
   Future<void> CreateUser(String name, String email, String place,
