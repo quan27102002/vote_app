@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
+import 'package:vote_app/provider/userProvider.dart';
+import 'package:vote_app/router/router_name.dart';
 
 class Slide extends StatefulWidget {
   const Slide({Key? key}) : super(key: key);
@@ -86,6 +89,39 @@ class _SlideState extends State<Slide> {
   Widget build(BuildContext context) {
     return Consumer<ImagesProvider>(builder: (context, image, child) {
       return Scaffold(
+        drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+                ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Đăng xuất'),
+              onTap: () async {
+                // Add your logic here for Button 4
+          
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+             await   Provider.of<UserProvider>(context, listen: false).logout();
+                 await prefs.remove('jwt'); 
+               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+              },
+            ),
+          ],
+        ),
+      ),
         // backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
         body: Stack(
           children: [

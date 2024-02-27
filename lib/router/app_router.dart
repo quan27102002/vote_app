@@ -13,6 +13,7 @@ import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 import 'package:vote_app/screen/login_screen.dart';
 import 'package:vote_app/screen/logout_screen.dart';
+import 'package:vote_app/screen/media_screen.dart';
 import 'package:vote_app/screen/read_use.dart';
 import 'package:vote_app/screen/totalComment.dart';
 
@@ -62,6 +63,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const ReadUser(),
             settings: const RouteSettings(name: RouteName.readuser));
+              case RouteName.editMedia:
+        return MaterialPageRoute(
+            builder: (context) => const MediaScreen(),
+            settings: const RouteSettings(name: RouteName.editMedia));
     }
     return null;
   }

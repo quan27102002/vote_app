@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/bill_customer.dart';
 import 'package:intl/intl.dart';
 import 'package:vote_app/model/id_bill_customer.dart';
+import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/widget/row_in_card_product.dart';
@@ -92,14 +94,40 @@ class _BillScreenState extends State<BillScreen> {
           ),
         ),
         centerTitle: true, // Canh giữa tiêu đề
-        // leading: Container(
-        //   margin: EdgeInsets.only(top: 20),
-        //   child: Image.asset(
-        //     "assets/images/logo_uc.png",
-        //     fit: BoxFit.contain, // Đảm bảo kích thước ảnh vừa với container
-        //   ),
-        // ),
-        // leadingWidth: 100,
+   
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+                ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Đăng xuất'),
+              onTap: () async {
+                // Add your logic here for Button 4
+          
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+             await   Provider.of<UserProvider>(context, listen: false).logout();
+                 await prefs.remove('jwt'); 
+               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+              },
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(

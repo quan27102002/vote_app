@@ -2,7 +2,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_request.dart';
+import 'package:vote_app/provider/userProvider.dart';
+import 'package:vote_app/router/router_name.dart';
 
 class MediaScreen extends StatefulWidget {
   const MediaScreen({Key? key}) : super(key: key);
@@ -62,7 +66,89 @@ class _MediaScreenState extends State<MediaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Xem các tài khoản'),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person_add),
+              title: Text('Tạo tài khoản'),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, RouteName.create,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.insert_chart),
+              title: Text('Xem biểu đồ thống kê'),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, RouteName.chart,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Chỉnh sửa comment'),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.file_download),
+              title: Text('Xuất file excel'),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, RouteName.excel);
+              },
+            ),
+               ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Chỉnh sửa file đa phương tiện'),
+              onTap: () {
+               
+                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                    arguments: false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Đăng xuất'),
+              onTap: () async {
+               
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+           
+             await   Provider.of<UserProvider>(context, listen: false).logout();
+                 await prefs.remove('jwt'); 
+                 Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
+       
         title: Center(
             child: Text(
           'Thay đổi ảnh',

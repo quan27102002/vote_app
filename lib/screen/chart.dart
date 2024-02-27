@@ -242,6 +242,15 @@ class _ChartState extends State<Chart> {
                 Navigator.pushReplacementNamed(context, RouteName.excel);
               },
             ),
+               role==1?  ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Chỉnh sửa file đa phương tiện'),
+              onTap: () {
+               
+                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                    arguments: false);
+              },
+            ):Container(height: 0,),
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),

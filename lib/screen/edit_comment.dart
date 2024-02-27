@@ -150,6 +150,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 Navigator.pushReplacementNamed(context, RouteName.excel);
               },
             ),
+              ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Chỉnh sửa file đa phương tiện'),
+              onTap: () {
+               
+                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                    arguments: false);
+              },
+            ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),

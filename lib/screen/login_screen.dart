@@ -34,14 +34,11 @@ class _LoginPageState extends State<LoginPage> {
     if (token != null) {
       // Token tồn tại, chuyển hướng tới màn hình tiếp theo
       if (role == 1) {
-        Navigator.pushReplacementNamed(context, RouteName.create,
-            arguments: false);
+ Navigator.pushNamedAndRemoveUntil(context, RouteName.create,(Route<dynamic> route) => false,);
       } else if (role == 2) {
-        Navigator.pushReplacementNamed(context, RouteName.chart,
-            arguments: false);
+       Navigator.pushNamedAndRemoveUntil(context, RouteName.chart,(Route<dynamic> route) => false,);
       } else {
-        Navigator.pushReplacementNamed(context, RouteName.intro,
-            arguments: false);
+     Navigator.pushNamedAndRemoveUntil(context, RouteName.intro,(Route<dynamic> route) => false,);
       }
     }
   }

@@ -15,4 +15,5 @@ class RouteName {
   static const totalComment = '/totalComment';
   static const editComment = '/editComment';
     static const readuser = '/readuser';
+     static const editMedia = '/editMedia';
 }
