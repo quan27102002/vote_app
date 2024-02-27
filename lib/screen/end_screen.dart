@@ -20,7 +20,7 @@ class _EndScreenState extends State<EndScreen> {
     super.initState();
     Timer(Duration(seconds: 15), () {
    
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, RouteName.intro);
     });
   }
   @override

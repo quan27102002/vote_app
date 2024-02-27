@@ -24,6 +24,7 @@ class _ReadUserState extends State<ReadUser> {
   }
 
   Future<void> getData() async {
+    
     ApiResponse res = await ApiRequest.getUser();
     if (res.code == 200) {
       List<dynamic> usersData = res.data;

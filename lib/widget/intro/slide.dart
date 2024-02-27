@@ -79,7 +79,7 @@ class _SlideState extends State<Slide> {
   }
 
   void _navigateToEmotionScreen() {
-    Navigator.pushReplacementNamed(
+    Navigator.pushNamed(
       context,
       '/idbillcustomer',
     );
@@ -142,22 +142,28 @@ class _SlideState extends State<Slide> {
                             .withOpacity(0.3), // Màu mờ (đen với độ mờ 0.5)
                         child: Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               const SizedBox(
                                 height:
                                     400, // Điều chỉnh kích thước của hình ảnh
                               ),
                               const SizedBox(height: 30),
-                              const Text(
-                                'Công nghệ đi đầu – Cam kết bền lâu',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Colors.white, // Màu văn bản trên màu mờ
-                                ),
-                              ),
+                             
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: Text(
+                        "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign:TextAlign.center,
+                        softWrap: true,
+                      ),
+                    ),
+                    
                               // const SizedBox(height: 20),
 
                               SizedBox(
