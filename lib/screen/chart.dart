@@ -239,7 +239,7 @@ class _ChartState extends State<Chart> {
               title: Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
-                Navigator.pushNamed(context, RouteName.excel);
+                Navigator.pushReplacementNamed(context, RouteName.excel);
               },
             ),
             ListTile(
@@ -247,7 +247,7 @@ class _ChartState extends State<Chart> {
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-                Navigator.pushNamed(context, RouteName.login);
+                Navigator.pushReplacementNamed(context, RouteName.login);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
               
                 Provider.of<UserProvider>(context, listen: false).logout();

@@ -92,14 +92,14 @@ class _ReadUserState extends State<ReadUser> {
               leading: Icon(Icons.file_download),
               title: Text('Xuất file excel'),
               onTap: () {
-                Navigator.pushNamed(context, RouteName.excel);
+                Navigator.pushReplacementNamed(context, RouteName.excel);
               },
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-                Navigator.pushNamed(context, RouteName.login);
+                Navigator.pushReplacementNamed(context, RouteName.login);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
            
                 Provider.of<UserProvider>(context, listen: false).logout();

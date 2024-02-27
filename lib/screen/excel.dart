@@ -246,7 +246,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Xuất file excel'),
                 onTap: () {
                   // Add your logic here for Button 3
-                  Navigator.pushNamed(context, RouteName.excel);
+                  Navigator.pushReplacementNamed(context, RouteName.excel);
                 },
               ),
               ListTile(
@@ -254,7 +254,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Đăng xuất'),
                 onTap: () async {
                   // Add your logic here for Button 4
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/');
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                 

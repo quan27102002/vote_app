@@ -38,7 +38,12 @@ String? validateInputs(
   if (name.isEmpty || email.isEmpty || branch.isEmpty || branchCode.isEmpty || password.isEmpty || selectedOption == null) {
     return 'Vui lòng điền đầy đủ thông tin';
   }
-
+  if(name.length<8){
+    return 'vui lòng đặt tên dài hơn 8 ký tự';
+  }
+if(password.length<8){
+  return 'vui lòng đặt mk dài hơn hoặc bằng 8 ký tự';
+}
   // Kiểm tra email có chứa ký tự '@' không
   if (!email.contains('@')) {
     return 'Email phải chứa ký tự "@"';
@@ -118,7 +123,7 @@ String? validateInputs(
               title: Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
-                Navigator.pushNamed(context, RouteName.excel);
+                Navigator.pushReplacementNamed(context, RouteName.excel);
               },
             ),
             ListTile(
@@ -126,7 +131,7 @@ String? validateInputs(
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-                Navigator.pushNamed(context, RouteName.login);
+                Navigator.pushReplacementNamed(context, RouteName.login);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
             
                 Provider.of<UserProvider>(context, listen: false).logout();
