@@ -21,7 +21,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
             Navigator.pop(context);
           },
         ),
-       
+
         centerTitle: true, // Canh giữa tiêu đề
         // leading: Container(
         //   margin: EdgeInsets.only(top: 20),
@@ -37,10 +37,24 @@ class _IdBillScreenState extends State<IdBillScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: Image.asset(
-                "assets/images/logo_uc.png",
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 300,
+                  child: Image.asset(
+                    "assets/images/logovietphap.png",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Container(
+                  height: 300,
+                  child: Image.asset(
+                    "assets/images/logo_uc.png",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: SizedBox(

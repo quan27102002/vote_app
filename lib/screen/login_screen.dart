@@ -57,22 +57,23 @@ class _LoginPageState extends State<LoginPage> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-      body: Row(mainAxisAlignment: MainAxisAlignment.center,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 0.6*width,
+                width: 0.6 * width,
                 // padding: EdgeInsets.symmetric(horizontal: 200),
                 alignment: Alignment.center,
                 child: Column(children: [
                   Row(
-                       mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 290,
+                        height: 300,
                         child: Image.asset(
                           "assets/images/logovietphap.png",
                           fit: BoxFit.fill,
@@ -211,18 +212,18 @@ class _LoginPageState extends State<LoginPage> {
                               Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                           ),
                       onPressed: () {
-                      if (usernameController.text.trim().isNotEmpty && passwordController.text.trim().isNotEmpty) {
-  
-  logIn(usernameController.text, passwordController.text);
-} else {
- 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Vui lòng điền cả tên người dùng và mật khẩu'),
-    ),
-  );
-}
-
+                        if (usernameController.text.trim().isNotEmpty &&
+                            passwordController.text.trim().isNotEmpty) {
+                          logIn(
+                              usernameController.text, passwordController.text);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'Vui lòng điền cả tên người dùng và mật khẩu'),
+                            ),
+                          );
+                        }
                       },
                       child: Text(
                         "Đăng nhập",
@@ -278,7 +279,9 @@ class _LoginPageState extends State<LoginPage> {
         },
             textButton: "Đăng nhập lại",
             title: "Thông báo lỗi",
-            description: "\t\t"+getUserData+"\nVui lòng nhập lại tên mật khẩu"??"Vui lòng nhập lại tên và mật khẩu");
+            description:
+                "\t\t" + getUserData + "\nVui lòng nhập lại tên mật khẩu" ??
+                    "Vui lòng nhập lại tên và mật khẩu");
       }
     }
   }

@@ -54,6 +54,8 @@ dependencies:
   path_provider: ^2.1.2
   intl: any
   fl_chart: ^0.66.1
+  image_picker: ^1.0.7
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

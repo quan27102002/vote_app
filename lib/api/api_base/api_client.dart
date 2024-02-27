@@ -48,22 +48,17 @@ class ApiClient {
   }
 
   static ApiClient get instance => ApiClient();
-  void printResponseHeaders(Response response) {
-    print('Headers of the response:');
-    response.headers.forEach((key, values) {
-      // print('$key: $values');
-    });
-  }
-  
-  Future<ApiResponse> request(
-      {required String url,
-      String method = post,
-      String? data,
-      String? deviceId,
-      String? token,
-      Map<String, dynamic>? formData,
-      Map<String, dynamic>? queryParameters,
-      bool getFullResponse = false}) async {
+
+  Future<ApiResponse> request({
+    required String url,
+    String method = post,
+    String? data,
+    String? deviceId,
+    String? token,
+    FormData? formData,
+    Map<String, dynamic>? queryParameters,
+    bool getFullResponse = false,
+  }) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return ApiResponse(
@@ -80,7 +75,7 @@ class ApiClient {
     Map<String, dynamic> headerMap = (token != null && token.isNotEmpty)
         ? {'Authorization': 'Bearer $token', 'deviceId': deviceId}
         : {'deviceId': deviceId};
-    headerMap.putIfAbsent("accept", () => "/");
+    headerMap.putIfAbsent("accept", () => "*/*");
     print(headerMap);
     try {
       Response response = await _dio.request(
@@ -100,10 +95,7 @@ class ApiClient {
         var apiResponse = ApiResponse.fromJson(response.data);
         apiResponse.message =
             '${apiResponse.message ?? ''} (Code: ${apiResponse.code != null ? apiResponse.code.toString() : 'Unknown'})';
-        apiResponse.headers = response.headers.map.map((key, value) {
-          return MapEntry(key, value.toList());
-        });print(apiResponse.headers);
-        printResponseHeaders(response);
+
         if (getFullResponse) apiResponse.dioResponse = response;
         return apiResponse;
       } else {
@@ -121,8 +113,7 @@ class ApiClient {
                 e.response!.data['message'] != null
             ? e.response!.data['message']
             : e.response!.statusMessage ?? 'Unknown error occurred';
- //chỗ này t thêm           
- if (e.response?.statusCode == 401) {
+        if (e.response?.statusCode == 401) {
           await _refreshToken();
           // Retry the request after refreshing the token
           return await request(
@@ -140,7 +131,6 @@ class ApiClient {
           message: errorMessage,
           code: e.response?.statusCode,
         );
-// đến đay thôi
       } else if (e.error is SocketException) {
         SocketException socketException = e.error as SocketException;
         errorMessage = socketException.osError?.message ?? "Socket Exception";

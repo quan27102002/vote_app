@@ -1,23 +1,14 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
-import 'package:vote_app/api/api_base/api_response_http.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:http_parser/http_parser.dart';
 import 'api_base/api_client.dart';
-import 'api_base/api_response.dart';
-import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class ApiRequest {
   static const String dataBill = "http://103.226.249.65:8081/api/AppService";
-  // static const String domain = "http://103.72.99.63/api";
- static const String domain = "https://10.0.2.2:7257/api";
-  //edit
-  // static const String data = "https://10.0.2.2:7257/api/Comment/getallcomments";
-  // static const String billCustomer =
-  //     "https://10.0.2.2:7257/api/UserBill/create";
-  // static const String comment = "https://10.0.2.2:7257/api/Comment/submit";
-  // static const String edit = "https://10.0.2.2:7257/api/Comment/edit";
+  static const String domain = "http://103.72.99.63/api";
+  // static const String domain = "https://10.0.2.2:7257/api";
 
   //getBillCustomer
   static Future<ApiResponse> getData(String? codeBr) async {
@@ -52,6 +43,13 @@ class ApiRequest {
         method: ApiClient.post);
   }
 
+  static Future<ApiResponse> getImage() async {
+    return await ApiClient().request(
+      url: "$domain/Image/get",
+      method: ApiClient.get,
+    );
+  }
+
   static Future<ApiResponse> getTotalComment(
       String createTime, String timend, String place) async {
     Map data = {
@@ -64,6 +62,7 @@ class ApiRequest {
         data: json.encode(data),
         method: ApiClient.post);
   }
+
   static Future<ApiResponse> exportExcel(
       String createTime, String timend, String place) async {
     Map data = {
@@ -76,6 +75,7 @@ class ApiRequest {
         data: json.encode(data),
         method: ApiClient.post);
   }
+
   static Future<ApiResponse> getfilterTotalComment(
       String createTime, String timend, String place, int level) async {
     Map data = {
@@ -146,19 +146,28 @@ class ApiRequest {
     );
   }
 
-  //send-verify-password
-  // static Future<ApiResponse> sendVerifyPassword(String email) async {
-  //   Map data = {"email": email};viet
-  //   return await ApiClient().request(
-  //       url: "$domain/api/v1/auth/send-verify/reset-password", data: json.encode(data), method: ApiClient.post);
-  // }
+//Upload image
+  static Future<ApiResponse> uploadImages({
+    required List<XFile> imagePaths,
+  }) async {
+    FormData formData = FormData();
 
-  //verify-password
-  // static Future<ApiResponse> verifyPassword({required String email, required String code}) async {
-  //   Map data = {"email": email, "code": code};
-  //   return await ApiClient()
-  //       .request(url: "$domain/api/v1/auth/verify/reset-password", data: json.encode(data), method: ApiClient.post);
-  // }
+    for (int i = 0; i < imagePaths.length; i++) {
+      String fileName = imagePaths[i].path.split('/').last;
+      MultipartFile file = await MultipartFile.fromFile(
+        imagePaths[i].path,
+        filename: fileName,
+        contentType: MediaType('image', 'jpg'),
+      );
+      formData.files.add(MapEntry('formFiles', file));
+    }
+
+    return await ApiClient().request(
+      url: "$domain/Image/bulkupload",
+      formData: formData,
+      method: ApiClient.post,
+    );
+  }
 
 //uploadComment
   static Future<ApiResponse> uploadComment(
@@ -205,18 +214,18 @@ class ApiRequest {
       method: ApiClient.get,
     );
   }
-   static Future<ApiResponse> getUser() async {
+
+  static Future<ApiResponse> getUser() async {
     return await ApiClient().request(
       url: "$domain/User/get",
     );
   }
 
-     static Future<ApiResponse> logOut() async {
+  static Future<ApiResponse> logOut() async {
     return await ApiClient().request(
       url: "$domain/User/signout",
     );
   }
-  
 
   static Future<ApiResponse> userLogin(
     String username,
