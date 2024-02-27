@@ -136,7 +136,7 @@ if(password.length<8){
             
                await Provider.of<UserProvider>(context, listen: false).logout(); 
                  await prefs.remove('jwt'); 
-                 Navigator.pushReplacementNamed(context, RouteName.login);
+                 Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
               },
             ),
           ],

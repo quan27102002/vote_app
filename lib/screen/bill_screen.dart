@@ -75,10 +75,7 @@ class _BillScreenState extends State<BillScreen> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-    Timer(Duration(seconds: 30), () {
-      // Sử dụng Navigator để quay lại màn hình trước
-      Navigator.pop(context);
-    });
+   
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

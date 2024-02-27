@@ -260,7 +260,7 @@ class _ExcelState extends State<Excel> {
                 
                  await Provider.of<UserProvider>(context, listen: false).logout();
                    await prefs.remove('jwt'); 
-                   Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
                 },
               ),
             ],

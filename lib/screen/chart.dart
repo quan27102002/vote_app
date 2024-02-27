@@ -252,7 +252,7 @@ class _ChartState extends State<Chart> {
               
               await  Provider.of<UserProvider>(context, listen: false).logout(); 
                  await prefs.remove('jwt'); 
-                Navigator.pushReplacementNamed(context, RouteName.login);
+                 Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
               },
             ),
           ],

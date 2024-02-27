@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/logout_screen.dart';
 
@@ -72,7 +75,10 @@ class EndScreen extends StatelessWidget {
                       Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                   ),
               onPressed: () async {
-                Navigator.pushNamed(context, RouteName.login);
+               SharedPreferences prefs = await SharedPreferences.getInstance();
+                 await Provider.of<UserProvider>(context, listen: false).logout();
+                 await prefs.remove('jwt'); 
+               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
               },
               child: Text(
                 "Đăng xuất",

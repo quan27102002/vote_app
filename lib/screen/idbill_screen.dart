@@ -23,14 +23,6 @@ class _IdBillScreenState extends State<IdBillScreen> {
         ),
 
         centerTitle: true, // Canh giữa tiêu đề
-        // leading: Container(
-        //   margin: EdgeInsets.only(top: 20),
-        //   child: Image.asset(
-        //     "assets/images/logo_uc.png",
-        //     fit: BoxFit.contain, // Đảm bảo kích thước ảnh vừa với container
-        //   ),
-        // ),
-        // leadingWidth: 100,
       ),
       body: Center(
         child: Column(
@@ -90,7 +82,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                               ),
                             );
                           } else {
-                            // Xử lý khi id rỗng
+                    
                           }
                         },
                         child: Text(

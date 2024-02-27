@@ -9,10 +9,7 @@ import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
-import 'package:vote_app/screen/bill_screen.dart';
-import 'package:vote_app/screen/end_screen.dart';
-import 'package:vote_app/screen/idbill_screen.dart';
-import 'package:vote_app/screen/intro_screen.dart';
+
 
 class MyHttpOverrides extends HttpOverrides {
   @override
