@@ -26,8 +26,9 @@ class LogoutScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/');
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    prefs.remove("jwt");
-                    Provider.of<UserProvider>(context, listen: false).logout();
+                  
+                  await  Provider.of<UserProvider>(context, listen: false).logout();
+                  await  prefs.remove("jwt");
                   },
                   child: Text("Logout")),
             ),

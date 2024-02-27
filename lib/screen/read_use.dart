@@ -99,10 +99,12 @@ class _ReadUserState extends State<ReadUser> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-                Navigator.pushReplacementNamed(context, RouteName.login);
+               
                 SharedPreferences prefs = await SharedPreferences.getInstance();
            
-                Provider.of<UserProvider>(context, listen: false).logout();
+             await   Provider.of<UserProvider>(context, listen: false).logout();
+                 await prefs.remove('jwt'); 
+                 Navigator.pushReplacementNamed(context, RouteName.login);
               },
             ),
           ],

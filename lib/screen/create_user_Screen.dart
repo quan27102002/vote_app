@@ -131,10 +131,12 @@ if(password.length<8){
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-                Navigator.pushReplacementNamed(context, RouteName.login);
+              
                 SharedPreferences prefs = await SharedPreferences.getInstance();
             
-                Provider.of<UserProvider>(context, listen: false).logout();
+               await Provider.of<UserProvider>(context, listen: false).logout(); 
+                 await prefs.remove('jwt'); 
+                 Navigator.pushReplacementNamed(context, RouteName.login);
               },
             ),
           ],
