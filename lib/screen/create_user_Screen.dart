@@ -517,7 +517,7 @@ String? validateInputs(
                       ),
                   onPressed: () {
                     
-                  String? validateResult = validateInputs(
+                String? validateResult = validateInputs(
   _nameController.text,
   _emailController.text,
   _branchController.text,
@@ -525,8 +525,16 @@ String? validateInputs(
   _passwordController.text,
   int.parse(_selectedOption!),
 );
+
 if (validateResult != null) {
+  // Nếu có lỗi, hiển thị Snackbar thông báo lỗi cho người dùng
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(validateResult),
+    ),
+  );
 } else {
+  // Nếu không có lỗi, tiến hành tạo người dùng
   CreateUser(
     _nameController.text,
     _emailController.text,
@@ -536,6 +544,7 @@ if (validateResult != null) {
     int.parse(_selectedOption!),
   );
 }
+
 
                   },
                   child: Text(

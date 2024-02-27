@@ -211,8 +211,18 @@ class _LoginPageState extends State<LoginPage> {
                               Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                           ),
                       onPressed: () {
-                        if(usernameController.text.trim().isNotEmpty&& passwordController.text.trim().isNotEmpty){
-                        logIn(usernameController.text, passwordController.text);}
+                      if (usernameController.text.trim().isNotEmpty && passwordController.text.trim().isNotEmpty) {
+  
+  logIn(usernameController.text, passwordController.text);
+} else {
+ 
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Vui lòng điền cả tên người dùng và mật khẩu'),
+    ),
+  );
+}
+
                       },
                       child: Text(
                         "Đăng nhập",
