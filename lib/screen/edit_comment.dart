@@ -197,335 +197,335 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
             },
           ),
         ),
-        body: Stack(
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        resetEmotionSelections();
-                        reset();
-                        isTapped0 = !isTapped0;
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 50, bottom: 100),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          resetEmotionSelections();
+                          reset();
+                          isTapped0 = !isTapped0;
 
-                        if (isTapped0) {
-                          setState(() {
-                            selectedEmotion = 0;
-                            status = "Rất tệ";
-                          });
-                        } else {
-                          setState(() {
-                            selectedEmotion = -1;
-                          });
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped0 == true
-                                    ? Color.fromRGBO(255, 214, 214, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                )),
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Image.asset(
-                              "assets/images/icon1.png",
-                              width: 100,
+                          if (isTapped0) {
+                            setState(() {
+                              selectedEmotion = 0;
+                              status = "Rất tệ";
+                            });
+                          } else {
+                            setState(() {
+                              selectedEmotion = -1;
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped0 == true
+                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Image.asset(
+                                "assets/images/icon1.png",
+                                width: 100,
+                              ),
                             ),
-                          ),
-                          // Khoảng cách giữa Icon và Text
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped0 == true
-                                    ? Color.fromRGBO(255, 214, 214, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            child: Center(
-                              child: Text(
-                                'Rất Tệ',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(255, 121, 121, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            // Khoảng cách giữa Icon và Text
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped0 == true
+                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )),
+                              child: Center(
+                                child: Text(
+                                  'Rất Tệ',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(255, 121, 121, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        resetEmotionSelections();
-                        reset();
-                        isTapped1 = !isTapped1;
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          resetEmotionSelections();
+                          reset();
+                          isTapped1 = !isTapped1;
 
-                        if (isTapped1) {
-                          setState(() {
-                            selectedEmotion = 1;
-                            status = "Tệ";
-                          });
-                        } else {
-                          setState(() {
-                            selectedEmotion = -1;
-                          });
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped1 == true
-                                    ? Color.fromRGBO(255, 233, 217, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                )),
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Image.asset(
-                              "assets/images/icon2.png",
-                              width: 100,
+                          if (isTapped1) {
+                            setState(() {
+                              selectedEmotion = 1;
+                              status = "Tệ";
+                            });
+                          } else {
+                            setState(() {
+                              selectedEmotion = -1;
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped1 == true
+                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Image.asset(
+                                "assets/images/icon2.png",
+                                width: 100,
+                              ),
                             ),
-                          ),
-                          // Khoảng cách giữa Icon và Text
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped1 == true
-                                    ? Color.fromRGBO(255, 233, 217, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            child: Center(
-                              child: Text(
-                                'Tệ',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(252, 149, 74, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            // Khoảng cách giữa Icon và Text
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped1 == true
+                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )),
+                              child: Center(
+                                child: Text(
+                                  'Tệ',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(252, 149, 74, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        resetEmotionSelections();
-                        reset();
-                        isTapped2 = !isTapped2;
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          resetEmotionSelections();
+                          reset();
+                          isTapped2 = !isTapped2;
 
-                        if (isTapped2) {
-                          setState(() {
-                            selectedEmotion = 2;
-                            status = "Bình thường";
-                          });
-                        } else {
-                          setState(() {
-                            selectedEmotion = -1;
-                          });
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped2 == true
-                                    ? Color.fromRGBO(255, 243, 181, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                )),
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Image.asset(
-                              "assets/images/icon3.png",
-                              width: 100,
+                          if (isTapped2) {
+                            setState(() {
+                              selectedEmotion = 2;
+                              status = "Bình thường";
+                            });
+                          } else {
+                            setState(() {
+                              selectedEmotion = -1;
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped2 == true
+                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Image.asset(
+                                "assets/images/icon3.png",
+                                width: 100,
+                              ),
                             ),
-                          ),
-                          // Khoảng cách giữa Icon và Text
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped2 == true
-                                    ? Color.fromRGBO(255, 243, 181, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            child: Center(
-                              child: Text(
-                                'Bình thường',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(147, 146, 136, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            // Khoảng cách giữa Icon và Text
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped2 == true
+                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )),
+                              child: Center(
+                                child: Text(
+                                  'Bình thường',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(147, 146, 136, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        resetEmotionSelections();
-                        reset();
-                        isTapped3 = !isTapped3;
-                        if (isTapped3) {
-                          setState(() {
-                            selectedEmotion = 3;
-                            status = "Tốt";
-                          });
-                        } else {
-                          setState(() {
-                            selectedEmotion = -1;
-                          });
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped3 == true
-                                    ? Color.fromRGBO(224, 242, 255, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                )),
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Image.asset(
-                              "assets/images/icon4.png",
-                              width: 100,
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          resetEmotionSelections();
+                          reset();
+                          isTapped3 = !isTapped3;
+                          if (isTapped3) {
+                            setState(() {
+                              selectedEmotion = 3;
+                              status = "Tốt";
+                            });
+                          } else {
+                            setState(() {
+                              selectedEmotion = -1;
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped3 == true
+                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Image.asset(
+                                "assets/images/icon4.png",
+                                width: 100,
+                              ),
                             ),
-                          ),
-                          // Khoảng cách giữa Icon và Text
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped3 == true
-                                    ? Color.fromRGBO(224, 242, 255, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            child: Center(
-                              child: Text(
-                                'Tốt',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(98, 189, 255, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            // Khoảng cách giữa Icon và Text
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped3 == true
+                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )),
+                              child: Center(
+                                child: Text(
+                                  'Tốt',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(98, 189, 255, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        resetEmotionSelections();
-                        reset();
-                        isTapped4 = !isTapped4;
-                        if (isTapped4) {
-                          setState(() {
-                            selectedEmotion = 4;
-                            status = "Hoàn hảo";
-                          });
-                        } else {
-                          setState(() {
-                            selectedEmotion = -1;
-                          });
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped4 == true
-                                    ? Color.fromRGBO(203, 255, 227, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                )),
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Image.asset(
-                              "assets/images/icon5.png",
-                              width: 100,
+                    Expanded(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          resetEmotionSelections();
+                          reset();
+                          isTapped4 = !isTapped4;
+                          if (isTapped4) {
+                            setState(() {
+                              selectedEmotion = 4;
+                              status = "Hoàn hảo";
+                            });
+                          } else {
+                            setState(() {
+                              selectedEmotion = -1;
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped4 == true
+                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  )),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Image.asset(
+                                "assets/images/icon5.png",
+                                width: 100,
+                              ),
                             ),
-                          ),
-                          // Khoảng cách giữa Icon và Text
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: isTapped4 == true
-                                    ? Color.fromRGBO(203, 255, 227, 1)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
-                            child: Center(
-                              child: Text(
-                                'Hoàn hảo',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(39, 203, 114, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            // Khoảng cách giữa Icon và Text
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: isTapped4 == true
+                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )),
+                              child: Center(
+                                child: Text(
+                                  'Hoàn hảo',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(39, 203, 114, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
+              Container(
                 padding: EdgeInsets.only(right: 30, left: 30),
                 width: width,
                 child: Column(
@@ -868,7 +868,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 selectedEmotion,
                                                 commentData,
                                               );
-                                              if (res.code == 200) {
+                                              if (res.data == true) {
                                                 showDialog(
                                                   context: context,
                                                   builder:
@@ -890,9 +890,31 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                     );
                                                   },
                                                 );
+                                                comment.listComment.clear();
+                                                await comment.getApi();
+                                              } else if (res.data == false) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Thông báo'),
+                                                      content: Text(
+                                                          'Bình luận không được để trống.'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('OK'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
                                               }
-                                              comment.listComment.clear();
-                                              await comment.getApi();
                                             },
                                             child: Text(
                                               'Cập nhật thông tin',
@@ -914,8 +936,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });

@@ -15,7 +15,7 @@ class ReadUser extends StatefulWidget {
 }
 
 class _ReadUserState extends State<ReadUser> {
-    List<dynamic> _users = [];
+  List<dynamic> _users = [];
   bool _isLoading = false;
 
   @override
@@ -68,7 +68,7 @@ class _ReadUserState extends State<ReadUser> {
                 ),
               ),
             ),
-      ListTile(
+            ListTile(
               leading: Icon(Icons.person),
               title: Text('Xem các tài khoản'),
               onTap: () {
@@ -91,8 +91,7 @@ class _ReadUserState extends State<ReadUser> {
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushNamed(context, RouteName.chart,
-                    arguments: false);
+                Navigator.pushNamed(context, RouteName.chart, arguments: false);
               },
             ),
             ListTile(
@@ -112,11 +111,10 @@ class _ReadUserState extends State<ReadUser> {
                 Navigator.pushNamed(context, RouteName.excel);
               },
             ),
-              ListTile(
+            ListTile(
               leading: Icon(Icons.image),
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
-               
                 Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
@@ -126,12 +124,17 @@ class _ReadUserState extends State<ReadUser> {
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-                
+
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-             
-              await  Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-                Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
@@ -186,7 +189,8 @@ class _ReadUserState extends State<ReadUser> {
                     children: [
                       Text(
                         user.userName,
-                        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         user.branchAddress,
