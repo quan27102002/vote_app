@@ -13,7 +13,7 @@ using VPBE.Domain.Dtos.Users;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Users;
 using VPBE.Domain.Utils;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API.Controllers
 {
@@ -43,7 +43,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = null,
-                        Message = "User not found"
+                        Message = "Người dùng không tồn tại trong hệ thống."
                     });
                 }
                 bool checkPassword = PasswordUtils.VerifyPassword(request.Password, user.Password, user.PasswordSalt);
@@ -53,7 +53,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = null,
-                        Message = "Wrong password"
+                        Message = "Sai mật khẩu."
                     });
                 }
                 var result = new UserLoginResult();
@@ -85,7 +85,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = result,
-                    Message = "Success"
+                    Message = "Đăng nhập thành công."
                 });
             }
             catch (Exception ex)
@@ -109,18 +109,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = false,
-                        Message = "Username already exists."
-                    });
-                }
-
-                var branchId = await _dBRepository.Context.Set<BranchEntity>().Where(a => a.Code.ToLower() == request.Code.ToLower()).Select(a => a.Id).FirstOrDefaultAsync();
-                if (branchId == Guid.Empty)
-                {
-                    logger.Error($"Code {request.Code} not existed.");
-                    return Ok(new CustomResponse
-                    {
-                        Result = false,
-                        Message = "Branch code not existed"
+                        Message = "Tên đăng nhập đã tồn tại."
                     });
                 }
                 var newUser = new UserEntity
@@ -137,21 +126,33 @@ namespace VPBE.API.Controllers
                     UserStatus = UserStatus.Active,
                     CreatedOn = DateTime.Now
                 };
-
-                var newUrm = new UserResourceMappingEntity
+                if (request.Role != UserRole.Admin)
                 {
-                    UserId = newUser.Id,
-                    BranchId = branchId
-                };
+                    var branchId = await _dBRepository.Context.Set<BranchEntity>().Where(a => a.Code.ToLower() == request.Code.ToLower()).Select(a => a.Id).FirstOrDefaultAsync();
+                    if (branchId == Guid.Empty)
+                    {
+                        logger.Error($"Code {request.Code} not existed.");
+                        return Ok(new CustomResponse
+                        {
+                            Result = false,
+                            Message = "Mã cơ sở không tồn tại"
+                        });
+                    }
+                    var newUrm = new UserResourceMappingEntity
+                    {
+                        UserId = newUser.Id,
+                        BranchId = branchId
+                    };
+                    await _dBRepository.AddAsync(newUrm);
+                }
 
                 await _dBRepository.AddAsync(newUser);
-                await _dBRepository.AddAsync(newUrm);
 
                 await _dBRepository.SaveChangesAsync();
                 return Ok(new CustomResponse
                 {
                     Result = true,
-                    Message = "Success"
+                    Message = "Đăng kí thành công."
                 });
             }
             catch (Exception ex)
@@ -193,7 +194,7 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("signout")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
-        public async Task<IActionResult> SignOut()
+        public async Task<IActionResult> LogOut()
         {
             try
             {
@@ -216,7 +217,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = true,
-                    Message = "Success"
+                    Message = "Đăng xuất thành công."
                 });
             }
             catch (Exception ex)

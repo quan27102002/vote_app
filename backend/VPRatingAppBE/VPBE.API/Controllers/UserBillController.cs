@@ -8,7 +8,7 @@ using VPBE.Domain.Dtos;
 using VPBE.Domain.Dtos.UserBills;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.UserBills;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API.Controllers
 {
@@ -36,7 +36,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = existedBills.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Doctor = a.Doctor, Service = JsonConvert.DeserializeObject<BranchService>(a.Service) }).ToList(),
-                        Message = "User bill already existed"
+                        Message = "Mời quý khách tiếp tục tham gia đánh giá chất lượng dịch vụ."
                     });
                 }
                 var listUserBill = new List<UserBillEntity>();
@@ -65,7 +65,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = request.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Doctor = a.Doctor, Service = a.Service }).ToList(),
-                    Message = "Success"
+                    Message = ""
                 });
             }
             catch (Exception ex)

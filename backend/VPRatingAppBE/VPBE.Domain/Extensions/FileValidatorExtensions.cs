@@ -12,7 +12,7 @@ namespace VPBE.Domain.Extensions
         public static bool IsFileExtensionAllowed(IFormFile file, string[] allowedExtensions)
         {
             var extension = Path.GetExtension(file.FileName);
-            return allowedExtensions.Contains(extension);
+            return allowedExtensions.Contains(extension.ToLower());
         }
         public static bool IsFileSizeWithinLimit(IFormFile file, long maxSizeInBytes)
         {

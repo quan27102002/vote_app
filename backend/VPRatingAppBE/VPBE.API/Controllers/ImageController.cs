@@ -5,18 +5,16 @@ using VPBE.Domain.Attributes;
 using VPBE.Domain.Dtos;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Utils;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API.Controllers
 {
     public class ImageController : APIBaseController
     {
-        private readonly IDBRepository _dBRepository;
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ImageController(IDBRepository dBRepository, IWebHostEnvironment hostEnvironment)
+        public ImageController(IWebHostEnvironment hostEnvironment)
         {
-            this._dBRepository = dBRepository;
             this._hostEnvironment = hostEnvironment;
         }
         [HttpPost("bulkupload")]
@@ -56,7 +54,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = true,
-                    Message = $"{successCount}/{formFiles.Count} files successfully uploaded."
+                    Message = $"{successCount}/{formFiles.Count} files đã tải lên thành công."
                 });
             }
             catch (Exception ex)
@@ -72,7 +70,7 @@ namespace VPBE.API.Controllers
         }
 
         [HttpGet("get")]
-        [Role(new UserRole[] { UserRole.Admin })]
+        [Role(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<List<string>>))]
         public async Task<IActionResult> GetImages()
         {

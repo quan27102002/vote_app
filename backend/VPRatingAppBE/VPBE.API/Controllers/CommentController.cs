@@ -9,7 +9,7 @@ using VPBE.Domain.Dtos;
 using VPBE.Domain.Dtos.Comments;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Comments;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API.Controllers
 {
@@ -115,13 +115,15 @@ namespace VPBE.API.Controllers
             try
             {
                 var commentsInDb = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Level == request.Level).Select(a => a.Id).ToListAsync();
+                
+                
                 if (!request.Comments.Any(x => commentsInDb.Contains(x.Id)))
                 {
                     logger.Error("Mismatch data");
                     return Ok(new CustomResponse
                     {
                         Result = false,
-                        Message = "Mismatch data"
+                        Message = "Bình luận không khớp với cơ sở dữ liệu."
                     });
                 }
                 var checkMismatchData = (request.CommentType == CommentType.Mixed && string.IsNullOrEmpty(request.OtherComment))
@@ -133,7 +135,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = false,
-                        Message = "Mismatch data"
+                        Message = "Loại bình luận và nội dung không khớp với nhau."
                     });
                 }
                 var newComment = new CommentResponseEntity
@@ -151,7 +153,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = true,
-                    Message = "Success"
+                    Message = "Đánh giá thành công."
                 });
             }
             catch (Exception ex)
@@ -167,7 +169,15 @@ namespace VPBE.API.Controllers
         {
             try
             {
-                
+                if (request.Comments.Any(a => string.IsNullOrEmpty(a.Content)))
+                {
+                    logger.Error($"Comment cannot be empty");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "Bình luận không được để trống."
+                    });
+                }
                 var comments = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Level == request.Level).ToListAsync();
                 if (!comments.Any())
                 {
@@ -175,7 +185,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = false,
-                        Message = "Comments not found"
+                        Message = "Bình luận không tồn tại."
                     });
                 }
                 foreach (var comment in request.Comments)
@@ -190,7 +200,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = true,
-                    Message = "Success"
+                    Message = "Cập nhật bình luận thành công."
                 });
             }
             catch (Exception ex)

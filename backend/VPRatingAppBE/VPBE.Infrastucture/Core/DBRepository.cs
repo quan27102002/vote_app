@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VPBE.Domain;
 using VPBE.Domain.Entities;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.Infrastucture.Core
 {

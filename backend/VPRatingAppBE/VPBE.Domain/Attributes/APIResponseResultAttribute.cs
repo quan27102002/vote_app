@@ -16,7 +16,6 @@ namespace VPBE.Domain.Attributes
 {
     public class APIResponseResultAttribute : ActionFilterAttribute
     {
-        private static readonly Logger _logger = LoggerHelper.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public override void OnResultExecuting(ResultExecutingContext context)
         {
             if (context.Result is ObjectResult)
@@ -146,12 +145,7 @@ namespace VPBE.Domain.Attributes
                 {
                     throw new CustomException("Internal server error");
                 }
-                context.Result = new ObjectResult(new APIResponseDto<object>
-                {
-                    Code = objR.StatusCode.HasValue ? objR.StatusCode.Value : StatusCodes.Status200OK,
-                    Status = (int)HttpStatusCode.OK,
-                    Data = objR.Value
-                });
+                context.Result = new ObjectResult(objR.Value);
             }
         }
     }

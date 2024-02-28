@@ -10,7 +10,7 @@ using VPBE.Domain.Dtos;
 using VPBE.Domain.Dtos.Reports;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Reports;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API.Controllers
 {
@@ -53,7 +53,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = new List<FilterResult>(),
-                        Message = "You don't have access to this resource"
+                        Message = "Bạn không có quyền truy cập tới tài nguyên này."
                     });
                 }
 
@@ -138,149 +138,6 @@ namespace VPBE.API.Controllers
 
         }
 
-        private async Task<List<FilterResult>> GetDataForAdmin(FilterModel model)
-        {
-            var buildInData = new List<FilterResult>()
-            {
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.VeryBad,
-                    Description = "Rất tệ",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Bad,
-                    Description = "Tệ",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Acceptable,
-                    Description = "Bình thường",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Good,
-                    Description = "Tốt",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Perfect,
-                    Description = "Hoàn hảo",
-                    Count = 0
-                },
-            };
-            var dataByCode = await _dBRepository.Context.Set<CommentResponseEntity>()
-                    .Include(a => a.UserBillEntity)
-                    .Where(a => !a.IsDeleted
-                                && (string.IsNullOrEmpty(model.BranchCode) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
-                                && a.CreatedTime >= model.StartTime
-                                && a.CreatedTime <= model.EndTime)
-                    .GroupBy(a => a.Level)
-                    .Select(a => new FilterResult
-                    {
-                        Level = a.Key,
-                        Description = a.Key == SatisfactionLevel.VeryBad ? "Rất tệ"
-                                    : a.Key == SatisfactionLevel.Bad ? "Tệ"
-                                    : a.Key == SatisfactionLevel.Acceptable ? "Bình thường"
-                                    : a.Key == SatisfactionLevel.Good ? "Tốt"
-                                    : a.Key == SatisfactionLevel.Perfect ? "Hoàn hảo"
-                                    : string.Empty,
-                        Count = a.Count()
-                    })
-                    .ToListAsync();
-
-            var result = from b in buildInData
-                         join d in dataByCode
-                         on b.Level equals d.Level
-                         into data
-                         from s in data.DefaultIfEmpty()
-                         select new FilterResult
-                         {
-                             Level = s == null ? b.Level : s.Level,
-                             Description = s == null ? b.Description : s.Description,
-                             Count = s == null ? b.Count : s.Count
-                         };
-
-            return result.ToList();
-
-        }
-
-        private async Task<List<FilterResult>> GetDataForMember(FilterModel model)
-        {
-            var buildInData = new List<FilterResult>()
-            {
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.VeryBad,
-                    Description = "Rất tệ",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Bad,
-                    Description = "Tệ",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Acceptable,
-                    Description = "Bình thường",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Good,
-                    Description = "Tốt",
-                    Count = 0
-                },
-                new FilterResult
-                {
-                    Level = SatisfactionLevel.Perfect,
-                    Description = "Hoàn hảo",
-                    Count = 0
-                },
-            };
-            if (!string.IsNullOrEmpty(model.BranchCode))
-            {
-                var dataByCode = await _dBRepository.Context.Set<CommentResponseEntity>()
-                        .Include(a => a.UserBillEntity)
-                        .Where(a => !a.IsDeleted && model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower() && a.CreatedTime >= model.StartTime && a.CreatedTime <= model.EndTime)
-                        .GroupBy(a => a.Level)
-                        .Select(a => new FilterResult
-                        {
-                            Level = a.Key,
-                            Description = a.Key == SatisfactionLevel.VeryBad ? "Rất tệ"
-                                        : a.Key == SatisfactionLevel.Bad ? "Tệ"
-                                        : a.Key == SatisfactionLevel.Acceptable ? "Bình thường"
-                                        : a.Key == SatisfactionLevel.Good ? "Tốt"
-                                        : a.Key == SatisfactionLevel.Perfect ? "Hoàn hảo"
-                                        : string.Empty,
-                            Count = a.Count()
-                        })
-                        .ToListAsync();
-
-                var result = from b in buildInData
-                             join d in dataByCode
-                             on b.Level equals d.Level
-                             into data
-                             from s in data.DefaultIfEmpty()
-                             select new FilterResult
-                             {
-                                 Level = s == null ? b.Level : s.Level,
-                                 Description = s == null ? b.Description : s.Description,
-                                 Count = s == null ? b.Count : s.Count
-                             };
-
-                return result.ToList();
-            }
-
-            return buildInData;
-        }
-
         [HttpPost("filterlevel")]
         [Role(new UserRole[] { UserRole.Admin, UserRole.Member })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<FilterLevelResult>))]
@@ -307,7 +164,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = null,
-                        Message = "You don't have access to this resource"
+                        Message = "Bạn không có quyền truy cập tới tài nguyên này."
                     });
                 }
 
@@ -374,7 +231,7 @@ namespace VPBE.API.Controllers
                 {
                     Id = a.Id,
                     Content = a.Content,
-                    Count = filterOtherComments.Count(),
+                    Count = filterOtherComments.Count(x => x.Content.Trim().Equals(a.Content.Trim(), StringComparison.OrdinalIgnoreCase)),
                     CreatedBy = filterOtherComments.Select(a => new UserCommentResult
                     {
                         CustomerName = a.CustomerName,
@@ -431,7 +288,7 @@ namespace VPBE.API.Controllers
                     return Ok(new CustomResponse
                     {
                         Result = null,
-                        Message = "You don't have access to this resource"
+                        Message = "Bạn không có quyền truy cập tới tài nguyên này."
                     });
                 }
                 var result = await _dBRepository.Context.Set<CommentResponseEntity>().Include(a => a.UserBillEntity)
@@ -468,7 +325,7 @@ namespace VPBE.API.Controllers
                 return Ok(new CustomResponse
                 {
                     Result = result,
-                    Message = "Success"
+                    Message = "Xuất báo cáo thành công."
                 });
             }
             catch (Exception ex)

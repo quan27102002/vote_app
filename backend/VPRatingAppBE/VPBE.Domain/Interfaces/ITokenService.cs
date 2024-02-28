@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VPBE.Service.Interfaces
+namespace VPBE.Domain.Interfaces
 {
     public interface ITokenService
     {

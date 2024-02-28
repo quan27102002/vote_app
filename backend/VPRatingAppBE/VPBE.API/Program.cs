@@ -12,7 +12,7 @@ using VPBE.Domain.Extensions;
 using VPBE.Domain.Middlewares;
 using VPBE.Infrastucture.Core;
 using VPBE.Service.Implementations;
-using VPBE.Service.Interfaces;
+using VPBE.Domain.Interfaces;
 
 namespace VPBE.API
 {

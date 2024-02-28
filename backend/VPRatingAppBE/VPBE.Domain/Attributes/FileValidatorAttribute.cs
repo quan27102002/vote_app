@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VPBE.Domain.Dtos;
 using VPBE.Domain.Extensions;
 using VPBE.Domain.Logging;
 
@@ -34,7 +35,12 @@ namespace VPBE.Domain.Attributes
             if (param.Value is not IFormFileCollection files || files.Count == 0)
             {
                 _logger.Error($"File is null");
-                context.Result = new BadRequestObjectResult("File is null");
+                context.Result = new ObjectResult(new  APIResponseDto
+                {
+                    Code = StatusCodes.Status400BadRequest,
+                    Status = StatusCodes.Status400BadRequest,
+                    Msg = "Files tải lên không tồn tại."
+                });
                 return;
             }
             foreach (var file in files)
@@ -43,8 +49,12 @@ namespace VPBE.Domain.Attributes
                 {
                     var allowedExtensionsMessage = String.Join(", ", _allowedExtensions).Replace(".", "").ToUpper();
                     _logger.Error($"Invalid file type");
-                    context.Result = new BadRequestObjectResult("Invalid file type. " +
-                        $"Please upload {allowedExtensionsMessage} file.");
+                    context.Result = new ObjectResult(new APIResponseDto
+                    {
+                        Code = StatusCodes.Status400BadRequest,
+                        Status = StatusCodes.Status400BadRequest,
+                        Msg = $"Định dạng file không hợp lệ. Hãy tải lên ảnh với định dạng \"{allowedExtensionsMessage}\""
+                    });
                     return;
                 }
                 if (!FileValidatorExtensions.IsFileSizeWithinLimit(file, _maxSize))
@@ -52,7 +62,12 @@ namespace VPBE.Domain.Attributes
                     var mbSize = (double)_maxSize / 1024 / 1024;
                     _logger.Error($"File size exceeds the maximum allowed size");
 
-                    context.Result = new BadRequestObjectResult($"File size exceeds the maximum allowed size ({mbSize} MB).");
+                    context.Result = new ObjectResult(new APIResponseDto
+                    {
+                        Code = StatusCodes.Status400BadRequest,
+                        Status = StatusCodes.Status400BadRequest,
+                        Msg = $"Dung lượng file vượt quá giới hạn ({mbSize}MB)"
+                    });
                     return;
                 }
             }
