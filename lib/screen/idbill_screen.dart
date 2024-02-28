@@ -26,8 +26,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
             Navigator.pop(context);
           },
         ),
-
-        centerTitle: true, // Canh giữa tiêu đề
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
@@ -47,47 +46,50 @@ class _IdBillScreenState extends State<IdBillScreen> {
                 ),
               ),
             ),
-                ListTile(
+            ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-                // Add your logic here for Button 4
-          
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-             await   Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: width>1100? 290:120,
-                  child: Image.asset(
-                    "assets/images/logovietphap.png",
-                    fit: BoxFit.fill,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: width / 3,
+                    child: Image.asset(
+                      "assets/images/logovietphap.png",
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-                Container(
-                  width:width>1100? 300:120,
-                  child: Image.asset(
-                    "assets/images/logo_uc.png",
-                    fit: BoxFit.fill,
+                  Container(
+                    width: width / 3,
+                    child: Image.asset(
+                      "assets/images/logo_uc.png",
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: SizedBox(
+                ],
+              ),
+              SizedBox(
                 width: 400,
                 child: Column(
                   children: [
@@ -106,9 +108,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Color.fromRGBO(47, 179, 178, 1) // Màu của nút
-                            ),
+                            backgroundColor: Color.fromRGBO(47, 179, 178, 1)),
                         onPressed: () async {
                           String id = idBillCustomer.text;
                           print(id);
@@ -119,9 +119,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                                 builder: (context) => BillScreen(data: id),
                               ),
                             );
-                          } else {
-                    
-                          }
+                          } else {}
                         },
                         child: Text(
                           "Xem hoá đơn",
@@ -136,8 +134,8 @@ class _IdBillScreenState extends State<IdBillScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

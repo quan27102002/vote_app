@@ -33,11 +33,23 @@ class _LoginPageState extends State<LoginPage> {
     if (token != null) {
       // Token tồn tại, chuyển hướng tới màn hình tiếp theo
       if (role == 1) {
- Navigator.pushNamedAndRemoveUntil(context, RouteName.create,(Route<dynamic> route) => false,);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteName.create,
+          (Route<dynamic> route) => false,
+        );
       } else if (role == 2) {
-       Navigator.pushNamedAndRemoveUntil(context, RouteName.chart,(Route<dynamic> route) => false,);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteName.chart,
+          (Route<dynamic> route) => false,
+        );
       } else {
-     Navigator.pushNamedAndRemoveUntil(context, RouteName.intro,(Route<dynamic> route) => false,);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteName.intro,
+          (Route<dynamic> route) => false,
+        );
       }
     }
   }
@@ -62,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: width>1100 ?0.7 * width :0.85*width,
+                  width: width > 1100 ? 0.7 * width : 0.85 * width,
                   // padding: EdgeInsets.symmetric(horizontal: 200),
                   alignment: Alignment.center,
                   child: Column(children: [
@@ -70,14 +82,14 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: width>1100 ? 290: 120,
+                          width: width / 3,
                           child: Image.asset(
                             "assets/images/logovietphap.png",
                             fit: BoxFit.fill,
                           ),
                         ),
                         Container(
-                          width: width>1100 ? 300: 120,
+                          width: width / 3,
                           child: Image.asset(
                             "assets/images/logo_uc.png",
                             fit: BoxFit.fill,
@@ -211,8 +223,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           if (usernameController.text.trim().isNotEmpty &&
                               passwordController.text.trim().isNotEmpty) {
-                            logIn(
-                                usernameController.text, passwordController.text);
+                            logIn(usernameController.text,
+                                passwordController.text);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -277,9 +289,10 @@ class _LoginPageState extends State<LoginPage> {
         },
             textButton: "Đăng nhập lại",
             title: "Thông báo lỗi",
-            description:
-                "\t\t" + getUserData + "\nVui lòng kiểm tra lại tên và mật khẩu" ??
-                    "Vui lòng nhập lại tên và mật khẩu");
+            description: "\t\t" +
+                    getUserData +
+                    "\nVui lòng kiểm tra lại tên và mật khẩu" ??
+                "Vui lòng nhập lại tên và mật khẩu");
       }
     }
   }

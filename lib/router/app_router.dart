@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:vote_app/router/router_name.dart';
-import 'package:vote_app/screen/admin_screen.dart';
 import 'package:vote_app/screen/chart.dart';
 import 'package:vote_app/screen/create_user_Screen.dart';
 import 'package:vote_app/screen/edit_comment.dart';
@@ -26,10 +25,6 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const IntroScreen(),
             settings: const RouteSettings(name: RouteName.intro));
-      case RouteName.admin:
-        return MaterialPageRoute(
-            builder: (context) => const Admin(),
-            settings: const RouteSettings(name: RouteName.admin));
 
       case RouteName.create:
         return MaterialPageRoute(
@@ -59,11 +54,11 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const EditCommentScreen(),
             settings: const RouteSettings(name: RouteName.editComment));
-        case RouteName.readuser:
+      case RouteName.readuser:
         return MaterialPageRoute(
             builder: (context) => const ReadUser(),
             settings: const RouteSettings(name: RouteName.readuser));
-              case RouteName.editMedia:
+      case RouteName.editMedia:
         return MaterialPageRoute(
             builder: (context) => const MediaScreen(),
             settings: const RouteSettings(name: RouteName.editMedia));

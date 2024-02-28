@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:http_parser/http_parser.dart';
 import 'api_base/api_client.dart';
@@ -13,13 +14,15 @@ class ApiRequest {
 
   //getBillCustomer
   static Future<ApiResponse> getData(String? codeBr) async {
+    DateTime now = DateTime.now();
+    String time = DateFormat('yyyy-MM-dd').format(now);
     Map data = {
       "sid": null,
       "cmd": "API_DanhSachKhachHang_Select",
       "data": {
         "benhnhan": {
-          "TuNgay": "20240123", //truyền date time now
-          "DenNgay": "20240123", // truyền date time now
+          "TuNgay": time, //truyền date time now
+          "DenNgay": time, // truyền date time now
           "MaCoSo": codeBr,
           // truyền mã cơ sở
         }

@@ -15,22 +15,23 @@ class EndScreen extends StatefulWidget {
 }
 
 class _EndScreenState extends State<EndScreen> {
-    @override
+  @override
   void initState() {
     super.initState();
     Timer(Duration(seconds: 15), () {
-   
       Navigator.pushReplacementNamed(context, RouteName.intro);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: 30,
+          Container(
+            height: 100,
+            color: Color.fromRGBO(244, 244, 244, 1),
           ),
           Container(
             padding: EdgeInsets.only(top: 20),
@@ -64,7 +65,6 @@ class _EndScreenState extends State<EndScreen> {
             ),
           ),
           Image.asset("assets/images/end.jpg"),
-      
         ],
       ),
     );

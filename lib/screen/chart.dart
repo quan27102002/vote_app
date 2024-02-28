@@ -63,7 +63,7 @@ class _ChartState extends State<Chart> {
     'UB': 'Nha khoa Úc Châu 3',
     'HD': 'Cơ sở Hà Đông'
   };
-   int touchedIndex = 0;
+  int touchedIndex = 0;
 
   late String timeCreate;
   late String timeEnd;
@@ -97,6 +97,7 @@ class _ChartState extends State<Chart> {
       dateEndController.text = formatDated;
     }
   }
+
   List<Color> colors = [
     Colors.red,
     Colors.orange,
@@ -116,9 +117,9 @@ class _ChartState extends State<Chart> {
     'Tốt',
     'Hoàn hảo',
   ];
-   List<String> emotions1 = [];
-   List<String> emotionsType = [];
- final List<String> emotionsType1=["Tiêu cực","Tích cực"];
+  List<String> emotions1 = [];
+  List<String> emotionsType = [];
+  final List<String> emotionsType1 = ["Tiêu cực", "Tích cực"];
   BarChartGroupData generateBarGroup(
     int x,
     Color color,
@@ -146,7 +147,6 @@ class _ChartState extends State<Chart> {
     if (res.code == 200) {
       List<dynamic> data = res.data;
       List<double> percentages = [];
-      
 
       for (var item in data) {
         // Kiểm tra xem trường count có tồn tại và có kiểu số không
@@ -164,33 +164,37 @@ class _ChartState extends State<Chart> {
           .fold(0, (previous, current) => previous + current);
 
       List<double> result = [sumFirstTwo, sumLastThree];
-      List<String> resultPercel=[(sumFirstTwo/(sumFirstTwo+sumLastThree)*100).toStringAsFixed(2),(100-sumFirstTwo*100/(sumFirstTwo+sumLastThree)).toStringAsFixed(2)];
+      List<String> resultPercel = [
+        (sumFirstTwo / (sumFirstTwo + sumLastThree) * 100).toStringAsFixed(2),
+        (100 - sumFirstTwo * 100 / (sumFirstTwo + sumLastThree))
+            .toStringAsFixed(2)
+      ];
 
-List<String> percentTypeEmotion=[]; 
-double total=0;
+      List<String> percentTypeEmotion = [];
+      double total = 0;
       List<_BarData> newDataList = [];
-   for (int i = 0; i < percentages.length && i < colors.length; i++) {
+      for (int i = 0; i < percentages.length && i < colors.length; i++) {
         newDataList.add(_BarData(colors[i], percentages[i]));
-total+=percentages[i];
+        total += percentages[i];
       }
       print(total);
-      double toltal2=0.0;
-             for (int i = 0; i < percentages.length && i < colors.length; i++) {
-        if(i<percentages.length-1){
-        percentTypeEmotion.add((percentages[i]*100/total).toStringAsFixed(2));
-        toltal2+=(percentages[i]*100/total);}
-       else if(i==percentages.length-1){
-          percentTypeEmotion.add((100.0-toltal2).toStringAsFixed(2));
+      double toltal2 = 0.0;
+      for (int i = 0; i < percentages.length && i < colors.length; i++) {
+        if (i < percentages.length - 1) {
+          percentTypeEmotion
+              .add((percentages[i] * 100 / total).toStringAsFixed(2));
+          toltal2 += (percentages[i] * 100 / total);
+        } else if (i == percentages.length - 1) {
+          percentTypeEmotion.add((100.0 - toltal2).toStringAsFixed(2));
         }
-
-      } 
+      }
 
       setState(() {
         this.percentages = percentages;
         this.percentagesType = result;
-        this.emotionsType=resultPercel;
+        this.emotionsType = resultPercel;
         dataList = newDataList;
-        this.emotions1=percentTypeEmotion;
+        this.emotions1 = percentTypeEmotion;
       });
     }
   }
@@ -198,7 +202,7 @@ total+=percentages[i];
   int touchedGroupIndex = -1;
   @override
   Widget build(BuildContext context) {
-    
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -218,42 +222,51 @@ total+=percentages[i];
                 ),
               ),
             ),
-               role==1?   ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Xem các tài khoản'),
-              onTap: () {
-                // Add your logic here for Button 1
-                Navigator.pushNamed(context, RouteName.readuser,
-                    arguments: false);
-              },
-            ):Container(height: 0,),
-          role==1?  ListTile(
-              leading: Icon(Icons.person_add),
-              title: Text('Tạo tài khoản'),
-              onTap: () {
-                // Add your logic here for Button 1
-                Navigator.pushNamed(context, RouteName.create,
-                    arguments: false);
-              },
-            ):Container(height:0),
+            role == 1
+                ? ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Xem các tài khoản'),
+                    onTap: () {
+                      // Add your logic here for Button 1
+                      Navigator.pushNamed(context, RouteName.readuser,
+                          arguments: false);
+                    },
+                  )
+                : Container(
+                    height: 0,
+                  ),
+            role == 1
+                ? ListTile(
+                    leading: Icon(Icons.person_add),
+                    title: Text('Tạo tài khoản'),
+                    onTap: () {
+                      // Add your logic here for Button 1
+                      Navigator.pushNamed(context, RouteName.create,
+                          arguments: false);
+                    },
+                  )
+                : Container(height: 0),
             ListTile(
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushNamed(context, RouteName.chart,
-                    arguments: false);
+                Navigator.pushNamed(context, RouteName.chart, arguments: false);
               },
             ),
-          role==1?  ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Chỉnh sửa comment'),
-              onTap: () {
-                // Add your logic here for Button 2
-                Navigator.pushNamed(context, RouteName.editComment,
-                    arguments: false);
-              },
-            ):Container(height: 0,),
+            role == 1
+                ? ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text('Chỉnh sửa comment'),
+                    onTap: () {
+                      // Add your logic here for Button 2
+                      Navigator.pushNamed(context, RouteName.editComment,
+                          arguments: false);
+                    },
+                  )
+                : Container(
+                    height: 0,
+                  ),
             ListTile(
               leading: Icon(Icons.file_download),
               title: Text('Xuất file excel'),
@@ -262,48 +275,61 @@ total+=percentages[i];
                 Navigator.pushNamed(context, RouteName.excel);
               },
             ),
-               role==1?  ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Chỉnh sửa file đa phương tiện'),
-              onTap: () {
-               
-                Navigator.pushNamed(context, RouteName.editMedia,
-                    arguments: false);
-              },
-            ):Container(height: 0,),
+            role == 1
+                ? ListTile(
+                    leading: Icon(Icons.image),
+                    title: Text('Chỉnh sửa file đa phương tiện'),
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.editMedia,
+                          arguments: false);
+                    },
+                  )
+                : Container(
+                    height: 0,
+                  ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-               
+
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-              
-              await  Provider.of<UserProvider>(context, listen: false).logout(); 
-                 await prefs.remove('jwt'); 
-                 Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
         ),
       ),
-   appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Biểu đồ thống kê", style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ))),),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+        title: Center(
+            child: Text("Biểu đồ thống kê",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ))),
+      ),
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text("Lọc đánh giá",
-                       style: TextStyle(
+                      style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: Colors.black,
                         fontSize: 22,
@@ -313,7 +339,6 @@ total+=percentages[i];
               ),
               Container(
                 decoration: BoxDecoration(
-                  
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: DropdownButtonFormField<String>(
@@ -331,7 +356,7 @@ total+=percentages[i];
                     });
                   },
                   decoration: InputDecoration(
-                      hintText: "Lọc đánh giá",
+                    hintText: "Lọc đánh giá",
                     contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     enabledBorder: InputBorder.none,
                   ),
@@ -348,22 +373,21 @@ total+=percentages[i];
                     child: Column(
                       children: [
                         Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Bắt đầu",
-                       style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ],
-              ),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Bắt đầu",
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ],
+                        ),
                         Container(
                             height: 50,
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
-                              
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextFormField(
                               readOnly: true,
@@ -379,17 +403,18 @@ total+=percentages[i];
                                   fontSize: 18,
                                   color: Colors.black)
                               // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-                        
+
                               ,
                               decoration: InputDecoration(
                                 prefixIcon: Container(
-                                  margin: const EdgeInsets.only(left: 8, right: 8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
                                   child: const ImageIcon(
                                     AssetImage('assets/images/calendar.png'),
                                     size: 24,
                                   ),
                                 ),
-                             
+
                                 prefixIconConstraints: const BoxConstraints(
                                     minWidth: 20, minHeight: 20),
                                 prefixIconColor: Colors.black,
@@ -397,7 +422,8 @@ total+=percentages[i];
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 28, 29, 31), width: 1),
+                                        color: Color.fromARGB(255, 28, 29, 31),
+                                        width: 1),
                                     borderRadius: BorderRadius.circular(12)),
                                 // focusedBorder: OutlineInputBorder(
                                 //     borderSide: const BorderSide(
@@ -423,23 +449,23 @@ total+=percentages[i];
                   Expanded(
                     flex: 1,
                     child: Column(
-                      children: [Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Kết thúc",
-                       style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ],
-              ),
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Kết thúc",
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ],
+                        ),
                         Container(
                             height: 50,
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
-                               
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextFormField(
                               readOnly: true,
@@ -455,18 +481,17 @@ total+=percentages[i];
                                   fontSize: 18,
                                   color: Colors.black)
                               // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-                        
+
                               ,
                               decoration: InputDecoration(
-                                  
                                 prefixIcon: Container(
-                                  margin: const EdgeInsets.only(left: 8, right: 8),
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
                                   child: const ImageIcon(
                                     AssetImage('assets/images/calendar.png'),
                                     size: 24,
                                   ),
                                 ),
-                              
                                 prefixIconConstraints: const BoxConstraints(
                                     minWidth: 20, minHeight: 20),
                                 prefixIconColor: Colors.black,
@@ -474,16 +499,16 @@ total+=percentages[i];
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 25, 26, 29), width: 1),
+                                        color: Color.fromARGB(255, 25, 26, 29),
+                                        width: 1),
                                     borderRadius: BorderRadius.circular(12)),
-                                    border: OutlineInputBorder(
+                                border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     width: 1,
                                     color: Colors.white,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                             
                               ),
                             )),
                       ],
@@ -523,8 +548,8 @@ total+=percentages[i];
                   : Container(),
 
               SizedBox(height: 15),
-          
-                SizedBox(
+
+              SizedBox(
                 height: 50,
                 width: 200,
                 child: ElevatedButton(
@@ -534,17 +559,17 @@ total+=percentages[i];
                       ),
                   onPressed: () async {
                     // login();
-                       print(timeEnd + timeCreate);
-                  print(_selectedOption);
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  role = prefs.getInt('role')!;
-                  String? codeBr = prefs.getString('codeBr');
-                  if (role == 2) {
-                    exportToChart(timeCreate, timeEnd, codeBr!);
-                  } else {
-                    exportToChart(timeCreate, timeEnd, _selectedOption!);
-                  }
+                    print(timeEnd + timeCreate);
+                    print(_selectedOption);
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    role = prefs.getInt('role')!;
+                    String? codeBr = prefs.getString('codeBr');
+                    if (role == 2) {
+                      exportToChart(timeCreate, timeEnd, codeBr!);
+                    } else {
+                      exportToChart(timeCreate, timeEnd, _selectedOption!);
+                    }
                   },
                   child: Text(
                     "Xem biểu đồ",
@@ -556,24 +581,20 @@ total+=percentages[i];
                   ),
                 ),
               ),
-                SizedBox(height: 15),
+              SizedBox(height: 15),
               checktype == '1'
                   ? role == 1 && _selectedOption == ''
                       ? Container(
                           width: 300,
                           height: 300,
                           child: PieChart(
-                            
                             PieChartData(
-                              
                               sections: List.generate(
-                                
                                 percentages.length,
                                 (index) => PieChartSectionData(
-                                  
                                   color: colors[index],
                                   value: percentages[index],
-                                  title: emotions1[index]+"%",
+                                  title: emotions1[index] + "%",
                                 ),
                               ),
                             ),
@@ -581,6 +602,7 @@ total+=percentages[i];
                         )
                       : Container(
                           height: 300,
+                          width: width * 0.7,
                           child: Padding(
                             padding: const EdgeInsets.all(24),
                             child: AspectRatio(
@@ -649,7 +671,7 @@ total+=percentages[i];
                                       data.value,
                                     );
                                   }).toList(),
-                                  maxY:getMaxValue(dataList)+10,
+                                  maxY: getMaxValue(dataList) + 10,
                                   barTouchData: BarTouchData(
                                     enabled: true,
                                     handleBuiltInTouches: false,
@@ -700,10 +722,9 @@ total+=percentages[i];
                           sections: List.generate(
                             percentagesType.length,
                             (index) => PieChartSectionData(
-                            
                               color: colorsType[index],
                               value: percentagesType[index],
-                              title: emotionsType[index].toString()+"%",
+                              title: emotionsType[index].toString() + "%",
                             ),
                           ),
                         ),
@@ -711,83 +732,83 @@ total+=percentages[i];
                     ),
               SizedBox(height: 20),
               // Danh sách chú thích
-              checktype == '1'  ? 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
-                  emotions.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: InkWell(
-                      onTap: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        role = prefs.getInt('role')!;
-                        String? codeBr = prefs.getString('codeBr');
-                        if (role == 2) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyListViewScreen(
-                                  index: index,
-                                  timeCreate: timeCreate,
-                                  timeEnd: timeEnd,
-                                  selectedOption: codeBr!),
+              checktype == '1'
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        emotions.length,
+                        (index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: InkWell(
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              role = prefs.getInt('role')!;
+                              String? codeBr = prefs.getString('codeBr');
+                              if (role == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyListViewScreen(
+                                        index: index,
+                                        timeCreate: timeCreate,
+                                        timeEnd: timeEnd,
+                                        selectedOption: codeBr!),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyListViewScreen(
+                                      index: index,
+                                      timeCreate: timeCreate,
+                                      timeEnd: timeEnd,
+                                      selectedOption:
+                                          _selectedOption.toString(),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: colors[index],
+                                ),
+                                SizedBox(width: 8),
+                                Text(emotions[index]),
+                              ],
                             ),
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyListViewScreen(
-                                index: index,
-                                timeCreate: timeCreate,
-                                timeEnd: timeEnd,
-                                selectedOption: _selectedOption.toString(),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        emotionsType.length,
+                        (index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                color: colorsType[index],
                               ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            color: colors[index],
+                              SizedBox(width: 8),
+                              Text(emotionsType1[index]),
+                            ],
                           ),
-                          SizedBox(width: 8),
-                          Text(emotions[index]),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              )
-              
-              :Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
-                  emotionsType.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            color: colorsType[index],
-                          ),
-                          SizedBox(width: 8),
-                          Text(emotionsType1[index]),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-          //  :Container(),
+              //  :Container(),
             ],
           ),
         ),
@@ -795,15 +816,15 @@ total+=percentages[i];
     );
   }
 
-double getMaxValue(List<_BarData> dataList) {
-  double max = 0;
-  for (_BarData data in dataList) {
-    if (data.value > max) {
-      max = data.value;
+  double getMaxValue(List<_BarData> dataList) {
+    double max = 0;
+    for (_BarData data in dataList) {
+      if (data.value > max) {
+        max = data.value;
+      }
     }
+    return max;
   }
-  return max;
-}
 }
 
 class _BarData {
