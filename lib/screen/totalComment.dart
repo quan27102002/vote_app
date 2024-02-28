@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row,Stack;
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/dialog/funtion.dart';
 import 'package:vote_app/model/modelFilter.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/widget/excel/helper/save_file_mobile_desktop.dart'
@@ -50,7 +51,7 @@ _loadRole();
   @override
   Widget build(BuildContext context) {
     // Lấy tham số từ route arguments
-
+ final loadingProvider = Provider.of<LoadingProvider>(context);
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -119,7 +120,7 @@ _loadRole();
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -144,51 +145,61 @@ _loadRole();
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ))),),
-   body: Padding(
-     padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
-     child: ListView.builder(
-       itemCount: userComments.length + otherComments.length,
-       itemBuilder: (context, index) {
-      var comment;
-      var onTapFunction;
-      if (index < userComments.length) {
-        comment = userComments[index];
-        onTapFunction = () {
-          AppFuntion.showDialogError(context, '', onPressButton: () {
-            excelFiter(comment['content']);
-          },
-          textButton: "Xem chi tiết",
-          title:"Thông tin của những người đánh giá" ,
-          description: comment['content'],
-          dialogDismiss: true);
-        };
-      } else {
-        comment = otherComments[index - userComments.length];
-        onTapFunction = () {
-          AppFuntion.showDialogError(context, '', onPressButton: () {
-            excelFiter2(comment['content']);
-          },
-          textButton: "Xem chi tiết",
-          title: "Thông tin của những người đánh giá",
-          description: comment['content'],
-          dialogDismiss: true);
-        };
-      }
-     
-      return Container(
-        margin: EdgeInsets.symmetric(vertical: 5.0),
-        decoration: BoxDecoration(
-          color: Colors.grey[200], // Màu nền của mỗi dòng
-          borderRadius: BorderRadius.circular(10.0), // Bo góc
-        ),
-        child: ListTile(
-          onTap: onTapFunction,
-          title: Text(comment['content']),
-          subtitle: Text(comment['count'].toString()+" Lượt đánh giá",style: TextStyle(fontWeight: FontWeight.w600),),
-        ),
-      );
-       },
+   body: Stack(
+     children:[Padding(
+       padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
+       child: ListView.builder(
+         itemCount: userComments.length + otherComments.length,
+         itemBuilder: (context, index) {
+        var comment;
+        var onTapFunction;
+        if (index < userComments.length) {
+          comment = userComments[index];
+          onTapFunction = () {
+            AppFuntion.showDialogError(context, '', onPressButton: () {
+              excelFiter(comment['content']);
+            },
+            textButton: "Xem chi tiết",
+            title:"Thông tin của những người đánh giá" ,
+            description: comment['content'],
+            dialogDismiss: true);
+          };
+        } else {
+          comment = otherComments[index - userComments.length];
+          onTapFunction = () {
+            AppFuntion.showDialogError(context, '', onPressButton: () {
+              excelFiter2(comment['content']);
+            },
+            textButton: "Xem chi tiết",
+            title: "Thông tin của những người đánh giá",
+            description: comment['content'],
+            dialogDismiss: true);
+          };
+        }
+       
+        return Container(
+          margin: EdgeInsets.symmetric(vertical: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[200], // Màu nền của mỗi dòng
+            borderRadius: BorderRadius.circular(10.0), // Bo góc
+          ),
+          child: ListTile(
+            onTap: onTapFunction,
+            title: Text(comment['content']),
+            subtitle: Text(comment['count'].toString()+" Lượt đánh giá",style: TextStyle(fontWeight: FontWeight.w600),),
+          ),
+        );
+         },
+       ),
      ),
+      if (loadingProvider.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+     ] 
    ),
 
     );
@@ -196,9 +207,12 @@ _loadRole();
 
   Future<void> exportToChart(
       String createTime, String timend, String place, int level) async {
+    final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
+ loadingProvider.showLoading();
     ApiResponse res = await ApiRequest.getfilterTotalComment(
         createTime, timend, place, level);
     if (res.code == 200) {
+      loadingProvider.hideLoading();
       List<dynamic> userData = res.data['userComments'];
       List<dynamic> otherData = res.data['otherComments'];
 

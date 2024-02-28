@@ -96,7 +96,7 @@ class _BillScreenState extends State<BillScreen> {
         centerTitle: true, // Canh giữa tiêu đề
    
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[

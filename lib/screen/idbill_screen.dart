@@ -28,7 +28,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
         ),
         centerTitle: true,
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[

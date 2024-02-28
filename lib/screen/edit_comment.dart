@@ -55,7 +55,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
 
   initData() async {
     var comment = Provider.of<CommentProvider>(context, listen: false);
-    await comment.getApi();
+    await comment.getApi().whenComplete(() => null);
   }
 
   void resetCommentSelections() {
@@ -88,93 +88,98 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
     double width = MediaQuery.of(context).size.width;
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
-          drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Center(
-                child: Text(
-                  'Điều khiển',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Center(
+                  child: Text(
+                    'Điều khiển',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
               ),
-            ),
-      ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Xem các tài khoản'),
-              onTap: () {
-                // Add your logic here for Button 1
-                Navigator.pushNamed(context, RouteName.readuser,
-                    arguments: false);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person_add),
-              title: Text('Tạo tài khoản'),
-              onTap: () {
-                // Add your logic here for Button 1
-                Navigator.pushNamed(context, RouteName.create,
-                    arguments: false);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.insert_chart),
-              title: Text('Xem biểu đồ thống kê'),
-              onTap: () {
-                // Add your logic here for Button 2
-                Navigator.pushNamed(context, RouteName.chart,
-                    arguments: false);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Chỉnh sửa comment'),
-              onTap: () {
-                // Add your logic here for Button 2
-                Navigator.pushNamed(context, RouteName.editComment,
-                    arguments: false);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.file_download),
-              title: Text('Xuất file excel'),
-              onTap: () {
-                // Add your logic here for Button 3
-                Navigator.pushNamed(context, RouteName.excel);
-              },
-            ),
               ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Chỉnh sửa file đa phương tiện'),
-              onTap: () {
-               
-                Navigator.pushNamed(context, RouteName.editMedia,
-                    arguments: false);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
-              onTap: () async {
-                // Add your logic here for Button 4
-                
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-             
-              await  Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-                Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
-              },
-            ),
-          ],
+                leading: Icon(Icons.person),
+                title: Text('Xem các tài khoản'),
+                onTap: () {
+                  // Add your logic here for Button 1
+                  Navigator.pushNamed(context, RouteName.readuser,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Tạo tài khoản'),
+                onTap: () {
+                  // Add your logic here for Button 1
+                  Navigator.pushNamed(context, RouteName.create,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.insert_chart),
+                title: Text('Xem biểu đồ thống kê'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushNamed(context, RouteName.chart,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Chỉnh sửa comment'),
+                onTap: () {
+                  // Add your logic here for Button 2
+                  Navigator.pushNamed(context, RouteName.editComment,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.file_download),
+                title: Text('Xuất file excel'),
+                onTap: () {
+                  // Add your logic here for Button 3
+                  Navigator.pushNamed(context, RouteName.excel);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.image),
+                title: Text('Chỉnh sửa file đa phương tiện'),
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.editMedia,
+                      arguments: false);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () async {
+                  // Add your logic here for Button 4
+
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .logout();
+                  await prefs.remove('jwt');
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-      ),
         appBar: AppBar(
           title: Center(
             child: Text(
