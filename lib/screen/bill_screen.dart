@@ -189,7 +189,7 @@ class _BillScreenState extends State<BillScreen> {
                   height: 20,
                 ),
                 SizedBox(
-                  width: width * 0.3,
+               
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor:

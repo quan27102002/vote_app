@@ -49,11 +49,14 @@ class _EndScreenState extends State<EndScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Text(
-                    "Đã tham gia đánh giá trải nghiệm dịch vụ của chúng tôi!",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Đã tham gia đánh giá trải nghiệm dịch vụ của chúng tôi!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   )
                 ],

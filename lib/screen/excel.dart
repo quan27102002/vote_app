@@ -180,8 +180,9 @@ class _ExcelState extends State<Excel> {
 
   @override
   Widget build(BuildContext context) {
+     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-       appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Danh mục các tài khoản trên hệ thống", style: TextStyle(
+       appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Xuất file Excel", style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: Colors.black,
                         fontSize: 22,
@@ -210,7 +211,7 @@ class _ExcelState extends State<Excel> {
               title: Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                Navigator.pushNamed(context, RouteName.readuser,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -219,7 +220,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Tạo tài khoản'),
                 onTap: () {
                   // Add your logic here for Button 1
-                  Navigator.pushReplacementNamed(context, RouteName.create,
+                  Navigator.pushNamed(context, RouteName.create,
                       arguments: false);
                 },
               ):Container(height: 0,),
@@ -228,7 +229,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Xem biểu đồ thống kê'),
                 onTap: () {
                   // Add your logic here for Button 2
-                  Navigator.pushReplacementNamed(context, RouteName.chart,
+                  Navigator.pushNamed(context, RouteName.chart,
                       arguments: false);
                 },
               ),
@@ -237,7 +238,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Chỉnh sửa comment'),
                 onTap: () {
                   // Add your logic here for Button 2
-                  Navigator.pushReplacementNamed(context, RouteName.editComment,
+                  Navigator.pushNamed(context, RouteName.editComment,
                       arguments: false);
                 },
               ):Container(height: 0,),
@@ -246,7 +247,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Xuất file excel'),
                 onTap: () {
                   // Add your logic here for Button 3
-                  Navigator.pushReplacementNamed(context, RouteName.excel);
+                  Navigator.pushNamed(context, RouteName.excel);
                 },
               ),
                  role==1?  ListTile(
@@ -254,7 +255,7 @@ class _ExcelState extends State<Excel> {
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -279,25 +280,25 @@ class _ExcelState extends State<Excel> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
             child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 290,
-                    child: Image.asset(
-                      "assets/images/logovietphap.png",
-                      fit: BoxFit.fill,
-                    ),
+                 Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: width>1100 ? 290: 120,
+                        child: Image.asset(
+                          "assets/images/logovietphap.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Container(
+                        width: width>1100 ? 300: 120,
+                        child: Image.asset(
+                          "assets/images/logo_uc.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    height: 300,
-                    child: Image.asset(
-                      "assets/images/logo_uc.png",
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ],
-              ),
           
               SizedBox(
                 height: 20,

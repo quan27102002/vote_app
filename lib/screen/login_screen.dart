@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 0.6 * width,
+                width: width>1100 ?0.7 * width :0.85*width,
                 // padding: EdgeInsets.symmetric(horizontal: 200),
                 alignment: Alignment.center,
                 child: Column(children: [
@@ -69,14 +69,14 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 300,
+                        width: width>1100 ? 290: 120,
                         child: Image.asset(
                           "assets/images/logovietphap.png",
                           fit: BoxFit.fill,
                         ),
                       ),
                       Container(
-                        height: 300,
+                        width: width>1100 ? 300: 120,
                         child: Image.asset(
                           "assets/images/logo_uc.png",
                           fit: BoxFit.fill,

@@ -17,6 +17,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -70,14 +71,14 @@ class _IdBillScreenState extends State<IdBillScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 300,
+                  width: width>1100? 290:120,
                   child: Image.asset(
                     "assets/images/logovietphap.png",
                     fit: BoxFit.fill,
                   ),
                 ),
                 Container(
-                  height: 300,
+                  width:width>1100? 300:120,
                   child: Image.asset(
                     "assets/images/logo_uc.png",
                     fit: BoxFit.fill,

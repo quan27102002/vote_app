@@ -88,7 +88,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.person),
               title: Text('Xem các tài khoản'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                Navigator.pushNamed(context, RouteName.readuser,
                     arguments: false);
               },
             ),
@@ -96,7 +96,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.person_add),
               title: Text('Tạo tài khoản'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, RouteName.create,
+                Navigator.pushNamed(context, RouteName.create,
                     arguments: false);
               },
             ),
@@ -104,7 +104,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, RouteName.chart,
+                Navigator.pushNamed(context, RouteName.chart,
                     arguments: false);
               },
             ),
@@ -112,7 +112,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.settings),
               title: Text('Chỉnh sửa comment'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                Navigator.pushNamed(context, RouteName.editComment,
                     arguments: false);
               },
             ),
@@ -120,7 +120,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.file_download),
               title: Text('Xuất file excel'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, RouteName.excel);
+                Navigator.pushNamed(context, RouteName.excel);
               },
             ),
                ListTile(
@@ -128,7 +128,7 @@ class _MediaScreenState extends State<MediaScreen> {
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ),

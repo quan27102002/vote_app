@@ -75,7 +75,7 @@ _loadRole();
               title: Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                Navigator.pushNamed(context, RouteName.readuser,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -84,7 +84,7 @@ _loadRole();
               title: Text('Tạo tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.create,
+                Navigator.pushNamed(context, RouteName.create,
                     arguments: false);
               },
             ):Container(),
@@ -93,7 +93,7 @@ _loadRole();
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
             
-                Navigator.pushReplacementNamed(context, RouteName.chart,
+                Navigator.pushNamed(context, RouteName.chart,
                     arguments: false);
               },
             ),
@@ -102,7 +102,7 @@ _loadRole();
               title: Text('Chỉnh sửa comment'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                Navigator.pushNamed(context, RouteName.editComment,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -111,7 +111,7 @@ _loadRole();
               title: Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
-                Navigator.pushReplacementNamed(context, RouteName.excel);
+                Navigator.pushNamed(context, RouteName.excel);
               },
             ),
                role==1?  ListTile(
@@ -184,6 +184,7 @@ _loadRole();
         child: ListTile(
           onTap: onTapFunction,
           title: Text(comment['content']),
+          subtitle: Text(comment['count'].toString()+" Lượt đánh giá",style: TextStyle(fontWeight: FontWeight.w600),),
         ),
       );
        },

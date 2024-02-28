@@ -111,7 +111,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                Navigator.pushNamed(context, RouteName.readuser,
                     arguments: false);
               },
             ),
@@ -120,7 +120,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Tạo tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.create,
+                Navigator.pushNamed(context, RouteName.create,
                     arguments: false);
               },
             ),
@@ -129,7 +129,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushReplacementNamed(context, RouteName.chart,
+                Navigator.pushNamed(context, RouteName.chart,
                     arguments: false);
               },
             ),
@@ -138,7 +138,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Chỉnh sửa comment'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                Navigator.pushNamed(context, RouteName.editComment,
                     arguments: false);
               },
             ),
@@ -147,7 +147,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
-                Navigator.pushReplacementNamed(context, RouteName.excel);
+                Navigator.pushNamed(context, RouteName.excel);
               },
             ),
               ListTile(
@@ -155,7 +155,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ),

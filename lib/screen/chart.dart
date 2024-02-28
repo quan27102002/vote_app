@@ -22,11 +22,11 @@ class _ChartState extends State<Chart> {
   List<double> percentages = [];
   List<double> percentagesType = [];
   List<_BarData> dataList = [
-    const _BarData(Colors.red, 10),
-    const _BarData(Colors.orange, 10),
-    const _BarData(Colors.yellow, 10),
-    const _BarData(Colors.green, 10),
-    const _BarData(Colors.pink, 10),
+    const _BarData(Colors.red, 0),
+    const _BarData(Colors.orange, 0),
+    const _BarData(Colors.yellow, 0),
+    const _BarData(Colors.green, 0),
+    const _BarData(Colors.pink, 0),
   ];
 
   int? role;
@@ -116,7 +116,9 @@ class _ChartState extends State<Chart> {
     'Tốt',
     'Hoàn hảo',
   ];
-  final List<String> emotionsType = ['Tiêu cực', 'Tích cực'];
+   List<String> emotions1 = [];
+   List<String> emotionsType = [];
+ final List<String> emotionsType1=["Tiêu cực","Tích cực"];
   BarChartGroupData generateBarGroup(
     int x,
     Color color,
@@ -144,6 +146,7 @@ class _ChartState extends State<Chart> {
     if (res.code == 200) {
       List<dynamic> data = res.data;
       List<double> percentages = [];
+      
 
       for (var item in data) {
         // Kiểm tra xem trường count có tồn tại và có kiểu số không
@@ -161,16 +164,33 @@ class _ChartState extends State<Chart> {
           .fold(0, (previous, current) => previous + current);
 
       List<double> result = [sumFirstTwo, sumLastThree];
+      List<String> resultPercel=[(sumFirstTwo/(sumFirstTwo+sumLastThree)*100).toStringAsFixed(2),(100-sumFirstTwo*100/(sumFirstTwo+sumLastThree)).toStringAsFixed(2)];
 
+List<String> percentTypeEmotion=[]; 
+double total=0;
       List<_BarData> newDataList = [];
-      for (int i = 0; i < percentages.length && i < colors.length; i++) {
+   for (int i = 0; i < percentages.length && i < colors.length; i++) {
         newDataList.add(_BarData(colors[i], percentages[i]));
+total+=percentages[i];
       }
+      print(total);
+      double toltal2=0.0;
+             for (int i = 0; i < percentages.length && i < colors.length; i++) {
+        if(i<percentages.length-1){
+        percentTypeEmotion.add((percentages[i]*100/total).toStringAsFixed(2));
+        toltal2+=(percentages[i]*100/total);}
+       else if(i==percentages.length-1){
+          percentTypeEmotion.add((100.0-toltal2).toStringAsFixed(2));
+        }
+
+      } 
 
       setState(() {
         this.percentages = percentages;
         this.percentagesType = result;
+        this.emotionsType=resultPercel;
         dataList = newDataList;
+        this.emotions1=percentTypeEmotion;
       });
     }
   }
@@ -203,7 +223,7 @@ class _ChartState extends State<Chart> {
               title: Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.readuser,
+                Navigator.pushNamed(context, RouteName.readuser,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -212,7 +232,7 @@ class _ChartState extends State<Chart> {
               title: Text('Tạo tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
-                Navigator.pushReplacementNamed(context, RouteName.create,
+                Navigator.pushNamed(context, RouteName.create,
                     arguments: false);
               },
             ):Container(height:0),
@@ -221,7 +241,7 @@ class _ChartState extends State<Chart> {
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushReplacementNamed(context, RouteName.chart,
+                Navigator.pushNamed(context, RouteName.chart,
                     arguments: false);
               },
             ),
@@ -230,7 +250,7 @@ class _ChartState extends State<Chart> {
               title: Text('Chỉnh sửa comment'),
               onTap: () {
                 // Add your logic here for Button 2
-                Navigator.pushReplacementNamed(context, RouteName.editComment,
+                Navigator.pushNamed(context, RouteName.editComment,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -239,7 +259,7 @@ class _ChartState extends State<Chart> {
               title: Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
-                Navigator.pushReplacementNamed(context, RouteName.excel);
+                Navigator.pushNamed(context, RouteName.excel);
               },
             ),
                role==1?  ListTile(
@@ -247,7 +267,7 @@ class _ChartState extends State<Chart> {
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                
-                Navigator.pushReplacementNamed(context, RouteName.editMedia,
+                Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ):Container(height: 0,),
@@ -330,7 +350,7 @@ class _ChartState extends State<Chart> {
                         Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Chọn ngày bắt đầu",
+                  Text("Bắt đầu",
                        style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: Colors.black,
@@ -343,9 +363,7 @@ class _ChartState extends State<Chart> {
                             height: 50,
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color.fromRGBO(47, 179, 178, 1),
-                                ),
+                              
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextFormField(
                               readOnly: true,
@@ -379,7 +397,7 @@ class _ChartState extends State<Chart> {
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: Color(0xFFC7C9D9), width: 1),
+                                        color: Color.fromARGB(255, 28, 29, 31), width: 1),
                                     borderRadius: BorderRadius.circular(12)),
                                 // focusedBorder: OutlineInputBorder(
                                 //     borderSide: const BorderSide(
@@ -408,7 +426,7 @@ class _ChartState extends State<Chart> {
                       children: [Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Chọn ngày kết thúc",
+                  Text("Kết thúc",
                        style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: Colors.black,
@@ -421,9 +439,7 @@ class _ChartState extends State<Chart> {
                             height: 50,
                             padding: const EdgeInsets.all(0),
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color.fromRGBO(47, 179, 178, 1),
-                                ),
+                               
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextFormField(
                               readOnly: true,
@@ -458,7 +474,7 @@ class _ChartState extends State<Chart> {
                                 fillColor: Colors.white,
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: Color(0xFFC7C9D9), width: 1),
+                                        color: Color.fromARGB(255, 25, 26, 29), width: 1),
                                     borderRadius: BorderRadius.circular(12)),
                                     border: OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -554,10 +570,10 @@ class _ChartState extends State<Chart> {
                                 
                                 percentages.length,
                                 (index) => PieChartSectionData(
-                                    showTitle:false,
+                                  
                                   color: colors[index],
                                   value: percentages[index],
-                                  title: emotions[index],
+                                  title: emotions1[index]+"%",
                                 ),
                               ),
                             ),
@@ -684,10 +700,10 @@ class _ChartState extends State<Chart> {
                           sections: List.generate(
                             percentagesType.length,
                             (index) => PieChartSectionData(
-                              showTitle:false,
+                            
                               color: colorsType[index],
                               value: percentagesType[index],
-                              title: emotionsType[index],
+                              title: emotionsType[index].toString()+"%",
                             ),
                           ),
                         ),
@@ -765,7 +781,7 @@ class _ChartState extends State<Chart> {
                             color: colorsType[index],
                           ),
                           SizedBox(width: 8),
-                          Text(emotionsType[index]),
+                          Text(emotionsType1[index]),
                         ],
                       ),
                     ),

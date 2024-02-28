@@ -141,54 +141,56 @@ class _SlideState extends State<Slide> {
                         color: Color.fromARGB(255, 108, 113, 113)
                             .withOpacity(0.3), // Màu mờ (đen với độ mờ 0.5)
                         child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const SizedBox(
-                                height:
-                                    400, // Điều chỉnh kích thước của hình ảnh
-                              ),
-                              const SizedBox(height: 30),
-                             
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Text(
-                        "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign:TextAlign.center,
-                        softWrap: true,
-                      ),
-                    ),
-                    
-                              // const SizedBox(height: 20),
-
-                              SizedBox(
-                                height: 20,
-                              ),
-                              ElevatedButton(
-                                onPressed: _navigateToEmotionScreen,
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  padding: const EdgeInsets.all(20),
-                                  backgroundColor:
-                                      const Color.fromRGBO(47, 179, 178, 1),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const SizedBox(
+                                  height:
+                                      300, // Điều chỉnh kích thước của hình ảnh
                                 ),
-                                child: const Text(
-                                  'Bắt đầu đánh giá',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20,
+                                const SizedBox(height: 30),
+                               
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                                                  child: Text(
+                                                    "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
+                                                    style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                                                    ),
+                                                    textAlign:TextAlign.center,
+                                                    softWrap: true,
+                                                  ),
+                                                ),
+                                                
+                                // const SizedBox(height: 20),
+                            
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                  onPressed: _navigateToEmotionScreen,
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    padding: const EdgeInsets.all(20),
+                                    backgroundColor:
+                                        const Color.fromRGBO(47, 179, 178, 1),
+                                  ),
+                                  child: const Text(
+                                    'Bắt đầu đánh giá',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

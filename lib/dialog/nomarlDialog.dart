@@ -65,7 +65,7 @@ class NormalDialog extends StatelessWidget {
                         //     child: Text(text1stButton ?? " Thoát"))
                          SizedBox(
                 height: 50,
-                width: 200,
+               
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor:
