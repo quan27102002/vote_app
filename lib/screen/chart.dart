@@ -23,11 +23,11 @@ class _ChartState extends State<Chart> {
   List<double> percentages = [];
   List<double> percentagesType = [];
   List<_BarData> dataList = [
-    const _BarData(Colors.red, 0),
-    const _BarData(Colors.orange, 0),
+    const _BarData( Color.fromARGB(255, 170, 53, 69), 0),
+    const _BarData( Color.fromARGB(255, 207, 108, 133), 0),
     const _BarData(Colors.yellow, 0),
-    const _BarData(Colors.green, 0),
-    const _BarData(Colors.pink, 0),
+    const _BarData(Color.fromARGB(255, 41, 100, 230), 0),
+    const _BarData(Color.fromARGB(255, 54, 194, 19), 0),
   ];
 
   int? role;
@@ -100,11 +100,11 @@ class _ChartState extends State<Chart> {
   }
 
   List<Color> colors = [
-    Colors.red,
-    Colors.orange,
+    Color.fromARGB(255, 170, 53, 69),Color.fromARGB(255, 207, 108, 133)
+    ,
     Colors.yellow,
-    Colors.green,
-    Colors.pink,
+    Color.fromARGB(255, 41, 100, 230),
+    Color.fromARGB(255, 54, 194, 19),
   ];
   List<Color> colorsType = [
     Colors.red,
@@ -132,7 +132,7 @@ class _ChartState extends State<Chart> {
         BarChartRodData(
           toY: value,
           color: color,
-          width: 6,
+          width: 60,
         ),
       ],
       showingTooltipIndicators: touchedGroupIndex == x ? [0] : [],
@@ -595,8 +595,8 @@ class _ChartState extends State<Chart> {
                 checktype == '1'
                     ? role == 1 && _selectedOption == ''
                         ? Container(
-                            width: 300,
-                            height: 300,
+                            width: 400,
+                            height: 400,
                             child: PieChart(
                               PieChartData(
                                 sections: List.generate(
@@ -645,7 +645,7 @@ class _ChartState extends State<Chart> {
                                       ),
                                       bottomTitles: AxisTitles(
                                         sideTitles: SideTitles(
-                                          showTitles: true,
+                                          // showTitles: true,
                                           reservedSize: 36,
                                           getTitlesWidget: (value, meta) {
                                             final index = value.toInt();
@@ -727,8 +727,8 @@ class _ChartState extends State<Chart> {
                             ),
                           )
                     : Container(
-                        width: 300,
-                        height: 300,
+                        width: 400,
+                        height: 400,
                         child: PieChart(
                           PieChartData(
                             sections: List.generate(
