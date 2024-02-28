@@ -29,7 +29,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
         centerTitle: true, // Canh giữa tiêu đề
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[

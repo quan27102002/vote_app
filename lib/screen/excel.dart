@@ -10,10 +10,11 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row,Stack;
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/model/model_excel.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 
@@ -107,8 +108,10 @@ class _ExcelState extends State<Excel> {
 
     
     
-
+ final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
+ loadingProvider.showLoading();
       if (res.code == 200) {
+         loadingProvider.hideLoading();
         List<dynamic> responseObject=res.data;
         print(res.data);
         print(responseObject);
@@ -181,6 +184,7 @@ class _ExcelState extends State<Excel> {
   @override
   Widget build(BuildContext context) {
      double width = MediaQuery.of(context).size.width;
+     final loadingProvider = Provider.of<LoadingProvider>(context);
     return Scaffold(
        appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Xuất file Excel", style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
@@ -276,210 +280,219 @@ class _ExcelState extends State<Excel> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
-            child: Column(children: [
-                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: width>1100 ? 290: 120,
-                        child: Image.asset(
-                          "assets/images/logovietphap.png",
-                          fit: BoxFit.fill,
+        body: Stack(
+          children:[ SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+              child: Column(children: [
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width>1100 ? 290: 120,
+                          child: Image.asset(
+                            "assets/images/logovietphap.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: width>1100 ? 300: 120,
-                        child: Image.asset(
-                          "assets/images/logo_uc.png",
-                          fit: BoxFit.fill,
+                        Container(
+                          width: width>1100 ? 300: 120,
+                          child: Image.asset(
+                            "assets/images/logo_uc.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-          
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                        height: 50,
-                        padding: const EdgeInsets.all(0),
-                        decoration: const BoxDecoration(
-                            // borderRadius: BorderRadius.circular(10),
-                            ),
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () {
-                            selectDateStart(context);
-                          },
-                          controller: dateStartController,
-                          textInputAction: TextInputAction.newline,
-                          textAlignVertical: TextAlignVertical.bottom,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black)
-                          // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-          
-                          ,
-                          decoration: InputDecoration(
-                            prefixIcon: Container(
-                              margin: const EdgeInsets.only(left: 8, right: 8),
-                              child: const ImageIcon(
-                                AssetImage('assets/images/calendar.png'),
-                                size: 24,
+                      ],
+                    ),
+            
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          height: 50,
+                          padding: const EdgeInsets.all(0),
+                          decoration: const BoxDecoration(
+                              // borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                            labelText: "Chọn ngày bắt đầu",
-                            labelStyle: TextStyle(
+                          child: TextFormField(
+                            readOnly: true,
+                            onTap: () {
+                              selectDateStart(context);
+                            },
+                            controller: dateStartController,
+                            textInputAction: TextInputAction.newline,
+                            textAlignVertical: TextAlignVertical.bottom,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
-                                color: Colors.black),
-                            prefixIconConstraints:
-                                const BoxConstraints(minWidth: 20, minHeight: 20),
-                            prefixIconColor: Colors.black,
-                            filled: true,
-                            fillColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 28, 28, 29), width: 1),
-                                borderRadius: BorderRadius.circular(12)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 28, 28, 29),
-                                  width: 1,
+                                color: Colors.black)
+                            // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+            
+                            ,
+                            decoration: InputDecoration(
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.only(left: 8, right: 8),
+                                child: const ImageIcon(
+                                  AssetImage('assets/images/calendar.png'),
+                                  size: 24,
                                 ),
-                                borderRadius: BorderRadius.circular(12)),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Color.fromARGB(255, 28, 28, 29),
                               ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                        height: 50,
-                        padding: const EdgeInsets.all(0),
-                        decoration: const BoxDecoration(
-                            // borderRadius: BorderRadius.circular(10),
-                            ),
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () {
-                            selectDateEnd(context);
-                          },
-                          controller: dateEndController,
-                          textInputAction: TextInputAction.newline,
-                          textAlignVertical: TextAlignVertical.bottom,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black)
-          // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-          
-                          ,
-                          decoration: InputDecoration(
-                            prefixIcon: Container(
-                              margin: const EdgeInsets.only(left: 8, right: 8),
-                              child: const ImageIcon(
-                                AssetImage('assets/images/calendar.png'),
-                                size: 24,
+                              labelText: "Chọn ngày bắt đầu",
+                              labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.black),
+                              prefixIconConstraints:
+                                  const BoxConstraints(minWidth: 20, minHeight: 20),
+                              prefixIconColor: Colors.black,
+                              filled: true,
+                              fillColor: Colors.white,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 28, 28, 29), width: 1),
+                                  borderRadius: BorderRadius.circular(12)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 28, 28, 29),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12)),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 28, 28, 29),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            labelText: "Đến ngày",
-                            labelStyle: TextStyle(
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                          height: 50,
+                          padding: const EdgeInsets.all(0),
+                          decoration: const BoxDecoration(
+                              // borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: TextFormField(
+                            readOnly: true,
+                            onTap: () {
+                              selectDateEnd(context);
+                            },
+                            controller: dateEndController,
+                            textInputAction: TextInputAction.newline,
+                            textAlignVertical: TextAlignVertical.bottom,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
-                                color: Colors.black),
-                            prefixIconConstraints:
-                                const BoxConstraints(minWidth: 20, minHeight: 20),
-                            prefixIconColor: Colors.black,
-                            filled: true,
-                            fillColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 28, 28, 29), width: 1),
-                                borderRadius: BorderRadius.circular(12)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 28, 28, 29),
-                                  width: 1,
+                                color: Colors.black)
+            // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+            
+                            ,
+                            decoration: InputDecoration(
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.only(left: 8, right: 8),
+                                child: const ImageIcon(
+                                  AssetImage('assets/images/calendar.png'),
+                                  size: 24,
                                 ),
-                                borderRadius: BorderRadius.circular(12)),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Color.fromARGB(255, 28, 28, 29),
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              labelText: "Đến ngày",
+                              labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.black),
+                              prefixIconConstraints:
+                                  const BoxConstraints(minWidth: 20, minHeight: 20),
+                              prefixIconColor: Colors.black,
+                              filled: true,
+                              fillColor: Colors.white,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 28, 28, 29), width: 1),
+                                  borderRadius: BorderRadius.circular(12)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 28, 28, 29),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12)),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 28, 28, 29),
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
+                          )),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                role == 1
+                    ? Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedOption,
+                          items: options.keys.map((String key) {
+                            return DropdownMenuItem<String>(
+                              value: key,
+                              child: Text(options[key]!),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedOption = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            hintText: "Chọn chi nhánh",
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                            enabledBorder: InputBorder.none,
                           ),
-                        )),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              role == 1
-                  ? Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedOption,
-                        items: options.keys.map((String key) {
-                          return DropdownMenuItem<String>(
-                            value: key,
-                            child: Text(options[key]!),
-                          );
-                        }).toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _selectedOption = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Chọn chi nhánh",
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          enabledBorder: InputBorder.none,
+                          dropdownColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
-                      ),
-                    )
-                  : Container(),
-              SizedBox(height: 35),
-              ElevatedButton(
-                onPressed: () async {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  role = prefs.getInt('role')!;
-                  String? codeBr = prefs.getString('codeBr');
-                  if (role == 2) {
-                    exportToExcel(timeCreate, timeEnd, codeBr!);
-                  } else {
-                    exportToExcel(timeCreate, timeEnd, _selectedOption!);
-                  }
-                },
-                child: Text("Xem thông tin với excel"),
+                      )
+                    : Container(),
+                SizedBox(height: 35),
+                ElevatedButton(
+                  onPressed: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    role = prefs.getInt('role')!;
+                    String? codeBr = prefs.getString('codeBr');
+                    if (role == 2) {
+                      exportToExcel(timeCreate, timeEnd, codeBr!);
+                    } else {
+                      exportToExcel(timeCreate, timeEnd, _selectedOption!);
+                    }
+                  },
+                  child: Text("Xem thông tin với excel"),
+                ),
+              ]),
+            ),
+          ), if (loadingProvider.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
-            ]),
-          ),
+            ),
+          ]
         ));
   }
 }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => CommentProvider()),
           ChangeNotifierProvider(create: (_) => ImagesProvider()),
+          ChangeNotifierProvider(create: (_) => LoadingProvider()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

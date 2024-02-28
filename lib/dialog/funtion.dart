@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vote_app/dialog/nomarlDialog.dart';
+import 'package:vote_app/provider/loading.dart';
 
 class AppFuntion{
    static void showDialogError(
@@ -24,5 +26,12 @@ class AppFuntion{
           
           );
         });
+  }
+    static showLoading(BuildContext context) async {
+    context.read<LoadingProvider>().showLoading();
+  }
+
+  static hideLoading(BuildContext context) async {
+    context.read<LoadingProvider>().hideLoading();
   }
 }
