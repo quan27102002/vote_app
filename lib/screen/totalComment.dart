@@ -276,9 +276,9 @@ _loadRole();
               .setText(invoice.billCode);
           sheet.getRangeByIndex(i + 2, 2).setText(invoice.customerName);
           sheet.getRangeByIndex(i + 2, 3).setText(invoice.customerCode);
-          sheet.getRangeByIndex(i + 2, 4).setText(invoice.branchCode);
+          sheet.getRangeByIndex(i + 2, 4).setText(invoice.phone);
           sheet.getRangeByIndex(i + 2, 5).setText(invoice.startTime);
-          sheet.getRangeByIndex(i + 2, 6).setText(invoice.phone);
+          sheet.getRangeByIndex(i + 2, 6).setText(invoice.branchCode);
           sheet.getRangeByIndex(i + 2, 7).setText(invoice.doctor);
 
           // Extract service information from the Service object and display it
