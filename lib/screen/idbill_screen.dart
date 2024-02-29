@@ -17,6 +17,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String? branchAddress = Provider.of<UserProvider>(context, listen: false).loggedInUser.branchAddress;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -26,6 +27,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
             Navigator.pop(context);
           },
         ),
+      title:Text(branchAddress?? "Quản lý",style: TextStyle(fontWeight:FontWeight.w600),),
         centerTitle: true,
       ),
       endDrawer: Drawer(

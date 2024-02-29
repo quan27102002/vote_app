@@ -148,7 +148,7 @@ class _ExcelState extends State<Excel> {
           sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
           sheet
               .getRangeByIndex(i + 2, 7)
-              .setNumber(hoaDonList[i].billCode.toDouble());
+              .setText(hoaDonList[i].billCode);
           sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
           sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
           sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);

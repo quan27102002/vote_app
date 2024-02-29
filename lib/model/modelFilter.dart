@@ -1,5 +1,5 @@
 class Invoice {
-  final int billCode;
+  final String billCode;
   final String customerName;
   final String customerCode;
   final String phone;
@@ -21,7 +21,7 @@ class Invoice {
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
     return Invoice(
-      billCode: json['billCode'] as int,
+      billCode: json['billCode'] as String,
       customerName: json['customerName'] as String,
       customerCode: json['customerCode'] as String,
       phone: json['phone'] as String,

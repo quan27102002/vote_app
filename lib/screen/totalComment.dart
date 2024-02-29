@@ -273,7 +273,7 @@ _loadRole();
           final Invoice invoice = invoices[i];
           sheet
               .getRangeByIndex(i + 2, 1)
-              .setNumber(invoice.billCode.toDouble());
+              .setText(invoice.billCode);
           sheet.getRangeByIndex(i + 2, 2).setText(invoice.customerName);
           sheet.getRangeByIndex(i + 2, 3).setText(invoice.customerCode);
           sheet.getRangeByIndex(i + 2, 4).setText(invoice.branchCode);
@@ -351,7 +351,7 @@ _loadRole();
           final Invoice invoice = invoices[i];
           sheet
               .getRangeByIndex(i + 2, 1)
-              .setNumber(invoice.billCode.toDouble());
+              .setText(invoice.billCode);
           sheet.getRangeByIndex(i + 2, 2).setText(invoice.customerName);
           sheet.getRangeByIndex(i + 2, 3).setText(invoice.customerCode);
           sheet.getRangeByIndex(i + 2, 4).setText(invoice.branchCode);
