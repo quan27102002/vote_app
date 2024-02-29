@@ -592,7 +592,8 @@ class _ChartState extends State<Chart> {
                   ),
                 ),
                 SizedBox(height: 15),
-                checktype == '1'
+                Row(mainAxisAlignment:MainAxisAlignment.center ,
+                  children: [checktype == '1'
                     ? role == 1 && _selectedOption == ''
                         ? Container(
                             width: 400,
@@ -611,8 +612,8 @@ class _ChartState extends State<Chart> {
                             ),
                           )
                         : Container(
-                            height: 300,
-                            width: width * 0.7,
+                            height: 500,
+                            
                             child: Padding(
                               padding: const EdgeInsets.all(24),
                               child: AspectRatio(
@@ -742,9 +743,8 @@ class _ChartState extends State<Chart> {
                           ),
                         ),
                       ),
-                SizedBox(height: 20),
-                // Danh sách chú thích
-                checktype == '1'
+                SizedBox(width: 30),
+                 checktype == '1'
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: List.generate(
@@ -819,7 +819,10 @@ class _ChartState extends State<Chart> {
                             ),
                           ),
                         ),
-                      ),
+                      ),],)
+                
+                // Danh sách chú thích
+               
                 //  :Container(),
               ],
             ),
