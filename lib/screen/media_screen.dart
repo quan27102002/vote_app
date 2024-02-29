@@ -39,7 +39,9 @@ class _MediaScreenState extends State<MediaScreen> {
   Future<void> uploadImages() async {
     var res = await ApiRequest.uploadImages(imagePaths: images);
     if (res.data == true) {
-      images.clear();
+      setState(() {
+        images.clear(); // Xóa tất cả ảnh
+      });
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -66,7 +68,7 @@ class _MediaScreenState extends State<MediaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       drawer: Drawer(
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -104,8 +106,7 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.insert_chart),
               title: Text('Xem biểu đồ thống kê'),
               onTap: () {
-                Navigator.pushNamed(context, RouteName.chart,
-                    arguments: false);
+                Navigator.pushNamed(context, RouteName.chart, arguments: false);
               },
             ),
             ListTile(
@@ -123,11 +124,10 @@ class _MediaScreenState extends State<MediaScreen> {
                 Navigator.pushNamed(context, RouteName.excel);
               },
             ),
-               ListTile(
+            ListTile(
               leading: Icon(Icons.image),
               title: Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
-               
                 Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
@@ -136,19 +136,22 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-               
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-           
-             await   Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-                 Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
         ),
       ),
       appBar: AppBar(
-       
         title: Center(
             child: Text(
           'Thay đổi ảnh',

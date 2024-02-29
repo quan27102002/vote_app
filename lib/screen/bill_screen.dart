@@ -33,7 +33,7 @@ class _BillScreenState extends State<BillScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      getApi(int.parse(widget.data));
+      getApi(widget.data);
     });
   }
 
@@ -42,9 +42,9 @@ class _BillScreenState extends State<BillScreen> {
     return formatter!.format(number);
   }
 
-  Future<void> getApi(int idBill) async {
-         SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? codeBr = prefs.getString('codeBr');
+  Future<void> getApi(String idBill) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? codeBr = prefs.getString('codeBr');
     ApiResponse res = await ApiRequest.getData(codeBr);
     if (res.result == true) {
       setState(() {
@@ -77,7 +77,7 @@ class _BillScreenState extends State<BillScreen> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-   
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -94,7 +94,6 @@ class _BillScreenState extends State<BillScreen> {
           ),
         ),
         centerTitle: true, // Canh giữa tiêu đề
-   
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -114,16 +113,21 @@ class _BillScreenState extends State<BillScreen> {
                 ),
               ),
             ),
-                ListTile(
+            ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
                 // Add your logic here for Button 4
-          
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-             await   Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
@@ -189,7 +193,6 @@ class _BillScreenState extends State<BillScreen> {
                   height: 20,
                 ),
                 SizedBox(
-               
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -206,7 +209,7 @@ class _BillScreenState extends State<BillScreen> {
                       String newDateTimeString = newFormat.format(dateTime);
 
                       final res = await ApiRequest.uploadBillCustomer(
-                        customer.maHoaDon ?? 0,
+                        customer.maHoaDon ?? "",
                         customer.hoTen ?? "",
                         customer.maBenhNhan ?? "",
                         customer.dienThoaiDD ?? "",
@@ -246,7 +249,6 @@ class _BillScreenState extends State<BillScreen> {
                     ),
                   ),
                 ),
-             
               ],
             ),
           ),

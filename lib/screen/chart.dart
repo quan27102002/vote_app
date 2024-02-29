@@ -593,7 +593,8 @@ class _ChartState extends State<Chart> {
                 ),
                 SizedBox(height: 25),
                 Row(mainAxisAlignment:MainAxisAlignment.center ,
-                  children: [checktype == '1'
+                  children: [SizedBox(width: 140),
+                    checktype == '1'
                     ? role == 1 && _selectedOption == ''
                         ? Container(
                             width: 400,

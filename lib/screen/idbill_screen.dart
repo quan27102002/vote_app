@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/bill_screen.dart';
+import 'package:vote_app/utils/app_functions.dart';
 
 class IdBillScreen extends StatefulWidget {
   const IdBillScreen({Key? key}) : super(key: key);
@@ -119,7 +120,26 @@ class _IdBillScreenState extends State<IdBillScreen> {
                                 builder: (context) => BillScreen(data: id),
                               ),
                             );
-                          } else {}
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Thông báo'),
+                                  content: Text('Vui lòng điền mã hoá đơn.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                          AppFunctions.hideKeyboard(context);
                         },
                         child: Text(
                           "Xem hoá đơn",

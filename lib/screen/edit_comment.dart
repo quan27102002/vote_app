@@ -10,6 +10,7 @@ import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 
 import 'package:vote_app/screen/end_screen.dart';
+import 'package:vote_app/utils/app_functions.dart';
 
 class EditCommentScreen extends StatefulWidget {
   const EditCommentScreen({Key? key}) : super(key: key);
@@ -631,14 +632,6 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                         .id,
                                                     "content": comment2.text
                                                   },
-                                                  {
-                                                    "id": comment
-                                                        .listComment[
-                                                            selectedEmotion]
-                                                        .comments?[2]
-                                                        .id,
-                                                    "content": comment3.text
-                                                  }
                                                 ];
                                               });
 
@@ -647,7 +640,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 selectedEmotion,
                                                 commentData,
                                               );
-                                              if (res.code == 200) {
+                                              if (res.data == true) {
                                                 showDialog(
                                                   context: context,
                                                   builder:
@@ -669,9 +662,33 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                     );
                                                   },
                                                 );
+                                                comment.listComment.clear();
+                                                await comment.getApi();
+                                              } else if (res.data == false) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Thông báo'),
+                                                      content: Text(
+                                                          'Bình luận không được để trống.'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('OK'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
                                               }
-                                              comment.listComment.clear();
-                                              await comment.getApi();
+                                              AppFunctions.hideKeyboard(
+                                                  context);
                                             },
                                             child: Text(
                                               'Cập nhật thông tin',
@@ -859,6 +876,14 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                         .comments?[2]
                                                         .id,
                                                     "content": comment3.text
+                                                  },
+                                                  {
+                                                    "id": comment
+                                                        .listComment[
+                                                            selectedEmotion]
+                                                        .comments?[3]
+                                                        .id,
+                                                    "content": comment4.text
                                                   }
                                                 ];
                                               });
@@ -915,6 +940,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                   },
                                                 );
                                               }
+                                              AppFunctions.hideKeyboard(
+                                                  context);
                                             },
                                             child: Text(
                                               'Cập nhật thông tin',

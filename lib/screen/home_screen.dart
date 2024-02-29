@@ -8,6 +8,7 @@ import 'package:vote_app/model/comment.dart';
 import 'package:vote_app/provider/comment.dart';
 
 import 'package:vote_app/screen/end_screen.dart';
+import 'package:vote_app/utils/app_functions.dart';
 
 class EmotionScreen extends StatefulWidget {
   final String userBillId;
@@ -627,14 +628,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                         true) {
                                                   commentType = 1;
                                                 }
-                                                if (selectedOptions
-                                                            .isNotEmpty ==
-                                                        true &&
-                                                    commentDifferen
-                                                            .text.isNotEmpty ==
-                                                        true) {
-                                                  commentType = 2;
-                                                }
+                                                
                                                 level = selectedEmotion;
                                               });
                                               final res = await ApiRequest
@@ -655,6 +649,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 );
                                                 print("ok");
                                               }
+                                              AppFunctions.hideKeyboard(
+                                                  context);
                                             },
                                             child: Text(
                                               'Hoàn thành đánh giá',
