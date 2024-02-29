@@ -5,7 +5,7 @@ class HoaDon {
   final String branchCode;
   final String branchAddress;
   final String phone;
-  final int billCode;
+  final String billCode;
   final String startTime;
   final String doctor;
   final String serviceName;

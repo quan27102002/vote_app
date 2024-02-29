@@ -43,8 +43,8 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   Future<void> getApi(String idBill) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? codeBr = prefs.getString('codeBr');
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? codeBr = prefs.getString('codeBr');
     ApiResponse res = await ApiRequest.getData(codeBr);
     if (res.result == true) {
       setState(() {

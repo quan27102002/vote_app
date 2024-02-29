@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _checkToken();
+    // _checkToken();
   }
 
   Future<void> _checkToken() async {
