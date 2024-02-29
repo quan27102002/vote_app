@@ -628,6 +628,7 @@ class _CreateUserState extends State<CreateUser> {
   Future<void> CreateUser(String name, String email, String place,
       String branchCode, String pass, int role) async {
     // showLoading();
+    AppFuntion.hideKeyboard(context);
     ApiResponse res = await ApiRequest.userRegister(
         name, email, place, branchCode, pass, role);
     print(res);

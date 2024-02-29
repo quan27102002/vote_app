@@ -34,4 +34,10 @@ class AppFuntion{
   static hideLoading(BuildContext context) async {
     context.read<LoadingProvider>().hideLoading();
   }
+    static void hideKeyboard(context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
 }
