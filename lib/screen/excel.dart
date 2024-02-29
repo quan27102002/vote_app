@@ -13,6 +13,7 @@ import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row,Stack;
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
+import 'package:vote_app/dialog/funtion.dart';
 import 'package:vote_app/model/model_excel.dart';
 import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
@@ -178,6 +179,16 @@ class _ExcelState extends State<Excel> {
         setState(() {
           executionTime = stopwatch.elapsed;
         });
+      }else{
+        AppFuntion.showDialogError(context, "", onPressButton: () {
+          Navigator.of(context, rootNavigator: true).pop();
+        },
+            textButton: "Thoát",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                    res.code +
+                    "\nLoad dữ liệu lỗi" ??
+                "Vui lòng đăng xuất");
       }
       }
 

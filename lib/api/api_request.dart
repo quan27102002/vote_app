@@ -96,7 +96,7 @@ class ApiRequest {
 
 //uploadBillCustomer
   static Future<ApiResponse> uploadBillCustomer(
-    int billCode,
+    String billCode,
     String customerName,
     String customerCode,
     String phone,

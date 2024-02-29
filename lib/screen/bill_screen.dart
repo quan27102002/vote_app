@@ -33,7 +33,7 @@ class _BillScreenState extends State<BillScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      getApi(int.parse(widget.data));
+      getApi(widget.data);
     });
   }
 
@@ -42,7 +42,7 @@ class _BillScreenState extends State<BillScreen> {
     return formatter!.format(number);
   }
 
-  Future<void> getApi(int idBill) async {
+  Future<void> getApi(String idBill) async {
          SharedPreferences prefs = await SharedPreferences.getInstance();
       String? codeBr = prefs.getString('codeBr');
     ApiResponse res = await ApiRequest.getData(codeBr);
@@ -206,7 +206,7 @@ class _BillScreenState extends State<BillScreen> {
                       String newDateTimeString = newFormat.format(dateTime);
 
                       final res = await ApiRequest.uploadBillCustomer(
-                        customer.maHoaDon ?? 0,
+                        customer.maHoaDon ?? "",
                         customer.hoTen ?? "",
                         customer.maBenhNhan ?? "",
                         customer.dienThoaiDD ?? "",

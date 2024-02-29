@@ -2,7 +2,7 @@ class BillCustomer {
   String? hoTen;
   String? maBenhNhan;
   String? dienThoaiDD;
-  int? maHoaDon;
+  String? maHoaDon;
   String? thoiGianKham;
   String? coSoKham;
   String? bacSyPhuTrach;

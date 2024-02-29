@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
+import 'package:vote_app/dialog/funtion.dart';
 import 'package:vote_app/model/readUser.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
@@ -43,7 +44,17 @@ class _ReadUserState extends State<ReadUser> {
       // Handle error here
       setState(() {
         _isLoading = false;
-      });
+         
+      }); if (context.mounted) {
+      AppFuntion.showDialogError(context, "", onPressButton: () {
+          Navigator.of(context, rootNavigator: true).pop();
+        },
+            textButton: "Thoát",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                    res.code +
+                    "\nLoad dữ liệu lỗi" ??
+                "Lỗi");}
     }
   }
 

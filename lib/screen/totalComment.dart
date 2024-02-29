@@ -299,7 +299,15 @@ _loadRole();
         print('Không tìm thấy phản hồi có nội dung là: $comment');
       }
     } else {
-      print('Lỗi: ${res.code}');
+     AppFuntion.showDialogError(context, "", onPressButton: () {
+          Navigator.of(context, rootNavigator: true).pop();
+        },
+            textButton: "Thoát",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                    res.code +
+                    "\nLoad dữ liệu lỗi" ??
+                "Vui lòng đăng xuất");
     }
   }
 
@@ -354,9 +362,9 @@ _loadRole();
               .setText(invoice.billCode);
           sheet.getRangeByIndex(i + 2, 2).setText(invoice.customerName);
           sheet.getRangeByIndex(i + 2, 3).setText(invoice.customerCode);
-          sheet.getRangeByIndex(i + 2, 4).setText(invoice.branchCode);
+          sheet.getRangeByIndex(i + 2, 4).setText(invoice.phone);
           sheet.getRangeByIndex(i + 2, 5).setText(invoice.startTime);
-          sheet.getRangeByIndex(i + 2, 6).setText(invoice.phone);
+          sheet.getRangeByIndex(i + 2, 6).setText(invoice.branchCode);
           sheet.getRangeByIndex(i + 2, 7).setText(invoice.doctor);
 
           // Extract service information from the Service object and display it

@@ -1,7 +1,7 @@
 class BillIdUser {
   String? id;
   String? doctor;
-  int? billCode;
+  String? billCode;
   Service? service;
 
   BillIdUser({this.id, this.doctor, this.billCode, this.service});
