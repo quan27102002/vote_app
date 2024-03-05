@@ -24,6 +24,7 @@ class BillScreen extends StatefulWidget {
 class _BillScreenState extends State<BillScreen> {
   // BillIdUser? idBill;
   List<BillIdUser> idBill = [];
+  List<BillCustomer> service = [];
   String? userBillId;
   late BillCustomer customer;
   bool _isLoading = true;
@@ -32,9 +33,8 @@ class _BillScreenState extends State<BillScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      getApi(widget.data);
-    });
+
+    getApi(widget.data);
   }
 
   String formatCurrency(int number) {
@@ -43,18 +43,45 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   Future<void> getApi(String idBill) async {
-         SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? codeBr = prefs.getString('codeBr');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? codeBr = prefs.getString('codeBr');
     ApiResponse res = await ApiRequest.getData(codeBr);
     if (res.result == true) {
-      setState(() {
-        List<BillCustomer> listBill = [];
-        for (var e in res.data) {
-          listBill.add(BillCustomer.fromJson(e));
-        }
-        customer = listBill.firstWhere((bill) => bill.maHoaDon == idBill);
-        _isLoading = false;
-      });
+      List<BillCustomer> listBill = [];
+      for (var e in res.data) {
+        listBill.add(BillCustomer.fromJson(e));
+      }
+
+      // Kiểm tra xem có phần tử nào thỏa mãn điều kiện không
+      var matchingBills =
+          listBill.where((bill) => bill.maHoaDon == idBill).toList();
+
+      if (matchingBills.isNotEmpty) {
+        setState(() {
+          service.addAll(matchingBills);
+          _isLoading = false;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Thông báo'),
+              content: Text('Hoá đơn này không tồn tại'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        print("Không tìm thấy hóa đơn có mã $idBill");
+      }
     } else {
       print(res.message ?? "Lỗi");
     }
@@ -145,47 +172,60 @@ class _BillScreenState extends State<BillScreen> {
                   children: [
                     RowInCardProduct(
                       titleLeft: "Mã hoá đơn",
-                      titleRight: customer.maHoaDon.toString(),
+                      titleRight: service[0].maHoaDon,
                     ),
                     RowInCardProduct(
                       titleLeft: "Tên khách hàng",
-                      titleRight: customer.hoTen,
+                      titleRight: service[0].hoTen,
                     ),
                     RowInCardProduct(
                       titleLeft: "Mã khách hàng",
-                      titleRight: customer.maBenhNhan,
+                      titleRight: service[0].maBenhNhan,
                     ),
                     RowInCardProduct(
                       titleLeft: "Mã cơ sở",
-                      titleRight: customer.maCoSo,
+                      titleRight: service[0].maCoSo,
                     ),
                     RowInCardProduct(
                       titleLeft: "Địa chỉ",
-                      titleRight: customer.coSoKham,
+                      titleRight: service[0].coSoKham,
                     ),
-                    RowInCardProduct(
-                      titleLeft: "Tên bác sĩ",
-                      titleRight: customer.bacSyPhuTrach,
-                    ),
-                    RowInCardProduct(
-                      titleLeft: "Dịch vụ",
-                      titleRight: customer.tenDichVu,
-                    ),
-                    RowInCardProduct(
-                      titleLeft: "Số lượng",
-                      titleRight: customer.soLuong.toString(),
-                    ),
-                    RowInCardProduct(
-                      titleLeft: "Đơn giá",
-                      titleRight: formatCurrency(customer.donGia!.toInt()),
+                    Container(
+                      width: width,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: service.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                RowInCardProduct(
+                                  titleLeft: "Dịch vụ",
+                                  titleRight: service[index].tenDichVu,
+                                ),
+                                RowInCardProduct(
+                                  titleLeft: "Số lượng",
+                                  titleRight: service[index].soLuong.toString(),
+                                ),
+                                RowInCardProduct(
+                                  titleLeft: "Đơn giá",
+                                  titleRight: formatCurrency(
+                                      service[index].donGia!.toInt()),
+                                ),
+                                RowInCardProduct(
+                                  titleLeft: "Tên bác sĩ",
+                                  titleRight: service[index].bacSyPhuTrach,
+                                ),
+                              ],
+                            );
+                          }),
                     ),
                     RowInCardProduct(
                       titleLeft: "Số điện thoại",
-                      titleRight: customer.dienThoaiDD,
+                      titleRight: service[0].dienThoaiDD,
                     ),
                     RowInCardProduct(
                       titleLeft: "Thời gian khám",
-                      titleRight: customer.thoiGianKham,
+                      titleRight: service[0].thoiGianKham!.split(" ")[0],
                     ),
                   ],
                 ),

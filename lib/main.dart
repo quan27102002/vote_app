@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
             ),
             useMaterial3: true,
           ),
-          onGenerateRoute: AppRouter.instance.onGenerateRoute,
-          // home: EndScreen(),
+          // onGenerateRoute: AppRouter.instance.onGenerateRoute,
+          home: IdBillScreen(),
         ));
   }
 }

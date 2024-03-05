@@ -32,6 +32,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
   }
 
   List<Map<String, dynamic>> commentData = [];
+
   List selectCmt = [false, false, false, false];
   List cmt = [];
   bool isTapped0 = false;
@@ -851,42 +852,84 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                     1) // Màu của nút
                                                 ),
                                             onPressed: () async {
-                                              setState(() {
-                                                commentData = [
-                                                  {
-                                                    "id": comment
-                                                        .listComment[
-                                                            selectedEmotion]
-                                                        .comments?[0]
-                                                        .id,
-                                                    "content": comment1.text,
-                                                  },
-                                                  {
-                                                    "id": comment
-                                                        .listComment[
-                                                            selectedEmotion]
-                                                        .comments?[1]
-                                                        .id,
-                                                    "content": comment2.text
-                                                  },
-                                                  {
-                                                    "id": comment
-                                                        .listComment[
-                                                            selectedEmotion]
-                                                        .comments?[2]
-                                                        .id,
-                                                    "content": comment3.text
-                                                  },
-                                                  {
-                                                    "id": comment
-                                                        .listComment[
-                                                            selectedEmotion]
-                                                        .comments?[3]
-                                                        .id,
-                                                    "content": comment4.text
-                                                  }
-                                                ];
-                                              });
+                                              if (comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments!
+                                                      .length ==
+                                                  4) {
+                                                setState(() {
+                                                  commentData = [
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[0]
+                                                          .id,
+                                                      "content": comment1.text,
+                                                    },
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[1]
+                                                          .id,
+                                                      "content": comment2.text
+                                                    },
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[2]
+                                                          .id,
+                                                      "content": comment3.text
+                                                    },
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[3]
+                                                          .id,
+                                                      "content": comment4.text
+                                                    }
+                                                  ];
+                                                });
+                                              }
+                                              if (comment
+                                                      .listComment[
+                                                          selectedEmotion]
+                                                      .comments!
+                                                      .length ==
+                                                  3) {
+                                                setState(() {
+                                                  commentData = [
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[0]
+                                                          .id,
+                                                      "content": comment1.text,
+                                                    },
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[1]
+                                                          .id,
+                                                      "content": comment2.text
+                                                    },
+                                                    {
+                                                      "id": comment
+                                                          .listComment[
+                                                              selectedEmotion]
+                                                          .comments?[2]
+                                                          .id,
+                                                      "content": comment3.text
+                                                    },
+                                                  ];
+                                                });
+                                              }
 
                                               ApiResponse res =
                                                   await ApiRequest.editComment(
