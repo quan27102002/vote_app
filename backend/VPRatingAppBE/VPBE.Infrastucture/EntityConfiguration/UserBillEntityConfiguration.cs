@@ -24,7 +24,6 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(x => x.StartTime).IsRequired();
             builder.Property(x => x.BranchCode).IsRequired();
             builder.Property(x => x.BranchAddress).IsRequired();
-            builder.Property(x => x.Doctor).IsRequired();
             builder.Property(x => x.Service).IsRequired();
             builder.Property(x => x.IsDeleted).IsRequired();
             builder.BuildBaseEntity();

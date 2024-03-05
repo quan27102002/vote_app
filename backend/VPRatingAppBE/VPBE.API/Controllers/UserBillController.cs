@@ -35,7 +35,7 @@ namespace VPBE.API.Controllers
                     logger.Debug($"User bill already existed, skip creating.");
                     return Ok(new CustomResponse
                     {
-                        Result = existedBills.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Doctor = a.Doctor, Service = JsonConvert.DeserializeObject<BranchService>(a.Service) }).ToList(),
+                        Result = existedBills.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Service = JsonConvert.DeserializeObject<List<BranchService>>(a.Service) }).ToList(),
                         Message = "Mời quý khách tiếp tục tham gia đánh giá chất lượng dịch vụ."
                     });
                 }
@@ -53,7 +53,6 @@ namespace VPBE.API.Controllers
                         StartTime = item.StartTime,
                         BranchCode = item.BranchCode,
                         BranchAddress = item.BranchAddress,
-                        Doctor = item.Doctor,
                         Service = JsonConvert.SerializeObject(item.Service),
                     };
                     listUserBill.Add(userBill);
@@ -64,7 +63,7 @@ namespace VPBE.API.Controllers
 
                 return Ok(new CustomResponse
                 {
-                    Result = request.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Doctor = a.Doctor, Service = a.Service }).ToList(),
+                    Result = request.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Service = a.Service }).ToList(),
                     Message = ""
                 });
             }

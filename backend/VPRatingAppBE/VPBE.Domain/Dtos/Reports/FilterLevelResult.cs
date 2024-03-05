@@ -16,15 +16,14 @@ namespace VPBE.Domain.Dtos.Reports
 
     public class UserCommentResult
     {
-        public int BillCode { get; set; }
+        public string BillCode { get; set; }
         public string CustomerName { get; set; }
         public string CustomerCode { get; set; }
         public string Phone { get; set; }
         public DateTime StartTime { get; set; }
         public string BranchCode { get; set; }
         public string BranchAddress { get; set; }
-        public string Doctor { get; set; } = string.Empty;
-        public BranchService Service { get; set; }
+        //public List<BranchService> Service { get; set; } = new List<BranchService>();
     }
 
     public class CommonLevelResult

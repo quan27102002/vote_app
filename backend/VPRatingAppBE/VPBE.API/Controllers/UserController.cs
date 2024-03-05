@@ -249,7 +249,7 @@ namespace VPBE.API.Controllers
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
                 var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.UserName == username && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();
-                if (user is null)
+                if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpireTime < DateTime.Now)
                 {
                     logger.Error($"Invalid user data");
                     return Ok(new CustomResponse

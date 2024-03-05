@@ -183,8 +183,7 @@ namespace VPBE.API.Controllers
                             CustomerName = e.UserBillEntity.CustomerName,
                             CustomerCode = e.UserBillEntity.CustomerCode,
                             Phone = e.UserBillEntity.Phone,
-                            Service = JsonConvert.DeserializeObject<BranchService>(e.UserBillEntity.Service),
-                            Doctor = e.UserBillEntity.Doctor,
+                            //Service = JsonConvert.DeserializeObject<List<BranchService>>(e.UserBillEntity.Service),
                             BranchCode = e.UserBillEntity.BranchCode,
                             BranchAddress = e.UserBillEntity.BranchAddress,
                             BillCode = e.UserBillEntity.BillCode,
@@ -197,8 +196,7 @@ namespace VPBE.API.Controllers
                             CustomerName = e.UserBillEntity.CustomerName,
                             CustomerCode = e.UserBillEntity.CustomerCode,
                             Phone = e.UserBillEntity.Phone,
-                            Service = JsonConvert.DeserializeObject<BranchService>(e.UserBillEntity.Service),
-                            Doctor = e.UserBillEntity.Doctor,
+                            //Service = JsonConvert.DeserializeObject<List<BranchService>>(e.UserBillEntity.Service),
                             BranchCode = e.UserBillEntity.BranchCode,
                             BranchAddress = e.UserBillEntity.BranchAddress,
                             BillCode = e.UserBillEntity.BillCode,
@@ -217,8 +215,7 @@ namespace VPBE.API.Controllers
                         CustomerName = a.CustomerName,
                         CustomerCode = a.CustomerCode,
                         Phone = a.Phone,
-                        Service = a.Service,
-                        Doctor = a.Doctor,
+                        //Service = a.Service,
                         BranchCode = a.BranchCode,
                         BranchAddress = a.BranchAddress,
                         BillCode = a.BillCode,
@@ -237,8 +234,7 @@ namespace VPBE.API.Controllers
                         CustomerName = a.CustomerName,
                         CustomerCode = a.CustomerCode,
                         Phone = a.Phone,
-                        Service = a.Service,
-                        Doctor = a.Doctor,
+                        //Service = a.Service,
                         BranchCode = a.BranchCode,
                         BranchAddress = a.BranchAddress,
                         BillCode = a.BillCode,
@@ -299,17 +295,18 @@ namespace VPBE.API.Controllers
                     .Select(a => new
                     {
                         Id = a.CreatedById,
-                        CustomerName = a.UserBillEntity.CustomerName,
-                        CustomerCode = a.UserBillEntity.CustomerCode,
+                        a.UserBillEntity.CustomerName,
+                        a.UserBillEntity.CustomerCode,
                         a.UserBillEntity.BranchCode,
                         a.UserBillEntity.BranchAddress,
                         a.UserBillEntity.Phone,
                         a.UserBillEntity.BillCode,
                         a.UserBillEntity.StartTime,
-                        a.UserBillEntity.Doctor,
-                        ServiceName = JsonConvert.DeserializeObject<BranchService>(a.UserBillEntity.Service).Name,
-                        Amount = JsonConvert.DeserializeObject<BranchService>(a.UserBillEntity.Service).Amount,
-                        UnitPrice = JsonConvert.DeserializeObject<BranchService>(a.UserBillEntity.Service).UnitPrice,
+                        Services = JsonConvert.DeserializeObject<List<BranchService>>(a.UserBillEntity.Service),
+                        //Doctor = JsonConvert.DeserializeObject<List<BranchService>>(a.UserBillEntity.Service).Doctor,
+                        //ServiceName = JsonConvert.DeserializeObject<List<BranchService>>(a.UserBillEntity.Service).Name,
+                        //Amount = JsonConvert.DeserializeObject<List<BranchService>>(a.UserBillEntity.Service).Amount,
+                        //UnitPrice = JsonConvert.DeserializeObject<List<BranchService>>(a.UserBillEntity.Service).UnitPrice,
                         Level = a.Level,
                         LevelName = a.Level == SatisfactionLevel.VeryBad ? "Rất tệ"
                                         : a.Level == SatisfactionLevel.Bad ? "Tệ"
@@ -322,9 +319,25 @@ namespace VPBE.API.Controllers
                     })
                     .ToListAsync();
 
+                var finalResult = result.Select(a => a.Services?.Select(b => new
+                {
+                    a.Id,
+                    a.CustomerName,
+                    a.CustomerCode,
+                    a.BranchCode,
+                    a.BranchAddress,
+                    a.Phone,
+                    a.BillCode,
+                    a.StartTime,
+                    b.Doctor,
+                    b.Name,
+                    b.UnitPrice,
+                    b.Amount
+                }));
+
                 return Ok(new CustomResponse
                 {
-                    Result = result,
+                    Result = finalResult,
                     Message = "Xuất báo cáo thành công."
                 });
             }

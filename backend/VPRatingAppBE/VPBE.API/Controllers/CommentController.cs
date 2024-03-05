@@ -115,9 +115,18 @@ namespace VPBE.API.Controllers
             try
             {
                 var commentsInDb = await _dBRepository.Context.Set<CommentEntity>().Where(a => !a.IsDeleted && a.Level == request.Level).Select(a => a.Id).ToListAsync();
-                
-                
-                if (!request.Comments.Any(x => commentsInDb.Contains(x.Id)))
+
+                var userBill = await _dBRepository.Context.Set<CommentResponseEntity>().Include(a => a.UserBillEntity).Where(a => !a.IsDeleted && a.UserBillEntity.Id == request.UserBillId).FirstOrDefaultAsync();
+                if (userBill != null)
+                {
+                    logger.Error($"User bill {request.UserBillId} is existed");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "Hóa đơn đã đựoc đánh giá."
+                    });
+                }
+                if (request.CommentType == CommentType.BuiltIn && !request.Comments.Any(x => commentsInDb.Contains(x.Id)))
                 {
                     logger.Error("Mismatch data");
                     return Ok(new CustomResponse

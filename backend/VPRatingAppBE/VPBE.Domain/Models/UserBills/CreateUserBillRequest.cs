@@ -10,7 +10,7 @@ namespace VPBE.Domain.Models.UserBills
     public class CreateUserBillRequest
     {
         public Guid Id { get; set; } = Guid.Empty;
-        public int BillCode { get; set; }
+        public string BillCode { get; set; }
         public string CustomerName { get; set; }
         public string CustomerCode { get; set; }
         public string Phone { get; set; }
@@ -18,6 +18,6 @@ namespace VPBE.Domain.Models.UserBills
         public string BranchCode { get; set; }
         public string BranchAddress { get; set; }
         public string Doctor { get; set; } = string.Empty;
-        public BranchService Service { get; set; }
+        public List<BranchService> Service { get; set; }
     }
 }

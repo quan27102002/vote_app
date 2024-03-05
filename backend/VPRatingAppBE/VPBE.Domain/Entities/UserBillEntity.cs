@@ -10,14 +10,13 @@ namespace VPBE.Domain.Entities
     public class UserBillEntity : BaseEntity
     {
         public Guid Id { get; set; }
-        public int BillCode { get; set; }
+        public string BillCode { get; set; }
         public string CustomerName { get; set; }
         public string CustomerCode { get; set; }
         public string Phone { get; set; }
         public DateTime StartTime { get; set; }
         public string BranchCode { get; set; }
         public string BranchAddress { get; set; }
-        public string Doctor { get; set; } = string.Empty;
         public string Service { get; set; } // serialize List<Service>
         public bool IsDeleted { get; set; }
     }
@@ -25,6 +24,7 @@ namespace VPBE.Domain.Entities
     public class BranchService
     {
         public string Name { get; set; }
+        public string Doctor { get; set; }
         public int Amount { get; set; }
         public int UnitPrice { get; set; }
     }
