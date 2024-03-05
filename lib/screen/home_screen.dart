@@ -138,7 +138,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                         child: Column(
                           children: [
                             Container(
-                              width: 120,
+                             width: width>700?120:60,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
                                       ? Color.fromRGBO(255, 214, 214, 1)

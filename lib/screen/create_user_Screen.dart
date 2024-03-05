@@ -175,32 +175,32 @@ class _CreateUserState extends State<CreateUser> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: width * 0.6,
+             width: width > 1100 ? 0.7 * width : 0.85 * width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: width / 4,
-                              child: Image.asset(
-                                "assets/images/logovietphap.png",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            Container(
-                              width: width / 4,
-                              child: Image.asset(
-                                "assets/images/logo_uc.png",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ],
+                         Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width>1100 ? 290: 120,
+                          child: Image.asset(
+                            "assets/images/logovietphap.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
+                        Container(
+                          width: width>1100 ? 300: 120,
+                          child: Image.asset(
+                            "assets/images/logo_uc.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
+                    ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(children: [

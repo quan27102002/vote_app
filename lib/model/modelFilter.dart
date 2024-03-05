@@ -5,16 +5,18 @@ class Invoice {
   final String phone;
   final String startTime;
   final String branchCode;
+    final String branchAddress;
   final String doctor;
   final Service service;
 
-  Invoice({
+  Invoice( {
     required this.billCode,
     required this.customerName,
     required this.customerCode,
     required this.phone,
     required this.startTime,
     required this.branchCode,
+   required this.branchAddress,
     required this.doctor,
     required this.service,
   });
@@ -27,6 +29,7 @@ class Invoice {
       phone: json['phone'] as String,
       startTime: json['startTime'] as String,
       branchCode: json['branchCode'] as String,
+      branchAddress: json['branchAddress'] as String,
       doctor: json['doctor'] as String,
       service: Service.fromJson(json['service'] as Map<String, dynamic>),
     );
