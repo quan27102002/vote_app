@@ -138,7 +138,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                         child: Column(
                           children: [
                             Container(
-                             width: width>700?120:60,
+                              width: width > 700 ? 120 : 60,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
                                       ? Color.fromRGBO(255, 214, 214, 1)
@@ -166,13 +166,14 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                     bottomRight: Radius.circular(10),
                                   )),
                               child: Center(
-                                child: Text(
-                                  'Rất Tệ',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 121, 121, 1),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -230,13 +231,18 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                     bottomRight: Radius.circular(10),
                                   )),
                               child: Center(
-                                child: Text(
-                                  'Tệ',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(252, 149, 74, 1),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -294,13 +300,22 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                     bottomRight: Radius.circular(10),
                                   )),
                               child: Center(
-                                child: Text(
-                                  'Bình thường',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(147, 146, 136, 1),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -357,13 +372,26 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                     bottomRight: Radius.circular(10),
                                   )),
                               child: Center(
-                                child: Text(
-                                  'Tốt',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(98, 189, 255, 1),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -420,13 +448,26 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                     bottomRight: Radius.circular(10),
                                   )),
                               child: Center(
-                                child: Text(
-                                  'Hoàn hảo',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(39, 203, 114, 1),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -628,7 +669,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                         true) {
                                                   commentType = 1;
                                                 }
-                                                
+
                                                 level = selectedEmotion;
                                               });
                                               final res = await ApiRequest
