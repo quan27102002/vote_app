@@ -177,6 +177,9 @@ class _ExcelState extends State<Excel> {
           sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
         // }
         }
+        for (int i = 1; i < 17; i++) {
+  sheet.autoFitColumn(i);
+}
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
 
