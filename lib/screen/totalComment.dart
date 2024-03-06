@@ -266,8 +266,8 @@ _loadRole();
         sheet.getRangeByIndex(1, 5).setText('Thời gian khám');
         sheet.getRangeByIndex(1, 6).setText('Mã cơ sở');
            sheet.getRangeByIndex(1, 7).setText('Tên cơ sở');
-        sheet.getRangeByIndex(1, 8).setText('Bác sĩ');
-        sheet.getRangeByIndex(1, 9).setText('Dịch vụ');
+        // sheet.getRangeByIndex(1, 8).setText('Bác sĩ');
+        // sheet.getRangeByIndex(1, 9).setText('Dịch vụ');
 
         // Add data
         for (int i = 0; i < invoices.length; i++) {
@@ -281,13 +281,13 @@ _loadRole();
           sheet.getRangeByIndex(i + 2, 5).setText(invoice.startTime);
           sheet.getRangeByIndex(i + 2, 6).setText(invoice.branchCode);
            sheet.getRangeByIndex(i + 2,7 ).setText(invoice.branchAddress);
-          sheet.getRangeByIndex(i + 2, 8).setText(invoice.doctor);
+          // sheet.getRangeByIndex(i + 2, 8).setText(invoice.doctor);
 
-          // Extract service information from the Service object and display it
-          final Service service = invoice.service;
-          final String fullServiceInfo =
-              '${service.name} - ${service.amount} - ${service.unitPrice}';
-          sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
+          // // Extract service information from the Service object and display it
+          // final Service service = invoice.service;
+          // final String fullServiceInfo =
+          //     '${service.name} - ${service.amount} - ${service.unitPrice}';
+          // sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
         }
 
         final List<int> bytes = workbook.saveAsStream();
@@ -354,8 +354,8 @@ _loadRole();
         sheet.getRangeByIndex(1, 5).setText('Thời gian khám');
         sheet.getRangeByIndex(1, 6).setText('Mã cơ sở');
            sheet.getRangeByIndex(1, 7).setText('Tên cơ sở');
-        sheet.getRangeByIndex(1, 8).setText('Bác sĩ');
-        sheet.getRangeByIndex(1, 9).setText('Dịch vụ');
+        // sheet.getRangeByIndex(1, 8).setText('Bác sĩ');
+        // sheet.getRangeByIndex(1, 9).setText('Dịch vụ');
 
         // Add data
         for (int i = 0; i < invoices.length; i++) {
@@ -369,13 +369,13 @@ _loadRole();
           sheet.getRangeByIndex(i + 2, 5).setText(invoice.startTime);
           sheet.getRangeByIndex(i + 2, 6).setText(invoice.branchCode);
            sheet.getRangeByIndex(i + 2,7 ).setText(invoice.branchAddress);
-          sheet.getRangeByIndex(i + 2, 8).setText(invoice.doctor);
+          // sheet.getRangeByIndex(i + 2, 8).setText(invoice.doctor);
 
-          // Extract service information from the Service object and display it
-          final Service service = invoice.service;
-          final String fullServiceInfo =
-              '${service.name} - ${service.amount} - ${service.unitPrice}';
-          sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
+          // // Extract service information from the Service object and display it
+          // final Service service = invoice.service;
+          // final String fullServiceInfo =
+          //     '${service.name} - ${service.amount} - ${service.unitPrice}';
+          // sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
         }
 
         final List<int> bytes = workbook.saveAsStream();

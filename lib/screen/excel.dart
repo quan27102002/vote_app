@@ -95,6 +95,7 @@ class _ExcelState extends State<Excel> {
 
   Duration? executionTime;
   List<HoaDon> hoaDonList = [];
+  List<Service> services=[];
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
 
   Future<void> exportToExcel(
@@ -116,6 +117,7 @@ class _ExcelState extends State<Excel> {
         List<dynamic> responseObject=res.data;
         print(res.data);
         print(responseObject);
+        hoaDonList.clear();
         for (var itemData in responseObject) {
           hoaDonList.add(HoaDon.fromJson(itemData));
         }
@@ -123,55 +125,57 @@ class _ExcelState extends State<Excel> {
         final Worksheet sheet = workbook.worksheets[0];
 
         // Add headers
-        sheet.getRangeByIndex(1, 1).setText('Id');
-        sheet.getRangeByIndex(1, 2).setText('Tên khách hàng');
-        sheet.getRangeByIndex(1, 3).setText('Mã khách hàng');
-        sheet.getRangeByIndex(1, 4).setText('Mã cơ sở');
-        sheet.getRangeByIndex(1, 5).setText('Tên cơ sở');
-        sheet.getRangeByIndex(1, 6).setText('Số điện thoại');
-        sheet.getRangeByIndex(1, 7).setText('Mã hóa đơn');
-        sheet.getRangeByIndex(1, 8).setText('Thời gian khám');
-        sheet.getRangeByIndex(1, 9).setText('Bác sĩ');
-        sheet.getRangeByIndex(1, 10).setText('Tên dịch vụ');
-        sheet.getRangeByIndex(1, 11).setText('Số lượng');
-        sheet.getRangeByIndex(1, 12).setText('Đơn giá');
-        sheet.getRangeByIndex(1, 13).setText('Mã trạng thái cảm xúc');
-        sheet.getRangeByIndex(1, 14).setText('Trạng thái cảm xúc');
-        sheet.getRangeByIndex(1, 15).setText('Comment');
-        sheet.getRangeByIndex(1, 16).setText('Comment khác');
+        // sheet.getRangeByIndex(1, 1).setText('Id');
+        sheet.getRangeByIndex(1, 1).setText('Tên khách hàng');
+        sheet.getRangeByIndex(1, 2).setText('Mã khách hàng');
+        sheet.getRangeByIndex(1, 3).setText('Mã cơ sở');
+        sheet.getRangeByIndex(1, 4).setText('Tên cơ sở');
+        sheet.getRangeByIndex(1, 5).setText('Số điện thoại');
+        sheet.getRangeByIndex(1, 6).setText('Mã hóa đơn');
+        sheet.getRangeByIndex(1, 7).setText('Thời gian khám');
+        sheet.getRangeByIndex(1, 8).setText('Bác sĩ');
+        sheet.getRangeByIndex(1, 9).setText('Tên dịch vụ');
+        sheet.getRangeByIndex(1, 10).setText('Số lượng');
+        sheet.getRangeByIndex(1, 11).setText('Đơn giá');
+        sheet.getRangeByIndex(1, 12).setText('Mã trạng thái cảm xúc');
+        sheet.getRangeByIndex(1, 13).setText('Trạng thái cảm xúc');
+        sheet.getRangeByIndex(1, 14).setText('Comment');
+        sheet.getRangeByIndex(1, 15).setText('Comment khác');
 
         for (int i = 0; i < hoaDonList.length; i++) {
-          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
-          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
-          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
-          sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
-          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
-          sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
+          services.clear();
+          services=hoaDonList[i].service;
+         for(int j=0;j< services.length;j++){
+          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].customerName);
+          sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerCode);
+          sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].branchCode);
+          sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchAddress);
+          sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].phone);
           sheet
-              .getRangeByIndex(i + 2, 7)
+              .getRangeByIndex(i + 2, 6)
               .setText(hoaDonList[i].billCode);
-          sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
-          sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
-          sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
+          sheet.getRangeByIndex(i + 2, 7).setText(hoaDonList[i].startTime);
+          sheet.getRangeByIndex(i + 2, 8).setText(services[j].doctor);
+          sheet.getRangeByIndex(i + 2, 9).setText(services[j].name);
+          sheet
+              .getRangeByIndex(i + 2, 10)
+              .setNumber(services[j].amount.toDouble());
           sheet
               .getRangeByIndex(i + 2, 11)
-              .setNumber(hoaDonList[i].amount.toDouble());
+              .setNumber(services[i].unitPrice.toDouble());
           sheet
               .getRangeByIndex(i + 2, 12)
-              .setNumber(hoaDonList[i].unitPrice.toDouble());
-          sheet
-              .getRangeByIndex(i + 2, 13)
               .setNumber(hoaDonList[i].level.toDouble());
-          sheet.getRangeByIndex(i + 2, 14).setText(hoaDonList[i].levelName);
+          sheet.getRangeByIndex(i + 2, 13).setText(hoaDonList[i].levelName);
           String comments = hoaDonList[i]
               .comments
               .map((comment) => comment.content)
               .join(", ");
-          sheet.getRangeByIndex(i + 2, 15).setText(comments);
+          sheet.getRangeByIndex(i + 2, 14).setText(comments);
 
-          sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
+          sheet.getRangeByIndex(i + 2, 15).setText(hoaDonList[i].otherComment);
         }
-
+        }
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
 
