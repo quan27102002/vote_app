@@ -25,6 +25,7 @@ class _BillScreenState extends State<BillScreen> {
   // BillIdUser? idBill;
   List<BillIdUser> idBill = [];
   List<BillCustomer> service = [];
+  List<Map<String, dynamic>> services = [];
   String? userBillId;
   late BillCustomer customer;
   bool _isLoading = true;
@@ -190,6 +191,14 @@ class _BillScreenState extends State<BillScreen> {
                       titleLeft: "Địa chỉ",
                       titleRight: service[0].coSoKham,
                     ),
+                    RowInCardProduct(
+                      titleLeft: "Số điện thoại",
+                      titleRight: service[0].dienThoaiDD,
+                    ),
+                    RowInCardProduct(
+                      titleLeft: "Thời gian khám",
+                      titleRight: service[0].thoiGianKham!.split(" ")[0],
+                    ),
                     Container(
                       width: width,
                       child: ListView.builder(
@@ -219,14 +228,6 @@ class _BillScreenState extends State<BillScreen> {
                             );
                           }),
                     ),
-                    RowInCardProduct(
-                      titleLeft: "Số điện thoại",
-                      titleRight: service[0].dienThoaiDD,
-                    ),
-                    RowInCardProduct(
-                      titleLeft: "Thời gian khám",
-                      titleRight: service[0].thoiGianKham!.split(" ")[0],
-                    ),
                   ],
                 ),
                 SizedBox(
@@ -242,24 +243,29 @@ class _BillScreenState extends State<BillScreen> {
                       DateFormat currentFormat =
                           DateFormat("dd/MM/yyyy HH:mm:ss");
                       DateTime dateTime =
-                          currentFormat.parse(customer.thoiGianKham ?? '');
+                          currentFormat.parse(service[0].thoiGianKham ?? '');
 
                       DateFormat newFormat =
                           DateFormat("yyyy-MM-dd'T'HH:mm:ss.000'Z'");
                       String newDateTimeString = newFormat.format(dateTime);
+                      for (int i = 0; i < service.length; i++) {
+                        services.add({
+                          "doctor": service[i].bacSyPhuTrach,
+                          "name": service[i].tenDichVu,
+                          "amount": service[i].soLuong,
+                          "uniPrice": service[i].donGia
+                        });
+                      }
 
                       final res = await ApiRequest.uploadBillCustomer(
-                        customer.maHoaDon ?? "",
-                        customer.hoTen ?? "",
-                        customer.maBenhNhan ?? "",
-                        customer.dienThoaiDD ?? "",
+                        service[0].maHoaDon ?? "",
+                        service[0].hoTen ?? "",
+                        service[0].maBenhNhan ?? "",
+                        service[0].dienThoaiDD ?? "",
                         newDateTimeString,
-                        customer.maCoSo ?? "",
-                        customer.coSoKham ?? "",
-                        customer.bacSyPhuTrach ?? "",
-                        customer.tenDichVu ?? "",
-                        customer.soLuong ?? 0,
-                        customer.donGia!.toInt(),
+                        service[0].maCoSo ?? "",
+                        service[0].coSoKham ?? "",
+                        services,
                       );
                       if (res.code == 200) {
                         setState(() {

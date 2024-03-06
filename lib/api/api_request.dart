@@ -9,8 +9,8 @@ import 'package:image_picker/image_picker.dart';
 class ApiRequest {
   static const String dataBill = "http://103.226.249.65:8081/api/AppService";
 
-  static const String domain = "http://103.226.249.65/api";
-  // static const String domain = "https://10.0.2.2:7257/api";
+  // static const String domain = "http://103.226.249.65/api";
+  static const String domain = "http://103.72.99.63/api";
 
   //getBillCustomer
   static Future<ApiResponse> getData(String? codeBr) async {
@@ -21,8 +21,8 @@ class ApiRequest {
       "cmd": "API_DanhSachKhachHang_Select",
       "data": {
         "benhnhan": {
-          "TuNgay": "20240304", //truyền date time now
-          "DenNgay": "20240304", // truyền date time now
+          "TuNgay": time, //truyền date time now
+          "DenNgay": time, // truyền date time now
           "MaCoSo": codeBr,
           // truyền mã cơ sở
         }
@@ -103,10 +103,7 @@ class ApiRequest {
     String startTime,
     String branchCode,
     String branchAddress,
-    String doctor,
-    String serviceName,
-    int serviceAmount,
-    int serviceUnitPrice,
+    List<Map<String, dynamic>> service,
   ) async {
     List<Map<String, dynamic>> data = [
       {
@@ -117,12 +114,7 @@ class ApiRequest {
         "startTime": startTime,
         "branchCode": branchCode,
         "branchAddress": branchAddress,
-        "doctor": doctor,
-        "service": {
-          "name": serviceName,
-          "amount": serviceAmount,
-          "unitPrice": serviceUnitPrice,
-        }
+        "service": service
       }
     ];
     return await ApiClient().request(

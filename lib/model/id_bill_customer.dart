@@ -1,26 +1,27 @@
 class BillIdUser {
   String? id;
-  String? doctor;
   String? billCode;
-  Service? service;
+  List<Service>? service;
 
-  BillIdUser({this.id, this.doctor, this.billCode, this.service});
+  BillIdUser({this.id, this.billCode, this.service});
 
   BillIdUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    doctor = json['doctor'];
     billCode = json['billCode'];
-    service =
-        json['service'] != null ? new Service.fromJson(json['service']) : null;
+    if (json['service'] != null) {
+      service = <Service>[];
+      json['service'].forEach((v) {
+        service!.add(new Service.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['doctor'] = this.doctor;
     data['billCode'] = this.billCode;
     if (this.service != null) {
-      data['service'] = this.service!.toJson();
+      data['service'] = this.service!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -28,13 +29,15 @@ class BillIdUser {
 
 class Service {
   String? name;
+  String? doctor;
   int? amount;
   int? unitPrice;
 
-  Service({this.name, this.amount, this.unitPrice});
+  Service({this.name, this.doctor, this.amount, this.unitPrice});
 
   Service.fromJson(Map<String, dynamic> json) {
     name = json['name'];
+    doctor = json['doctor'];
     amount = json['amount'];
     unitPrice = json['unitPrice'];
   }
@@ -42,6 +45,7 @@ class Service {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
+    data['doctor'] = this.doctor;
     data['amount'] = this.amount;
     data['unitPrice'] = this.unitPrice;
     return data;

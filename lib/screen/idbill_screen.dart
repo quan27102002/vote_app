@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/bill_screen.dart';
+import 'package:vote_app/screen/scan_code_screen.dart';
 import 'package:vote_app/utils/app_functions.dart';
 
 class IdBillScreen extends StatefulWidget {
@@ -18,7 +19,9 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String? branchAddress = Provider.of<UserProvider>(context, listen: false).loggedInUser.branchAddress;
+    String? branchAddress = Provider.of<UserProvider>(context, listen: false)
+        .loggedInUser
+        .branchAddress;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +31,10 @@ class _IdBillScreenState extends State<IdBillScreen> {
             Navigator.pop(context);
           },
         ),
-      title:Text(branchAddress?? "Quản lý",style: TextStyle(fontWeight:FontWeight.w600),),
+        title: Text(
+          branchAddress ?? "Quản lý",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
       ),
       endDrawer: Drawer(
@@ -160,6 +166,26 @@ class _IdBillScreenState extends State<IdBillScreen> {
           ),
         ),
       ),
+      floatingActionButton: _buildCustomFloatingActionButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+    );
+  }
+
+  Widget _buildCustomFloatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => QRViewExample(),
+          ),
+        );
+      },
+      child: Icon(
+        Icons.qr_code,
+        color: Colors.white,
+      ),
+      backgroundColor: Color.fromRGBO(47, 179, 178, 1),
     );
   }
 }
