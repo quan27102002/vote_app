@@ -14,6 +14,7 @@ import 'package:vote_app/screen/bill_screen.dart';
 import 'package:vote_app/screen/end_screen.dart';
 import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/screen/idbill_screen.dart';
+import 'package:vote_app/screen/scan_code_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           // onGenerateRoute: AppRouter.instance.onGenerateRoute,
-          home: IdBillScreen(),
+          home: QRViewExample(),
         ));
   }
 }
