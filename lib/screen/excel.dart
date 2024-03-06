@@ -162,7 +162,7 @@ class _ExcelState extends State<Excel> {
               .setNumber(services[j].amount.toDouble());
           sheet
               .getRangeByIndex(i + 2, 11)
-              .setNumber(services[i].unitPrice.toDouble());
+              .setNumber(services[j].unitPrice.toDouble());
           sheet
               .getRangeByIndex(i + 2, 12)
               .setNumber(hoaDonList[i].level.toDouble());
