@@ -65,8 +65,7 @@ class _LoginPageState extends State<LoginPage> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-      body: SingleChildScrollView(
-        child: Row(
+      body:  Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
@@ -250,8 +249,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Future<void> logIn(String username, String pass) async {

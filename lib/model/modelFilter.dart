@@ -5,18 +5,20 @@ class Invoice {
   final String phone;
   final String startTime;
   final String branchCode;
-  final String doctor;
-  final Service service;
+    final String branchAddress;
+  // final String doctor;
+  // final Service service;
 
-  Invoice({
+  Invoice( {
     required this.billCode,
     required this.customerName,
     required this.customerCode,
     required this.phone,
     required this.startTime,
     required this.branchCode,
-    required this.doctor,
-    required this.service,
+   required this.branchAddress,
+    // required this.doctor,
+    // required this.service,
   });
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
@@ -27,8 +29,9 @@ class Invoice {
       phone: json['phone'] as String,
       startTime: json['startTime'] as String,
       branchCode: json['branchCode'] as String,
-      doctor: json['doctor'] as String,
-      service: Service.fromJson(json['service'] as Map<String, dynamic>),
+      branchAddress: json['branchAddress'] as String,
+      // doctor: json['doctor'] as String,
+      // service: Service.fromJson(json['service'] as Map<String, dynamic>),
     );
   }
 }
