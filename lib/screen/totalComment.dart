@@ -289,7 +289,9 @@ _loadRole();
           //     '${service.name} - ${service.amount} - ${service.unitPrice}';
           // sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
         }
-
+      for (int i = 1; i < 8; i++) {
+  sheet.autoFitColumn(i);
+}
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
 
@@ -377,7 +379,9 @@ _loadRole();
           //     '${service.name} - ${service.amount} - ${service.unitPrice}';
           // sheet.getRangeByIndex(i + 2, 9).setText(fullServiceInfo);
         }
-
+     for (int i = 1; i < 8; i++) {
+  sheet.autoFitColumn(i);
+}
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
 

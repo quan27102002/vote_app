@@ -1,5 +1,5 @@
 class HoaDon {
-  // final String id;
+  final String id;
   final String customerName;
   final String customerCode;
   final String branchCode;
@@ -7,18 +7,18 @@ class HoaDon {
   final String phone;
   final String billCode;
   final String startTime;
-  // final String doctor;
-  // final String serviceName;
-  // final int amount;
-  // final int unitPrice;
-final List<Service> service;
+  final String doctor;
+  final String serviceName;
+  final int amount;
+  final int unitPrice;
+// final List<Service> service;
   final int level;
   final String levelName;
   final List<Comment> comments;
   final String otherComment;
 
   HoaDon( {
-    // required this.id,
+    required this.id,
     required this.customerName,
     required this.customerCode,
     required this.branchCode,
@@ -26,11 +26,11 @@ final List<Service> service;
     required this.phone,
     required this.billCode,
     required this.startTime,
-    required this.service,
-    // required this.doctor,
-    // required this.serviceName,
-    // required this.amount,
-    // required this.unitPrice,
+    // required this.service,
+    required this.doctor,
+    required this.serviceName,
+    required this.amount,
+    required this.unitPrice,
     required this.level,
     required this.levelName,
     required this.comments,
@@ -53,7 +53,7 @@ final List<Service> service;
     }
 
     return HoaDon(
-      // id: json['id'],
+      id: json['id'],
       customerName: json['customerName'],
       customerCode: json['customerCode'],
       branchCode: json['branchCode'],
@@ -61,11 +61,11 @@ final List<Service> service;
       phone: json['phone'],
       billCode: json['billCode'],
       startTime: json['startTime'],
-      // doctor: json['doctor'],
-      // serviceName: json['serviceName'],
-      // amount: json['amount'],
-      // unitPrice: json['unitPrice'],
-      service:services,
+      doctor: json['doctor'],
+      serviceName: json['name'],
+      amount: json['amount'],
+      unitPrice: json['unitPrice'],
+      // service:services,
       level: json['level'],
       levelName: json['levelName'],
       comments: comments,

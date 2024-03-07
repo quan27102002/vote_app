@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           onGenerateRoute: AppRouter.instance.onGenerateRoute,
-          // home: QRViewExample(),
         ));
   }
 }
