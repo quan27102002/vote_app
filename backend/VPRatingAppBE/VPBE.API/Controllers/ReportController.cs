@@ -319,7 +319,7 @@ namespace VPBE.API.Controllers
                     })
                     .ToListAsync();
 
-                var finalResult = result.Select(a => a.Services?.Select(b => new
+                var finalResult = result.SelectMany(a => a.Services?.Select(b => new
                 {
                     a.Id,
                     a.CustomerName,
@@ -332,8 +332,12 @@ namespace VPBE.API.Controllers
                     b.Doctor,
                     b.Name,
                     b.UnitPrice,
-                    b.Amount
-                }));
+                    b.Amount,
+                    a.Level,
+                    a.LevelName,
+                    a.Comment,
+                    a.OtherComment
+                })).ToList();
 
                 return Ok(new CustomResponse
                 {
