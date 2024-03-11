@@ -56,6 +56,19 @@ namespace VPBE.API.Controllers
                         Message = "Sai mật khẩu."
                     });
                 }
+                if (user.AccessToken != default && user.RefreshToken != default)
+                {
+                    var invalidToken = new TokenBlacklistEntity
+                    {
+                        AccessToken = user.AccessToken,
+                        RefreshToken = user.RefreshToken,
+                        CreatedOn = DateTime.Now,
+                    };
+
+                    await _dBRepository.AddAsync(invalidToken);
+                    await _dBRepository.SaveChangesAsync();
+                }
+
                 var result = new UserLoginResult();
                 var claims = new List<Claim>
                 {
