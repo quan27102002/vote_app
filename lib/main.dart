@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:vote_app/dialog/overlay.dart';
 
 import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
@@ -47,7 +46,6 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => LoadingProvider()),
         ],
         child: MaterialApp(
-          navigatorKey: NotificationManager.navigatorKey,
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
