@@ -18,7 +18,7 @@ class _EndScreenState extends State<EndScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 15), () {
+    Timer(Duration(seconds: 4), () {
       Navigator.pushReplacementNamed(context, RouteName.intro);
     });
   }
@@ -27,6 +27,42 @@ class _EndScreenState extends State<EndScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+        endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Điều khiển',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Đăng xuất'),
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Container(

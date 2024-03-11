@@ -11,6 +11,7 @@ ApiResponse _$ApiResponseFromJson(Map<String, dynamic> json) {
     code: json['code'],
     data: json['data'],
     message: json['msg'] ?? "",
+    status:json['status'],
     result: json['code'] == 1,
        headers: (json['headers'] as Map<String, dynamic>?)?.map(
       (key, value) => MapEntry(key, List<String>.from(value)),
@@ -26,6 +27,7 @@ Map<String, dynamic> _$ApiResponseToJson(ApiResponse instance) => <String, dynam
       'code': instance.code,
       'data': instance.data,
       'msg': instance.message ?? "",
+      'status':instance.status,
       'result': instance.result,
       'headers': instance.headers,
       // 'total': instance.total,
