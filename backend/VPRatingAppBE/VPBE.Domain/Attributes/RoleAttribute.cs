@@ -60,7 +60,7 @@ namespace VPBE.Domain.Attributes
                         context.Result = new ObjectResult(new APIResponseDto
                         {
                             Code = StatusCodes.Status401Unauthorized,
-                            Status = StatusCodes.Status401Unauthorized,
+                            Status = (int)SubStatus.ForceSignout,
                             Msg = ""
                         });
                         return;
@@ -84,5 +84,11 @@ namespace VPBE.Domain.Attributes
 
             await next();
         }
+    }
+
+    public enum SubStatus
+    {
+        Success = 0,
+        ForceSignout = 1000
     }
 }
