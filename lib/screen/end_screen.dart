@@ -93,7 +93,7 @@ class _EndScreenState extends State<EndScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
-                      ),
+                      ),textAlign:TextAlign.center,
                     ),
                   )
                 ],
@@ -101,6 +101,29 @@ class _EndScreenState extends State<EndScreen> {
             ),
           ),
           Image.asset("assets/images/end.jpg"),
+          SizedBox(height: 20,),
+            SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                              ),
+                          onPressed: () {
+                           
+                  Navigator.pushNamedAndRemoveUntil(context, RouteName.intro,(Route<dynamic> route) => false,);
+                          },
+                          child: Text(
+                            "Quay về",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
         ],
       ),
     );
