@@ -229,7 +229,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -286,7 +286,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -343,7 +343,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -400,7 +400,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top:10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -444,7 +444,7 @@ class _CreateUserState extends State<CreateUser> {
                                     )),
                               ],
                             ),
-                            Container(
+                            Container(padding: EdgeInsets.only(left: 14),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Color.fromRGBO(47, 179, 178, 1),

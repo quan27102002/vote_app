@@ -42,6 +42,7 @@ class NormalDialog extends StatelessWidget {
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
+                      
                       children: [
                         Text(
                           title ?? "Thông báo",
@@ -55,7 +56,7 @@ class NormalDialog extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(85, 87, 112, 1))),
+                                color: Color.fromRGBO(85, 87, 112, 1)),textAlign: TextAlign.center,),
                       
                       ],
                     ),

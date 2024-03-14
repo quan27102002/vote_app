@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +20,7 @@ class ReadUser extends StatefulWidget {
 class _ReadUserState extends State<ReadUser> {
   List<dynamic> _users = [];
   bool _isLoading = false;
-
+  bool _hasReceivedResponse = false;
   @override
   void initState() {
     super.initState();
@@ -29,9 +31,38 @@ class _ReadUserState extends State<ReadUser> {
     setState(() {
       _isLoading = true;
     });
+ 
 
+    // Set up a timer to check if response is received within 5 seconds
+    Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          _isLoading = false;
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
     ApiResponse res = await ApiRequest.getUser();
-
+ _hasReceivedResponse = true;
     if (res.code == 200) {
       List<dynamic> usersData = res.data;
       List<ReadUsers> users =

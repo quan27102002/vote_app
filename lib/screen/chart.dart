@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
@@ -156,13 +158,42 @@ class _ChartState extends State<Chart> {
       showingTooltipIndicators: touchedGroupIndex == x ? [0] : [],
     );
   }
+    bool _hasReceivedResponse = false;
   Future<void> exportToChart(
       String createTime, String timend, String place) async {
     final loadingProvider =
         Provider.of<LoadingProvider>(context, listen: false);
     loadingProvider.showLoading();
+    Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          loadingProvider.hideLoading();
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
+        _hasReceivedResponse = true;
     print(res);
     print(res.headers);
     if (res.code == 200) {
