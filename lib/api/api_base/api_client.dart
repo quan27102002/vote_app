@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_request.dart';
+
 import 'package:vote_app/utils/app_functions.dart';
 import 'api_response.dart';
 
@@ -97,6 +98,12 @@ class ApiClient {
             '${apiResponse.message ?? ''} (Code: ${apiResponse.code != null ? apiResponse.code.toString() : 'Unknown'})';
 
         if (getFullResponse) apiResponse.dioResponse = response;
+            if (getFullResponse) apiResponse.dioResponse = response;
+      //     if (apiResponse.code == 401 && apiResponse.status == 1000) {
+      //     print("test");
+      //   print("Calling logout function...");
+      //   await logout();
+      // }
         return apiResponse;
       } else {
         return ApiResponse(
@@ -175,4 +182,7 @@ class ApiClient {
       }
     }
   }
+//   Future<void> logout() async {
+// NotificationManager.showLogoutNotification();
+//   }
 }

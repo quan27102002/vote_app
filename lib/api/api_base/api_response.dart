@@ -9,6 +9,7 @@ class ApiResponse {
   dynamic data;
   String? message;
   bool? result;
+  dynamic status;
   Map<String, List<String>>? headers;
   // int? total;
   // int? totalPage;
@@ -23,6 +24,7 @@ class ApiResponse {
     this.data,
     this.message,
     this.result,
+    this.status,
     this.headers,
     // this.total,
     // this.totalPage,

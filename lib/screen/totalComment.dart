@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -204,13 +206,41 @@ _loadRole();
 
     );
   }
-
+bool _hasReceivedResponse = false;
   Future<void> exportToChart(
       String createTime, String timend, String place, int level) async {
     final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
  loadingProvider.showLoading();
+   Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          loadingProvider.hideLoading();
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
     ApiResponse res = await ApiRequest.getfilterTotalComment(
         createTime, timend, place, level);
+         _hasReceivedResponse = true;
     if (res.code == 200) {
       loadingProvider.hideLoading();
       List<dynamic> userData = res.data['userComments'];
@@ -223,7 +253,28 @@ _loadRole();
         userComments.addAll(userData);
         otherComments.addAll(otherData);
       });
-    }
+    } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    } 
   }
 
   Future<void> excelFiter(String comment) async {
@@ -302,7 +353,28 @@ _loadRole();
       } else {
         print('Không tìm thấy phản hồi có nội dung là: $comment');
       }
-    } else {
+    } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    }  else {
      AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();
         },
@@ -392,6 +464,27 @@ _loadRole();
       } else {
         print('Không tìm thấy phản hồi có nội dung là: $comment');
       }
+    } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
     } else {
       print('Lỗi: ${res.code}');
     }

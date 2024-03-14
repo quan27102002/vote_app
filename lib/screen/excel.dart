@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -97,21 +98,50 @@ class _ExcelState extends State<Excel> {
   List<HoaDon> hoaDonList = [];
   List<Service> services=[];
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
-
+ bool _hasReceivedResponse = false;
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
+         final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
+ loadingProvider.showLoading();
+  Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          loadingProvider.hideLoading();
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
          ApiResponse res = await ApiRequest.exportExcel(
      timeStart,
       timeEnd,
       place
     );
+       _hasReceivedResponse = true;
     final stopwatch = Stopwatch()..start();
   
 
     
     
- final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
- loadingProvider.showLoading();
+
       if (res.code == 200) {
          loadingProvider.hideLoading();
         List<dynamic> responseObject=res.data;
@@ -187,7 +217,28 @@ class _ExcelState extends State<Excel> {
         setState(() {
           executionTime = stopwatch.elapsed;
         });
-      }else{
+      } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    } else{
         AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();
         },
@@ -293,8 +344,8 @@ class _ExcelState extends State<Excel> {
                 
                  await Provider.of<UserProvider>(context, listen: false).logout();
                    await prefs.remove('jwt'); 
-                  Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
-                },
+Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
+                                  },
               ),
             ],
           ),

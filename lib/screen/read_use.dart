@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +20,7 @@ class ReadUser extends StatefulWidget {
 class _ReadUserState extends State<ReadUser> {
   List<dynamic> _users = [];
   bool _isLoading = false;
-
+  bool _hasReceivedResponse = false;
   @override
   void initState() {
     super.initState();
@@ -29,9 +31,38 @@ class _ReadUserState extends State<ReadUser> {
     setState(() {
       _isLoading = true;
     });
+ 
 
+    // Set up a timer to check if response is received within 5 seconds
+    Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          _isLoading = false;
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
     ApiResponse res = await ApiRequest.getUser();
-
+ _hasReceivedResponse = true;
     if (res.code == 200) {
       List<dynamic> usersData = res.data;
       List<ReadUsers> users =
@@ -40,9 +71,33 @@ class _ReadUserState extends State<ReadUser> {
         _users.addAll(users);
         _isLoading = false;
       });
-    } else {
-      // Handle error here
-      setState(() {
+    } 
+    else if(res.code==401 && res.status==1000){setState(() {
+        _isLoading = false;
+         
+      }); 
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    }else{
+    setState(() {
         _isLoading = false;
          
       }); if (context.mounted) {
@@ -56,6 +111,7 @@ class _ReadUserState extends State<ReadUser> {
                     "\nLoad dữ liệu lỗi" ??
                 "Lỗi");}
     }
+    
   }
 
   @override

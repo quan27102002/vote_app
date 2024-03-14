@@ -8,9 +8,10 @@ import 'package:image_picker/image_picker.dart';
 
 class ApiRequest {
   static const String dataBill = "http://103.226.249.65:8081/api/AppService";
-
+// static const String domain = "https://10.0.2.2:7257/api/";
   // static const String domain = "http://103.226.249.65/api";
-  static const String domain = "http://103.72.99.63/api";
+  // static const String domain = "http://103.72.99.63/api";
+    static const String domain = "https://vp-dev.bkfet.com/api";
 
   //getBillCustomer
   static Future<ApiResponse> getData(String? codeBr) async {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
@@ -156,13 +158,42 @@ class _ChartState extends State<Chart> {
       showingTooltipIndicators: touchedGroupIndex == x ? [0] : [],
     );
   }
+    bool _hasReceivedResponse = false;
   Future<void> exportToChart(
       String createTime, String timend, String place) async {
     final loadingProvider =
         Provider.of<LoadingProvider>(context, listen: false);
     loadingProvider.showLoading();
+    Timer(Duration(seconds: 5), () {
+      // Check if response is received, if not, show dialog
+      if (!_hasReceivedResponse) {
+        // Stop loading indicator
+        setState(() {
+          loadingProvider.hideLoading();
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Thông báo lỗi"),
+              content: Text("Không có phản hồi từ Serve."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Thoát"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
     ApiResponse res =
         await ApiRequest.getTotalComment(createTime, timend, place);
+        _hasReceivedResponse = true;
     print(res);
     print(res.headers);
     if (res.code == 200) {
@@ -218,7 +249,28 @@ class _ChartState extends State<Chart> {
         dataList = newDataList;
         this.emotions1 = percentTypeEmotion;
       });
-    }
+    } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    } 
     else{
        AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();
@@ -1087,7 +1139,13 @@ class _ChartState extends State<Chart> {
               ],
             ),
           ),
-        ),
+        ),if (loadingProvider.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
       ]),
     );
   }

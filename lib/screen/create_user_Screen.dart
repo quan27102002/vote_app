@@ -229,7 +229,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -286,7 +286,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -343,7 +343,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -400,7 +400,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 15.0),
+                                      left: 14.0, bottom: 10.0, top:10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -444,7 +444,7 @@ class _CreateUserState extends State<CreateUser> {
                                     )),
                               ],
                             ),
-                            Container(
+                            Container(padding: EdgeInsets.only(left: 14),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Color.fromRGBO(47, 179, 178, 1),
@@ -639,7 +639,28 @@ class _CreateUserState extends State<CreateUser> {
           textButton: "OK",
           title: "Thông báo",
           description: "Tạo tài khoản thành công");
-    } else {
+    } else if(res.code==401 && res.status==1000){
+         AppFuntion.showDialogError(context, "", onPressButton: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                await prefs.remove('jwt');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.login,
+                  (Route<dynamic> route) => false,
+                );
+        },
+            textButton: "Đăng xuất",
+            title: "Thông báo lỗi",
+            description: "\t\t" +
+                   
+                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+                "Vui lòng nhập lại tên và mật khẩu");
+ 
+  
+    }  else {
       AppFuntion.showDialogError(context, "", onPressButton: () {
         Navigator.of(context, rootNavigator: true).pop();
       },
