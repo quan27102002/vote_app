@@ -84,28 +84,24 @@ class _BillScreenState extends State<BillScreen> {
         );
         print("Không tìm thấy hóa đơn có mã $idBill");
       }
-    } else if(res.code==401 && res.status==1000){
-         AppFuntion.showDialogError(context, "", onPressButton: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
+    } else if (res.code == 401 && res.status == 1000) {
+      AppFuntion.showDialogError(context, "", onPressButton: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-        },
-            textButton: "Đăng xuất",
-            title: "Thông báo lỗi",
-            description: "\t\t" +
-                   
-                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
-                "Vui lòng nhập lại tên và mật khẩu");
- 
-  
-    }  else {
+        await Provider.of<UserProvider>(context, listen: false).logout();
+        await prefs.remove('jwt');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteName.login,
+          (Route<dynamic> route) => false,
+        );
+      },
+          textButton: "Đăng xuất",
+          title: "Thông báo lỗi",
+          description: "\t\t" +
+                  "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+              "Vui lòng nhập lại tên và mật khẩu");
+    } else {
       print(res.message ?? "Lỗi");
     }
   }
@@ -233,10 +229,10 @@ class _BillScreenState extends State<BillScreen> {
                                   titleLeft: "Dịch vụ",
                                   titleRight: service[index].tenDichVu,
                                 ),
-                                RowInCardProduct(
-                                  titleLeft: "Số lượng",
-                                  titleRight: service[index].soLuong.toString(),
-                                ),
+                                // RowInCardProduct(
+                                //   titleLeft: "Số lượng",
+                                //   titleRight: service[index].soLuong.toString(),
+                                // ),
                                 RowInCardProduct(
                                   titleLeft: "Đơn giá",
                                   titleRight: formatCurrency(
