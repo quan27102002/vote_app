@@ -10,10 +10,11 @@ using VPBE.Domain.Dtos.Comments;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Comments;
 using VPBE.Domain.Interfaces;
+using VPBE.Domain.Audit;
 
 namespace VPBE.API.Controllers
 {
-    public class CommentController : APIBaseController
+    public class CommentController : ApiBaseController
     {
         private readonly IDBRepository _dBRepository;
 
@@ -23,7 +24,7 @@ namespace VPBE.API.Controllers
         }
         [HttpGet("getallcomments")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<List<ListComment>>))]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Guest })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> GetAllComments()
         {
             try
@@ -42,7 +43,7 @@ namespace VPBE.API.Controllers
                         }).ToList()
                     })
                     .ToListAsync();
-
+                auditService.AddAudit(AuditAction.ViewAllComments);
                 return Ok(new CustomResponse
                 {
                     Result = comments,
@@ -57,6 +58,7 @@ namespace VPBE.API.Controllers
         }
         [HttpGet("type/{type}")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<CommentDto>))]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> GetByType([FromRoute] CommentType type)
         {
             try
@@ -68,7 +70,7 @@ namespace VPBE.API.Controllers
                     CommentType = a.CommentType,
                     Content = a.Content
                 }).ToListAsync();
-
+                auditService.AddAudit(AuditAction.ViewCommentsByType);
                 return Ok(new CustomResponse
                 {
                     Result = comments,
@@ -83,6 +85,7 @@ namespace VPBE.API.Controllers
         }
         [HttpGet("level/{level}")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<CommentDto>))]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> GetByLevel([FromRoute] SatisfactionLevel level)
         {
             try
@@ -94,7 +97,7 @@ namespace VPBE.API.Controllers
                     CommentType = a.CommentType,
                     Content = a.Content
                 }).ToListAsync();
-
+                auditService.AddAudit(AuditAction.ViewCommentsByType);
                 return Ok(new CustomResponse
                 {
                     Result = comments,
@@ -109,7 +112,7 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("submit")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Guest })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> SubmitComment([FromBody] SubmitCommentRequest request)
         {
             try
@@ -158,7 +161,7 @@ namespace VPBE.API.Controllers
                 await _dBRepository.AddAsync(newComment);
 
                 await _dBRepository.SaveChangesAsync();
-
+                auditService.AddAudit(AuditAction.SubmitComment);
                 return Ok(new CustomResponse
                 {
                     Result = true,
@@ -172,7 +175,7 @@ namespace VPBE.API.Controllers
             }
         }
         [HttpPost("edit")]
-        [Role(new UserRole[] { UserRole.Admin })]
+        [Permission(new UserRole[] { UserRole.Admin })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
         public async Task<IActionResult> Edit([FromBody] EditCommentRequest request)
         {
@@ -205,7 +208,7 @@ namespace VPBE.API.Controllers
                 }
                 
                 await _dBRepository.SaveChangesAsync();
-
+                auditService.AddAudit(AuditAction.EditComment);
                 return Ok(new CustomResponse
                 {
                     Result = true,

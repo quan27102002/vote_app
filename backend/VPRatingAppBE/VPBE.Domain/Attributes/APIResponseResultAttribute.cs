@@ -14,7 +14,7 @@ using VPBE.Domain.Logging;
 
 namespace VPBE.Domain.Attributes
 {
-    public class APIResponseResultAttribute : ActionFilterAttribute
+    public class ApiResponseResultAttribute : ActionFilterAttribute
     {
         public override void OnResultExecuting(ResultExecutingContext context)
         {

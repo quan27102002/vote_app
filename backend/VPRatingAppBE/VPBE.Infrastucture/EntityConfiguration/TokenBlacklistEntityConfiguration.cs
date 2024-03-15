@@ -19,7 +19,10 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.AccessToken).IsRequired();
             builder.Property(x => x.RefreshToken).IsRequired();
+            builder.Property(x => x.IssuedById).IsRequired();
+            builder.HasOne(a => a.IssuedBy).WithMany().HasForeignKey(a => a.IssuedById).OnDelete(DeleteBehavior.NoAction);
             builder.Property(x => x.CreatedOn).IsRequired();
+            builder.Property(x => x.ExpiredAt).IsRequired();
         }
     }
 }

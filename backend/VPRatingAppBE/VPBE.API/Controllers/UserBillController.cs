@@ -9,10 +9,11 @@ using VPBE.Domain.Dtos.UserBills;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.UserBills;
 using VPBE.Domain.Interfaces;
+using VPBE.Domain.Audit;
 
 namespace VPBE.API.Controllers
 {
-    public class UserBillController : APIBaseController
+    public class UserBillController : ApiBaseController
     {
         private readonly IDBRepository _dBRepository;
 
@@ -23,6 +24,7 @@ namespace VPBE.API.Controllers
 
         [HttpPost("create")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<List<CreateUserBillDto>>))]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> CreateUserBill([FromBody] List<CreateUserBillRequest> request)
         {
             try
@@ -60,7 +62,7 @@ namespace VPBE.API.Controllers
 
                 await _dBRepository.AddRangeAsync(listUserBill);
                 await _dBRepository.SaveChangesAsync();
-
+                auditService.AddAudit(AuditAction.CreateUserBill);
                 return Ok(new CustomResponse
                 {
                     Result = request.Select(a => new CreateUserBillDto { Id = a.Id, BillCode = a.BillCode, Service = a.Service }).ToList(),

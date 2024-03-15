@@ -11,10 +11,12 @@ using VPBE.Domain.Dtos.Reports;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Reports;
 using VPBE.Domain.Interfaces;
+using VPBE.Domain.Extensions;
+using VPBE.Domain.Audit;
 
 namespace VPBE.API.Controllers
 {
-    public class ReportController : APIBaseController
+    public class ReportController : ApiBaseController
     {
         private readonly IDBRepository _dBRepository;
 
@@ -23,7 +25,7 @@ namespace VPBE.API.Controllers
             this._dBRepository = dBRepository;
         }
         [HttpPost("filter")]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Member })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<List<FilterResult>>))]
         public async Task<IActionResult> GetReport([FromBody] FilterModel model)
         {
@@ -34,13 +36,12 @@ namespace VPBE.API.Controllers
                     logger.Error("Invalid data");
                     return BadRequest();
                 }
-                var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
-                var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
+                var userId = HttpContext.CurrentUserId();
+                var userRole = HttpContext.CurrentUserRole();
                 var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
                                          join b in _dBRepository.Context.Set<BranchEntity>()
                                          on urm.BranchId equals b.Id
-                                         where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                         where urm.UserId == userId && b.Code == model.BranchCode
                                          select new
                                          {
                                              UserId = urm.UserId,
@@ -48,7 +49,7 @@ namespace VPBE.API.Controllers
                                          })
                                             .AnyAsync();
 
-                if (role == UserRole.Member && !memberHasResource)
+                if (userRole == UserRole.Member && !memberHasResource)
                 {
                     return Ok(new CustomResponse
                     {
@@ -93,7 +94,7 @@ namespace VPBE.API.Controllers
                 var dataByCode = await _dBRepository.Context.Set<CommentResponseEntity>()
                         .Include(a => a.UserBillEntity)
                         .Where(a => !a.IsDeleted
-                                    && (role == UserRole.Admin
+                                    && (userRole == UserRole.Admin
                                             ? (string.IsNullOrEmpty(model.BranchCode) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
                                             : (!string.IsNullOrEmpty(model.BranchCode) && model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower()))
                                     && a.CreatedTime >= model.StartTime
@@ -123,7 +124,7 @@ namespace VPBE.API.Controllers
                                  Description = s == null ? b.Description : s.Description,
                                  Count = s == null ? b.Count : s.Count
                              };
-
+                auditService.AddAudit(AuditAction.Filter);
                 return Ok(new CustomResponse
                 {
                     Result = result.ToList(),
@@ -139,19 +140,18 @@ namespace VPBE.API.Controllers
         }
 
         [HttpPost("filterlevel")]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Member })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<FilterLevelResult>))]
         public async Task<IActionResult> GetReportByLevel([FromBody] FilterByLevelModel model)
         {
             try
             {
-                var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
-                var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
+                var userId = HttpContext.CurrentUserId();
+                var userRole = HttpContext.CurrentUserRole();
                 var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
                                                join b in _dBRepository.Context.Set<BranchEntity>()
                                                on urm.BranchId equals b.Id
-                                               where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                               where urm.UserId == userId && b.Code == model.BranchCode
                                                select new
                                                {
                                                    UserId = urm.UserId,
@@ -159,7 +159,7 @@ namespace VPBE.API.Controllers
                                                })
                                             .AnyAsync();
 
-                if (role == UserRole.Member && !memberHasResource)
+                if (userRole == UserRole.Member && !memberHasResource)
                 {
                     return Ok(new CustomResponse
                     {
@@ -173,7 +173,7 @@ namespace VPBE.API.Controllers
                     .Where(a => !a.IsDeleted
                         && a.CreatedTime >= model.StartTime
                         && a.CreatedTime <= model.EndTime
-                        && ((role == UserRole.Admin && string.IsNullOrEmpty(model.BranchCode)) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
+                        && ((userRole == UserRole.Admin && string.IsNullOrEmpty(model.BranchCode)) || model.BranchCode.ToLower() == a.UserBillEntity.BranchCode.ToLower())
                         && model.Level == a.Level)
                     .Select(e => new
                     {
@@ -241,7 +241,7 @@ namespace VPBE.API.Controllers
                         StartTime = a.StartTime
                     }).First()
                 }).ToList();
-
+                auditService.AddAudit(AuditAction.FilterByLevel);
                 return Ok(new CustomResponse
                 {
                     Result = new FilterLevelResult
@@ -260,18 +260,17 @@ namespace VPBE.API.Controllers
             }
         }
         [HttpPost("export")]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Member })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member })]
         public async Task<IActionResult> Export([FromBody] FilterModel model)
         {
             try
             {
-                var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var userRole = HttpContext.User.FindFirstValue(ClaimTypes.Role);
-                var role = (UserRole)Enum.Parse(typeof(UserRole), userRole);
+                var userId = HttpContext.CurrentUserId();
+                var userRole = HttpContext.CurrentUserRole();
                 var memberHasResource = await (from urm in _dBRepository.Context.Set<UserResourceMappingEntity>()
                                                join b in _dBRepository.Context.Set<BranchEntity>()
                                                on urm.BranchId equals b.Id
-                                               where urm.UserId == Guid.Parse(userId) && b.Code == model.BranchCode
+                                               where urm.UserId == userId && b.Code == model.BranchCode
                                                select new
                                                {
                                                    UserId = urm.UserId,
@@ -279,7 +278,7 @@ namespace VPBE.API.Controllers
                                                })
                                             .AnyAsync();
 
-                if (role == UserRole.Member && !memberHasResource)
+                if (userRole == UserRole.Member && !memberHasResource)
                 {
                     return Ok(new CustomResponse
                     {
@@ -338,7 +337,7 @@ namespace VPBE.API.Controllers
                     a.Comment,
                     a.OtherComment
                 })).ToList();
-
+                auditService.AddAudit(AuditAction.Export);
                 return Ok(new CustomResponse
                 {
                     Result = finalResult,

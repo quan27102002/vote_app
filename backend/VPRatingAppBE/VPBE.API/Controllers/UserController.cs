@@ -14,15 +14,20 @@ using VPBE.Domain.Entities;
 using VPBE.Domain.Models.Users;
 using VPBE.Domain.Utils;
 using VPBE.Domain.Interfaces;
+using VPBE.Domain.Models.Tokens;
+using IdentityModel;
+using VPBE.Domain.Extensions;
+using System;
+using VPBE.Domain.Audit;
 
 namespace VPBE.API.Controllers
 {
-    public class UserController : APIBaseController
+    public class UserController : ApiBaseController
     {
         private readonly IDBRepository _dBRepository;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
-
+        public static readonly object UserObjectKey = new();
         public UserController(IDBRepository dBRepository, ITokenService tokenService, IConfiguration configuration)
         {
             this._dBRepository = dBRepository;
@@ -56,13 +61,15 @@ namespace VPBE.API.Controllers
                         Message = "Sai mật khẩu."
                     });
                 }
-                if (user.AccessToken != default && user.RefreshToken != default)
+                if (!string.IsNullOrEmpty(user.AccessToken) && !string.IsNullOrEmpty(user.RefreshToken))
                 {
                     var invalidToken = new TokenBlacklistEntity
                     {
                         AccessToken = user.AccessToken,
                         RefreshToken = user.RefreshToken,
+                        IssuedById = user.Id,
                         CreatedOn = DateTime.Now,
+                        ExpiredAt = user.RefreshTokenExpireTime
                     };
 
                     await _dBRepository.AddAsync(invalidToken);
@@ -72,9 +79,10 @@ namespace VPBE.API.Controllers
                 var result = new UserLoginResult();
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, request.Username),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim("role", user.UserRole.ToString())
+                    new Claim(JwtClaimTypes.Name, request.Username),
+                    new Claim(JwtClaimTypes.Id, user.Id.ToString()),
+                    new Claim(JwtClaimTypes.Role, user.UserRole.ToString()),
+                    new Claim(JwtClaimTypes.PreferredUserName, user.DisplayName)
                 };
                 var accessToken = _tokenService.GenerateAccessToken(claims);
                 var refreshToken = _tokenService.GenerateRefreshToken();
@@ -93,6 +101,8 @@ namespace VPBE.API.Controllers
                 result.BranchAddress = user.BranchAddress;
                 result.UserId = user.Id;
 
+                auditService.AddAudit(AuditAction.SignIn);
+
                 await HttpContext.AuthenticateAsync();
 
                 return Ok(new CustomResponse
@@ -110,11 +120,20 @@ namespace VPBE.API.Controllers
 
         [HttpPost("register")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
-        [Role(new UserRole[] { UserRole.Admin })]
+        [Permission(new UserRole[] { UserRole.Admin })]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
             try
             {
+                if ((int)request.Role <= 0 || (int)request.Role > 3)
+                {
+                    logger.Error($"Invalid role");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "Role không hợp lệ"
+                    });
+                }
                 var checkUserName = await _dBRepository.Context.Set<UserEntity>().AnyAsync(a => a.UserName.ToLower() == request.Username.ToLower());
                 if (checkUserName)
                 {
@@ -162,6 +181,7 @@ namespace VPBE.API.Controllers
                 await _dBRepository.AddAsync(newUser);
 
                 await _dBRepository.SaveChangesAsync();
+                auditService.AddAudit(AuditAction.RegisterUser);
                 return Ok(new CustomResponse
                 {
                     Result = true,
@@ -176,12 +196,12 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("get")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<UserDtos>))]
-        [Role(new UserRole[] { UserRole.Admin })]
+        [Permission(new UserRole[] { UserRole.Admin })]
         public async Task<IActionResult> GetAllUsers()
         {
             try
             {
-                var users = await _dBRepository.Context.Set<UserEntity>().Select(a => new UserDtos
+                var users = await _dBRepository.Context.Set<UserEntity>().Where(a => a.UserRole != UserRole.SuperUser).Select(a => new UserDtos
                 {
                     DisplayName = a.DisplayName,
                     Email = a.Email,
@@ -192,6 +212,8 @@ namespace VPBE.API.Controllers
                     UserStatus = a.UserStatus == UserStatus.Active ? "Đang hoạt động" : "Không hoạt động",
                     CreatedOn = a.CreatedOn
                 }).ToListAsync();
+
+                auditService.AddAudit(AuditAction.ViewAllUsers);
 
                 return Ok(new CustomResponse
                 {
@@ -207,11 +229,12 @@ namespace VPBE.API.Controllers
         }
         [HttpPost("signout")]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         public async Task<IActionResult> LogOut()
         {
             try
             {
-                var userId = Guid.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var userId = HttpContext.CurrentUserId();
                 var user = await _dBRepository.Context.Set<UserEntity>().Where(u => u.Id == userId && u.UserStatus == UserStatus.Active).FirstOrDefaultAsync();
                 if (user == null)
                 {
@@ -222,11 +245,13 @@ namespace VPBE.API.Controllers
                 {
                     AccessToken = user.AccessToken,
                     RefreshToken = user.RefreshToken,
+                    IssuedById = user.Id,
                     CreatedOn = DateTime.Now,
+                    ExpiredAt = user.RefreshTokenExpireTime
                 };
                 await _dBRepository.AddAsync(newTokenBlacklist);
                 await _dBRepository.SaveChangesAsync();
-
+                auditService.AddAudit(AuditAction.SignOut);
                 return Ok(new CustomResponse
                 {
                     Result = true,
@@ -294,11 +319,13 @@ namespace VPBE.API.Controllers
                 {
                     AccessToken = request.AccessToken,
                     RefreshToken = request.RefreshToken,
+                    IssuedById = user.Id,
                     CreatedOn = DateTime.Now,
+                    ExpiredAt = user.RefreshTokenExpireTime
                 };
                 await _dBRepository.AddAsync(newTokenBlacklist);
                 await _dBRepository.SaveChangesAsync();
-
+                auditService.AddAudit(AuditAction.RefreshToken);
                 return Ok(new CustomResponse
                 {
                     Result = new RefreshTokenRequest
@@ -315,5 +342,98 @@ namespace VPBE.API.Controllers
                 throw;
             }
         }
+        [HttpPost("getinvalidatetoken")]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<List<TokenBlacklistEntity>>))]
+        [Permission(isSuperUser: true)]
+        public async Task<IActionResult> GetInvalidateToken([FromBody] FilterToken model)
+        {
+            try
+            {
+                var items = await _dBRepository.Context.Set<TokenBlacklistEntity>()
+                    .Include(a => a.IssuedBy)
+                    .Where(a =>
+                        (model.EndTime == DateTime.MinValue && model.StartTime == DateTime.MinValue) ||
+                        (a.CreatedOn >= model.StartTime && a.CreatedOn <= model.EndTime))
+                    .OrderByDescending(a => a.CreatedOn)
+                    .Select(a => new
+                    {
+                        Id = a.Id,
+                        IssuedById = a.IssuedById,
+                        DisplayName = a.IssuedBy.DisplayName,
+                        Code = a.IssuedBy.Code,
+                        UserRole = a.IssuedBy.UserRole,
+                        CreatedOn = a.CreatedOn,
+                        ExpiredAt = a.ExpiredAt,
+                        AccessToken = a.AccessToken,
+                        RefreshToken = a.RefreshToken
+                    })
+                    .ToListAsync();
+                auditService.AddAudit(AuditAction.ViewInvalidateToken);
+                return Ok(new CustomResponse
+                {
+                    Result = items,
+                    Message = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Error getting invalidate tokens. Message: {ex.Message}", ex);
+                throw;
+            }
+        }
+        [HttpPost("manageaccount/{action}/{id}")]
+        [SwaggerResponse(200, Type = typeof(APIResponseDto<List<bool>>))]
+        [Permission(isSuperUser: true)]
+        public async Task<IActionResult> ActivateOrDeactivateAccount([FromRoute] UserStatus action, Guid id)
+        {
+            try
+            {
+                var user = await _dBRepository.Context.Set<UserEntity>().Where(a => a.Id == id).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    logger.Error($"User '{id}' not found.");
+                    return Ok(new CustomResponse
+                    {
+                        Result = false,
+                        Message = "User not existed in system."
+                    });
+                }
+                user.UserStatus = action;
+                await _dBRepository.SaveChangesAsync();
+                auditService.AddAudit(action == UserStatus.Inactive ? AuditAction.DeactivateAccount : AuditAction.ActivateAccount);
+                return Ok(new CustomResponse
+                {
+                    Result = true,
+                    Message = action == UserStatus.Inactive ? "The user is deactivated." : "The user is activated"
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Error managing account. Action: {action}, Message: {ex.Message}");
+                throw;
+            }
+        }
+        //[HttpPost("edit")]
+        //public async Task<IActionResult> EditAccount([FromRoute] Guid id)
+        //{
+        //    try
+        //    {
+        //        var user = await _dBRepository.Context.Set<UserEntity>().Where(a => a.Id == id).FirstOrDefaultAsync();
+        //        if (user == null)
+        //        {
+        //            logger.Error($"User '{id}' not found.");
+        //            return Ok(new CustomResponse
+        //            {
+        //                Result = false,
+        //                Message = "User not existed in system."
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.Error($"Error editing account. Message: {ex.Message}");
+        //        throw;
+        //    }
+        //}
     }
 }

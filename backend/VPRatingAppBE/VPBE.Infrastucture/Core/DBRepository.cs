@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.AccessControl;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using VPBE.Domain;
+using VPBE.Domain.Audit;
 using VPBE.Domain.Entities;
+using VPBE.Domain.Extensions;
 using VPBE.Domain.Interfaces;
 
 namespace VPBE.Infrastucture.Core
@@ -97,9 +101,9 @@ namespace VPBE.Infrastucture.Core
             return Context.Set<T>().FromSqlRaw(formattedSql);
         }
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(AuditAction action = AuditAction.None, CancellationToken cancellationToken = default)
         {
-            BeforeSaveChanges();
+            BeforeSaveChanges(action);
             return await Context.SaveChangesAsync(cancellationToken);
         }
 
@@ -108,7 +112,7 @@ namespace VPBE.Infrastucture.Core
             throw new NotImplementedException();
         }
 
-        private void BeforeSaveChanges()
+        private void BeforeSaveChanges(AuditAction action = AuditAction.None)
         {
             var dateTime = DateTime.Now;
             var entities = Context.ChangeTracker.Entries();
@@ -116,7 +120,7 @@ namespace VPBE.Infrastucture.Core
             {
                 if (entity.Entity is BaseEntity baseEntity)
                 {
-                    var currentUserId = Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    var currentUserId = _httpContextAccessor.HttpContext.CurrentUserId();
                     var userId = currentUserId != Guid.Empty ? currentUserId : Constants.BuildInUserId;
                     switch (entity.State)
                     {
@@ -131,7 +135,34 @@ namespace VPBE.Infrastucture.Core
                             break;
                     }
                 }
+
+                //var auditLog = new AuditLogEntity
+                //{
+                //    Username = _httpContextAccessor.HttpContext.CurrentUserName(),
+                //    IpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                //    Description = action.ToDescription(),
+                //    EntityName = entity.Entity.GetType().Name,
+                //    Action = entity.State.ToString(),
+                //    Timestamp = DateTime.Now,
+                //    ObjectInfo = GetChanges(entity)
+                //};
+                //Context.Add(auditLog);
             }
+        }
+
+        private static string GetChanges(EntityEntry entity)
+        {
+            var changes = new StringBuilder();
+            foreach (var property in entity.OriginalValues.Properties)
+            {
+                var originalValue = entity.OriginalValues[property];
+                var currentValue = entity.CurrentValues[property];
+                if (!Equals(originalValue, currentValue))
+                {
+                    changes.AppendLine($"{property.Name}: From '{originalValue}' to '{currentValue}'");
+                }
+            }
+            return changes.ToString();
         }
     }
 }

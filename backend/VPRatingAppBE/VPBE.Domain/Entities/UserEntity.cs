@@ -30,7 +30,8 @@ namespace VPBE.Domain.Entities
         Invalid = 0,
         Admin = 1,
         Member = 2,
-        Guest = 3
+        Guest = 3,
+        SuperUser = 4
     }
 
     public enum UserStatus

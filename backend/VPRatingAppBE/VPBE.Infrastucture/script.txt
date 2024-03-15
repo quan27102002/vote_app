@@ -1,5 +1,5 @@
-﻿USE [VietPhap_RatingApp]
-GO
+﻿use [VietPhap_RatingApp]
+go
 
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
@@ -12,6 +12,19 @@ END;
 GO
 
 BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [VP_Audit] (
+    [Id] uniqueidentifier NOT NULL,
+    [Username] nvarchar(max) NOT NULL,
+    [IpAddress] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NOT NULL,
+    [EntityName] nvarchar(max) NOT NULL,
+    [Action] nvarchar(max) NOT NULL,
+    [Timestamp] datetime2 NOT NULL,
+    [ObjectInfo] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_VP_Audit] PRIMARY KEY ([Id])
+);
 GO
 
 CREATE TABLE [VP_Branch] (
@@ -29,15 +42,6 @@ CREATE TABLE [VP_Comment] (
     [CommentType] int NOT NULL,
     [IsDeleted] bit NOT NULL,
     CONSTRAINT [PK_VP_Comment] PRIMARY KEY ([Id])
-);
-GO
-
-CREATE TABLE [VP_TokenBlacklist] (
-    [Id] uniqueidentifier NOT NULL,
-    [AccessToken] nvarchar(max) NOT NULL,
-    [RefreshToken] nvarchar(max) NOT NULL,
-    [CreatedOn] datetime2 NOT NULL,
-    CONSTRAINT [PK_VP_TokenBlacklist] PRIMARY KEY ([Id])
 );
 GO
 
@@ -75,16 +79,27 @@ CREATE TABLE [VP_DocumentRule] (
 );
 GO
 
+CREATE TABLE [VP_TokenBlacklist] (
+    [Id] uniqueidentifier NOT NULL,
+    [AccessToken] nvarchar(max) NOT NULL,
+    [RefreshToken] nvarchar(max) NOT NULL,
+    [IssuedById] uniqueidentifier NOT NULL,
+    [CreatedOn] datetime2 NOT NULL,
+    [ExpiredAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_VP_TokenBlacklist] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VP_TokenBlacklist_VP_User_IssuedById] FOREIGN KEY ([IssuedById]) REFERENCES [VP_User] ([Id])
+);
+GO
+
 CREATE TABLE [VP_UserBill] (
     [Id] uniqueidentifier NOT NULL,
-    [BillCode] int NOT NULL,
+    [BillCode] nvarchar(max) NOT NULL,
     [CustomerName] nvarchar(max) NOT NULL,
     [CustomerCode] nvarchar(max) NOT NULL,
     [Phone] nvarchar(max) NOT NULL,
     [StartTime] datetime2 NOT NULL,
     [BranchCode] nvarchar(max) NOT NULL,
     [BranchAddress] nvarchar(max) NOT NULL,
-    [Doctor] nvarchar(max) NOT NULL,
     [Service] nvarchar(max) NOT NULL,
     [IsDeleted] bit NOT NULL,
     [CreatedById] uniqueidentifier NOT NULL,
@@ -186,7 +201,8 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'AccessToken', N'AccessTokenExpireTime', N'BranchAddress', N'Code', N'CreatedOn', N'DisplayName', N'Email', N'Password', N'PasswordSalt', N'RefreshToken', N'RefreshTokenExpireTime', N'UserName', N'UserRole') AND [object_id] = OBJECT_ID(N'[VP_User]'))
     SET IDENTITY_INSERT [VP_User] ON;
 INSERT INTO [VP_User] ([Id], [AccessToken], [AccessTokenExpireTime], [BranchAddress], [Code], [CreatedOn], [DisplayName], [Email], [Password], [PasswordSalt], [RefreshToken], [RefreshTokenExpireTime], [UserName], [UserRole])
-VALUES ('0b44ccde-4a10-4088-a76c-99b4c739455d', N'', '0001-01-01T00:00:00.0000000', N'', N'', '2024-02-26T11:12:42.8858003+07:00', N'ADMIN', N'', N'A65D86FDC7FF57FEA897AE167ECE5992FE3EA693E719394EC2AB9F132608AED871C006EBF03868D8B56272E3FD7D6D815ED85A3A9A29A0A26E1849759DB7D1CC', 0x1636807D8C729C941D0AD01F2F3C44F72AE351CC5CA022865F7CC22B7D0B61DAA03CD5AB4692082473760A3973A001547F4E8F3ACBBAAE0B5C42B7DAEFE438A6, N'', '0001-01-01T00:00:00.0000000', N'vietphapadmin', 1);
+VALUES ('0b44ccde-4a10-4088-a76c-99b4c739455d', N'', '0001-01-01T00:00:00.0000000', N'', N'', '2024-03-16T01:12:37.7062902+07:00', N'ADMIN', N'', N'FB39200AFE118FEC62FECCFF5238DC9840399048AD5C76607FCC053D29F99501B15B8B1772B9844A0951ACEF78DDAC99E803C773F4D55D037E33E160A54CF38A', 0x7E3846FB43DBD4194E5A64449A08C8AE5E29EF6C18BC3C922B51843A3BE45ED67D370A75C813639424318841E7F7AA0A0A7E4A2D064AF71C5B0054F2246572E0, N'', '0001-01-01T00:00:00.0000000', N'vietphapadmin', 1),
+('c86d9bc1-7d17-4008-a5ab-ba5e5c9810c2', N'', '0001-01-01T00:00:00.0000000', N'', N'', '2024-03-16T01:12:37.9840139+07:00', N'Super User', N'', N'7415F61E758A11DD174BDA49EE58A256869618C98EC748DF0EB03D318FFF76BC9E74B215EA2D8AB8EDE3CBF9E376837CEBEB3297AECFCD876EC134E9CE1FC427', 0x83EB9A847C759B96F86D3BDDA5FB51BDB3A4A4052F63BE17C78137CC7CD3E040E0F32D80CF15EE122F8D06008F4D3BBF128A22214160BD61A93F079CF4BCEC94, N'', '0001-01-01T00:00:00.0000000', N'logsuperuser', 4);
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'AccessToken', N'AccessTokenExpireTime', N'BranchAddress', N'Code', N'CreatedOn', N'DisplayName', N'Email', N'Password', N'PasswordSalt', N'RefreshToken', N'RefreshTokenExpireTime', N'UserName', N'UserRole') AND [object_id] = OBJECT_ID(N'[VP_User]'))
     SET IDENTITY_INSERT [VP_User] OFF;
 GO
@@ -215,6 +231,9 @@ GO
 CREATE INDEX [IX_VP_DocumentRule_ModifiedById] ON [VP_DocumentRule] ([ModifiedById]);
 GO
 
+CREATE INDEX [IX_VP_TokenBlacklist_IssuedById] ON [VP_TokenBlacklist] ([IssuedById]);
+GO
+
 CREATE INDEX [IX_VP_UserBill_CreatedById] ON [VP_UserBill] ([CreatedById]);
 GO
 
@@ -225,14 +244,9 @@ CREATE UNIQUE INDEX [IX_VP_UserResourceMapping_UserId] ON [VP_UserResourceMappin
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20240226041243_initdb', N'6.0.26');
+VALUES (N'20240315181238_initdb', N'6.0.26');
 GO
 
 COMMIT;
 GO
-
-
-
-
-
 

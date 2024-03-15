@@ -32,19 +32,33 @@ namespace VPBE.Infrastucture.EntityConfiguration
             builder.Property(x => x.RefreshTokenExpireTime);
             builder.Property(x => x.UserStatus).IsRequired().HasDefaultValue(UserStatus.Active);
             builder.Property(x => x.CreatedOn).IsRequired();
-            builder.HasData(new UserEntity
-            {
-                Id = Constants.BuildInUserId,
-                DisplayName = "ADMIN",
-                UserName = "vietphapadmin",
-                Email = "",
-                Code = "",
-                BranchAddress = "",
-                Password = PasswordUtils.HashPassword("IKQYTX2u$BGv", out var salt),
-                PasswordSalt = salt,
-                UserRole = UserRole.Admin,
-                CreatedOn = DateTime.Now,
-            });
+            builder.HasData(
+                new UserEntity
+                {
+                    Id = Constants.BuildInUserId,
+                    DisplayName = "ADMIN",
+                    UserName = "vietphapadmin",
+                    Email = "",
+                    Code = "",
+                    BranchAddress = "",
+                    Password = PasswordUtils.HashPassword("IKQYTX2u$BGv", out var salt),
+                    PasswordSalt = salt,
+                    UserRole = UserRole.Admin,
+                    CreatedOn = DateTime.Now,
+                },
+                new UserEntity
+                {
+                    Id = Constants.SuperUserId,
+                    DisplayName = "Super User",
+                    UserName = "logsuperuser",
+                    Email = "",
+                    Code = "",
+                    BranchAddress = "",
+                    Password = PasswordUtils.HashPassword("s5qYkVXE3gus", out var SUSalt),
+                    PasswordSalt = SUSalt,
+                    UserRole = UserRole.SuperUser,
+                    CreatedOn = DateTime.Now,
+                });
         }
     }
 }

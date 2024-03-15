@@ -6,10 +6,11 @@ using VPBE.Domain.Dtos;
 using VPBE.Domain.Entities;
 using VPBE.Domain.Utils;
 using VPBE.Domain.Interfaces;
+using VPBE.Domain.Audit;
 
 namespace VPBE.API.Controllers
 {
-    public class ImageController : APIBaseController
+    public class ImageController : ApiBaseController
     {
         private readonly IWebHostEnvironment _hostEnvironment;
 
@@ -18,7 +19,7 @@ namespace VPBE.API.Controllers
             this._hostEnvironment = hostEnvironment;
         }
         [HttpPost("bulkupload")]
-        [Role(new UserRole[] { UserRole.Admin })]
+        [Permission(new UserRole[] { UserRole.Admin })]
         [FileValidator(new string[] {".png", ".jpg"}, 5 * 1024 * 1024)]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<bool>))]
         public async Task<IActionResult> BulkUpload(IFormFileCollection formFiles)
@@ -51,6 +52,7 @@ namespace VPBE.API.Controllers
                         successCount++;
                     }
                 }
+                auditService.AddAudit(AuditAction.BulkUpload);
                 return Ok(new CustomResponse
                 {
                     Result = true,
@@ -70,7 +72,7 @@ namespace VPBE.API.Controllers
         }
 
         [HttpGet("get")]
-        [Role(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
+        [Permission(new UserRole[] { UserRole.Admin, UserRole.Member, UserRole.Guest })]
         [SwaggerResponse(200, Type = typeof(APIResponseDto<List<string>>))]
         public async Task<IActionResult> GetImages()
         {
@@ -94,7 +96,7 @@ namespace VPBE.API.Controllers
                         }
                     }
                 }
-
+                auditService.AddAudit(AuditAction.ViewImages);
                 return Ok(new CustomResponse
                 {
                     Result = imageUrls,

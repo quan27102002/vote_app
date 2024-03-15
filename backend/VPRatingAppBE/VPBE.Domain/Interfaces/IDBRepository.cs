@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using VPBE.Domain.Audit;
 
 namespace VPBE.Domain.Interfaces
 {
@@ -34,7 +35,7 @@ namespace VPBE.Domain.Interfaces
 
         Task<int> DeleteAsync<T>(Expression<Func<T, bool>> predicate) where T : class;
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> SaveChangesAsync(AuditAction action = AuditAction.None, CancellationToken cancellationToken = default(CancellationToken));
 
         DbContext Context { get; }
     }

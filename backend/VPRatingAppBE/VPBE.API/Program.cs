@@ -92,6 +92,7 @@ namespace VPBE.API
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuthentication:SecretKey"])),
                         ClockSkew = TimeSpan.FromSeconds(10)
                     };
+                    options.MapInboundClaims = false;
                     options.Events = new JwtBearerEvents
                     {
                         OnChallenge = context =>
@@ -127,6 +128,7 @@ namespace VPBE.API
                 services.AddScoped<DbContext, VPDbContext>();
                 services.AddScoped<IDBRepository, DBRepository>();
                 services.AddScoped<ITokenService, TokenService>();
+                services.AddSingleton<IAuditService, AuditService>();
 
                 var app = builder.Build();
 
@@ -149,7 +151,13 @@ namespace VPBE.API
                 app.UseAuthentication();
                 app.UseAuthorization();
 
+                app.Use(async(context, next) => {
+                    context.Request.EnableBuffering();
+                    await next(context);
+                });
+
                 app.MapControllers();
+                app.UseMiddleware<AuditLogMiddleware>();
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(

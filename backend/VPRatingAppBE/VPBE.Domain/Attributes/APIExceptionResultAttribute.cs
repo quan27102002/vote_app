@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace VPBE.Domain.Attributes
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
-    public class APIExceptionResultAttribute : ExceptionFilterAttribute
+    public class ApiExceptionResultAttribute : ExceptionFilterAttribute
     {
         public override void OnException(ExceptionContext context)
         {
@@ -50,7 +50,7 @@ namespace VPBE.Domain.Attributes
                     new
                     {
                         Code = StatusCodes.Status404NotFound,
-                        ErrorMEssage = "Resource not found"
+                        ErrorMessage = "Resource not found"
                     });
             }
             else

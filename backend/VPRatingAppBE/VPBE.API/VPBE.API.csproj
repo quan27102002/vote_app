@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\OpenApi\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
