@@ -90,39 +90,43 @@ class _SlideState extends State<Slide> {
     return Consumer<ImagesProvider>(builder: (context, image, child) {
       return Scaffold(
         drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Center(
-                child: Text(
-                  'Điều khiển',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Center(
+                  child: Text(
+                    'Điều khiển',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
               ),
-            ),
-                ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
-              onTap: () async {
-                // Add your logic here for Button 4
-          
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-             await   Provider.of<UserProvider>(context, listen: false).logout();
-                 await prefs.remove('jwt'); 
-               Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
-              },
-            ),
-          ],
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () async {
+                  // Add your logic here for Button 4
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .logout();
+                  await prefs.remove('jwt');
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-        // backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
         body: Stack(
           children: [
             Positioned.fill(
@@ -130,71 +134,9 @@ class _SlideState extends State<Slide> {
                 controller: _pageController,
                 itemCount: _images.length,
                 itemBuilder: (context, index) {
-                  return Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.network(
-                        image.listImage[index],
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-                        color: Color.fromARGB(255, 108, 113, 113)
-                            .withOpacity(0.3), // Màu mờ (đen với độ mờ 0.5)
-                        child: Center(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                const SizedBox(
-                                  height:
-                                      300, // Điều chỉnh kích thước của hình ảnh
-                                ),
-                                const SizedBox(height: 30),
-                               
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                                                  child: Text(
-                                                    "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
-                                                    style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                                                    ),
-                                                    textAlign:TextAlign.center,
-                                                    softWrap: true,
-                                                  ),
-                                                ),
-                                                
-                                // const SizedBox(height: 20),
-                            
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                ElevatedButton(
-                                  onPressed: _navigateToEmotionScreen,
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    padding: const EdgeInsets.all(20),
-                                    backgroundColor:
-                                        const Color.fromRGBO(47, 179, 178, 1),
-                                  ),
-                                  child: const Text(
-                                    'Bắt đầu đánh giá',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  return Image.network(
+                    image.listImage[index],
+                    fit: BoxFit.cover,
                   );
                 },
                 onPageChanged: (index) {
@@ -202,6 +144,54 @@ class _SlideState extends State<Slide> {
                     _currentPage = index;
                   });
                 },
+              ),
+            ),
+            Positioned(
+              top: 50, // Điều chỉnh vị trí theo ý muốn của bạn
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Text(
+                          "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _navigateToEmotionScreen,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor:
+                              const Color.fromRGBO(47, 179, 178, 1),
+                        ),
+                        child: const Text(
+                          'Bắt đầu đánh giá',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
