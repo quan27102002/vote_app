@@ -158,16 +158,13 @@ class _MediaScreenState extends State<MediaScreen> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
+                   Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,
                 );
+                Provider.of<UserProvider>(context, listen: false)
+                    .logout();
               },
             ),
           ],

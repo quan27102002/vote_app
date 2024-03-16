@@ -144,16 +144,13 @@ class _CreateUserState extends State<CreateUser> {
               onTap: () async {
                 // Add your logic here for Button 4
 
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
+                  Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,
                 );
+                Provider.of<UserProvider>(context, listen: false)
+                    .logout();
               },
             ),
           ],

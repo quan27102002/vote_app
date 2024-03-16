@@ -39,6 +39,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+    try{
       ApiResponse res =
           await ApiRequest.logOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -52,6 +53,20 @@ class UserProvider extends ChangeNotifier {
   
     modelLogIn = User();
     notifyListeners();
+    }catch(e){
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.remove('role'); // Xóa thông tin về vai trò của người dùng
+    await prefs.remove('codeBr'); // Xóa mã chi nhánh
+    await prefs.remove('jwt'); // Xóa mã token
+    await prefs.remove('jwtrefresh');
+    }
+    finally{
+             SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.remove('role'); // Xóa thông tin về vai trò của người dùng
+    await prefs.remove('codeBr'); // Xóa mã chi nhánh
+    await prefs.remove('jwt'); // Xóa mã token
+    await prefs.remove('jwtrefresh');
+    }
   }
 
   // Hàm này sẽ được gọi mỗi 2 giờ để refresh token
