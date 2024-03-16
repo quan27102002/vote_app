@@ -157,7 +157,7 @@ class _MediaScreenState extends State<MediaScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: () async {
+              onTap: () {
                    Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,

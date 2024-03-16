@@ -141,7 +141,7 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: () async {
+              onTap: ()  {
 
          Navigator.pushNamedAndRemoveUntil(
                   context,
