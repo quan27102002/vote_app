@@ -219,7 +219,7 @@ class _BillScreenState extends State<BillScreen> {
                     ),
                     Container(
                       width: width,
-                      child: ListView.builder(
+                      child: ListView.builder( 
                           shrinkWrap: true,
                           itemCount: service.length,
                           itemBuilder: (context, index) {
