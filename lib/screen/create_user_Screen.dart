@@ -175,32 +175,32 @@ class _CreateUserState extends State<CreateUser> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-             width: width > 1100 ? 0.7 * width : 0.85 * width,
+              width: width > 1100 ? 0.7 * width : 0.9 * width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                         Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: width>1100 ? 290: 120,
-                          child: Image.asset(
-                            "assets/images/logovietphap.png",
-                            fit: BoxFit.fill,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: width > 1100 ? 290 : 120,
+                              child: Image.asset(
+                                "assets/images/logovietphap.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Container(
+                              width: width > 1100 ? 300 : 120,
+                              child: Image.asset(
+                                "assets/images/logo_uc.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          width: width>1100 ? 300: 120,
-                          child: Image.asset(
-                            "assets/images/logo_uc.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(children: [
@@ -400,7 +400,7 @@ class _CreateUserState extends State<CreateUser> {
                                   fillColor: Colors.white,
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 10.0, top:10.0),
+                                      left: 14.0, bottom: 10.0, top: 10.0),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.white),
@@ -444,7 +444,8 @@ class _CreateUserState extends State<CreateUser> {
                                     )),
                               ],
                             ),
-                            Container(padding: EdgeInsets.only(left: 14),
+                            Container(
+                              padding: EdgeInsets.only(left: 14),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Color.fromRGBO(47, 179, 178, 1),
@@ -545,25 +546,8 @@ class _CreateUserState extends State<CreateUser> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
-                            // ElevatedButton(
-                            //   onPressed: () {
-                            //     CreateUser(
-                            //         _nameController.text,
-                            //         _emailController.text,
-                            //         _branchController.text,
-                            //         _branchCodeController.text,
-                            //         _passwordController.text,
-                            //         int.parse(_selectedOption!));
-                            //   },
-                            //   child: Text(
-                            //     "Tạo tài khoản",
-                            //     style: TextStyle(
-                            //       fontSize: 20,
-                            //     ),
-                            //   ),
-                            // ),
                             SizedBox(
                               height: 50,
                               width: 200,
@@ -639,28 +623,24 @@ class _CreateUserState extends State<CreateUser> {
           textButton: "OK",
           title: "Thông báo",
           description: "Tạo tài khoản thành công");
-    } else if(res.code==401 && res.status==1000){
-         AppFuntion.showDialogError(context, "", onPressButton: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
+    } else if (res.code == 401 && res.status == 1000) {
+      AppFuntion.showDialogError(context, "", onPressButton: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-        },
-            textButton: "Đăng xuất",
-            title: "Thông báo lỗi",
-            description: "\t\t" +
-                   
-                    "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
-                "Vui lòng nhập lại tên và mật khẩu");
- 
-  
-    }  else {
+        await Provider.of<UserProvider>(context, listen: false).logout();
+        await prefs.remove('jwt');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteName.login,
+          (Route<dynamic> route) => false,
+        );
+      },
+          textButton: "Đăng xuất",
+          title: "Thông báo lỗi",
+          description: "\t\t" +
+                  "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
+              "Vui lòng nhập lại tên và mật khẩu");
+    } else {
       AppFuntion.showDialogError(context, "", onPressButton: () {
         Navigator.of(context, rootNavigator: true).pop();
       },

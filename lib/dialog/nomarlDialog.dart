@@ -60,10 +60,7 @@ class NormalDialog extends StatelessWidget {
                       
                       ],
                     ),
-                     
-                        // ElevatedButton(
-                        //     onPressed: onPress1stButton ?? closePopup(context),
-                        //     child: Text(text1stButton ?? " Thoát"))
+                   
                          SizedBox(
                 height: 50,
                

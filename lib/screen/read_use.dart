@@ -31,87 +31,62 @@ class _ReadUserState extends State<ReadUser> {
     setState(() {
       _isLoading = true;
     });
- 
-
-    // Set up a timer to check if response is received within 5 seconds
-    Timer(Duration(seconds: 5), () {
-      // Check if response is received, if not, show dialog
-      if (!_hasReceivedResponse) {
-        // Stop loading indicator
+    try {
+      ApiResponse res = await ApiRequest.getUser();
+      _hasReceivedResponse = true;
+      if (res.code == 200) {
+        List<dynamic> usersData = res.data;
+        List<ReadUsers> users =
+            usersData.map((data) => ReadUsers.fromJson(data)).toList();
+        setState(() {
+          _users.addAll(users);
+          _isLoading = false;
+        });
+      } else if (res.code == 401 && res.status == 1000) {
         setState(() {
           _isLoading = false;
         });
-
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Thông báo lỗi"),
-              content: Text("Không có phản hồi từ Serve."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Thoát"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
-    ApiResponse res = await ApiRequest.getUser();
- _hasReceivedResponse = true;
-    if (res.code == 200) {
-      List<dynamic> usersData = res.data;
-      List<ReadUsers> users =
-          usersData.map((data) => ReadUsers.fromJson(data)).toList();
-      setState(() {
-        _users.addAll(users);
-        _isLoading = false;
-      });
-    } 
-    else if(res.code==401 && res.status==1000){setState(() {
-        _isLoading = false;
-         
-      }); 
-         AppFuntion.showDialogError(context, "", onPressButton: () async {
+        AppFuntion.showDialogError(context, "", onPressButton: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
+          await Provider.of<UserProvider>(context, listen: false).logout();
+          await prefs.remove('jwt');
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteName.login,
+            (Route<dynamic> route) => false,
+          );
         },
             textButton: "Đăng xuất",
             title: "Thông báo lỗi",
             description: "\t\t" +
-                   
                     "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
                 "Vui lòng nhập lại tên và mật khẩu");
- 
-  
-    }else{
-    setState(() {
-        _isLoading = false;
-         
-      }); if (context.mounted) {
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        if (context.mounted) {
+          AppFuntion.showDialogError(context, "", onPressButton: () {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+              textButton: "Thoát",
+              title: "Thông báo lỗi",
+              description: "\t\t" + res.code + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+        }
+      }
+    } catch (e) {
       AppFuntion.showDialogError(context, "", onPressButton: () {
-          Navigator.of(context, rootNavigator: true).pop();
-        },
-            textButton: "Thoát",
-            title: "Thông báo lỗi",
-            description: "\t\t" +
-                    res.code +
-                    "\nLoad dữ liệu lỗi" ??
-                "Lỗi");}
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+          textButton: "Thoát",
+          title: "Thông báo lỗi",
+          description: "\t\tVui lòng thao tác lại"  + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-    
   }
 
   @override

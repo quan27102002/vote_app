@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row,Stack;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row, Stack;
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/dialog/funtion.dart';
@@ -96,55 +96,22 @@ class _ExcelState extends State<Excel> {
 
   Duration? executionTime;
   List<HoaDon> hoaDonList = [];
-  List<Service> services=[];
+  List<Service> services = [];
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
- bool _hasReceivedResponse = false;
+
   Future<void> exportToExcel(
       String timeStart, String timeEnd, String place) async {
-         final loadingProvider = Provider.of<LoadingProvider>(context, listen: false);
- loadingProvider.showLoading();
-  Timer(Duration(seconds: 5), () {
-      // Check if response is received, if not, show dialog
-      if (!_hasReceivedResponse) {
-        // Stop loading indicator
-        setState(() {
-          loadingProvider.hideLoading();
-        });
+    final loadingProvider =
+        Provider.of<LoadingProvider>(context, listen: false);
+    loadingProvider.showLoading();
+    try {
+      ApiResponse res = await ApiRequest.exportExcel(timeStart, timeEnd, place);
 
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Thông báo lỗi"),
-              content: Text("Không có phản hồi từ Serve."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Thoát"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
-         ApiResponse res = await ApiRequest.exportExcel(
-     timeStart,
-      timeEnd,
-      place
-    );
-       _hasReceivedResponse = true;
-    final stopwatch = Stopwatch()..start();
-  
-
-    
-    
+      final stopwatch = Stopwatch()..start();
 
       if (res.code == 200) {
-         loadingProvider.hideLoading();
-        List<dynamic> responseObject=res.data;
+        loadingProvider.hideLoading();
+        List<dynamic> responseObject = res.data;
         print(res.data);
         print(responseObject);
         hoaDonList.clear();
@@ -173,18 +140,16 @@ class _ExcelState extends State<Excel> {
         sheet.getRangeByIndex(1, 16).setText('Comment khác');
 
         for (int i = 0; i < hoaDonList.length; i++) {
-        //   services.clear();
-        //   services=hoaDonList[i].service;
-        //  for(int j=0;j< services.length;j++){
-           sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
+          //   services.clear();
+          //   services=hoaDonList[i].service;
+          //  for(int j=0;j< services.length;j++){
+          sheet.getRangeByIndex(i + 2, 1).setText(hoaDonList[i].id);
           sheet.getRangeByIndex(i + 2, 2).setText(hoaDonList[i].customerName);
           sheet.getRangeByIndex(i + 2, 3).setText(hoaDonList[i].customerCode);
           sheet.getRangeByIndex(i + 2, 4).setText(hoaDonList[i].branchCode);
           sheet.getRangeByIndex(i + 2, 5).setText(hoaDonList[i].branchAddress);
           sheet.getRangeByIndex(i + 2, 6).setText(hoaDonList[i].phone);
-          sheet
-              .getRangeByIndex(i + 2, 7)
-              .setText(hoaDonList[i].billCode);
+          sheet.getRangeByIndex(i + 2, 7).setText(hoaDonList[i].billCode);
           sheet.getRangeByIndex(i + 2, 8).setText(hoaDonList[i].startTime);
           sheet.getRangeByIndex(i + 2, 9).setText(hoaDonList[i].doctor);
           sheet.getRangeByIndex(i + 2, 10).setText(hoaDonList[i].serviceName);
@@ -205,11 +170,11 @@ class _ExcelState extends State<Excel> {
           sheet.getRangeByIndex(i + 2, 15).setText(comments);
 
           sheet.getRangeByIndex(i + 2, 16).setText(hoaDonList[i].otherComment);
-        // }
+          // }
         }
         for (int i = 1; i < 17; i++) {
-  sheet.autoFitColumn(i);
-}
+          sheet.autoFitColumn(i);
+        }
         final List<int> bytes = workbook.saveAsStream();
         workbook.dispose();
 
@@ -217,51 +182,60 @@ class _ExcelState extends State<Excel> {
         setState(() {
           executionTime = stopwatch.elapsed;
         });
-      } else if(res.code==401 && res.status==1000){
-         AppFuntion.showDialogError(context, "", onPressButton: () async {
+      } else if (res.code == 401 && res.status == 1000) {
+        AppFuntion.showDialogError(context, "", onPressButton: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                await Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                await prefs.remove('jwt');
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
+          await Provider.of<UserProvider>(context, listen: false).logout();
+          await prefs.remove('jwt');
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteName.login,
+            (Route<dynamic> route) => false,
+          );
         },
             textButton: "Đăng xuất",
             title: "Thông báo lỗi",
             description: "\t\t" +
-                   
                     "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
                 "Vui lòng nhập lại tên và mật khẩu");
- 
-  
-    } else{
+      } else {
         AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();
         },
             textButton: "Thoát",
             title: "Thông báo lỗi",
-            description: "\t\t" +
-                    res.code +
-                    "\nLoad dữ liệu lỗi" ??
+            description: "\t\t" + res.code + "\nLoad dữ liệu lỗi" ??
                 "Vui lòng đăng xuất");
       }
-      }
+    } catch (e) {
+      AppFuntion.showDialogError(context, "", onPressButton: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+          textButton: "Thoát",
+          title: "Thông báo lỗi",
+          description: "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+    } finally {
+      loadingProvider.hideLoading();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-     double width = MediaQuery.of(context).size.width;
-     final loadingProvider = Provider.of<LoadingProvider>(context);
+    double width = MediaQuery.of(context).size.width;
+    final loadingProvider = Provider.of<LoadingProvider>(context);
     return Scaffold(
-       appBar: AppBar(backgroundColor: Color.fromRGBO(47, 179, 178, 1) ,title: Center(child: Text("Xuất file Excel", style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ))),),
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+          title: Center(
+              child: Text("Xuất file Excel",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ))),
+        ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -280,24 +254,32 @@ class _ExcelState extends State<Excel> {
                   ),
                 ),
               ),
-                 role==1?   ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Xem các tài khoản'),
-              onTap: () {
-                // Add your logic here for Button 1
-                Navigator.pushNamed(context, RouteName.readuser,
-                    arguments: false);
-              },
-            ):Container(height: 0,),
-             role==1? ListTile(
-                leading: Icon(Icons.person_add),
-                title: Text('Tạo tài khoản'),
-                onTap: () {
-                  // Add your logic here for Button 1
-                  Navigator.pushNamed(context, RouteName.create,
-                      arguments: false);
-                },
-              ):Container(height: 0,),
+              role == 1
+                  ? ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Xem các tài khoản'),
+                      onTap: () {
+                        // Add your logic here for Button 1
+                        Navigator.pushNamed(context, RouteName.readuser,
+                            arguments: false);
+                      },
+                    )
+                  : Container(
+                      height: 0,
+                    ),
+              role == 1
+                  ? ListTile(
+                      leading: Icon(Icons.person_add),
+                      title: Text('Tạo tài khoản'),
+                      onTap: () {
+                        // Add your logic here for Button 1
+                        Navigator.pushNamed(context, RouteName.create,
+                            arguments: false);
+                      },
+                    )
+                  : Container(
+                      height: 0,
+                    ),
               ListTile(
                 leading: Icon(Icons.insert_chart),
                 title: Text('Xem biểu đồ thống kê'),
@@ -307,15 +289,19 @@ class _ExcelState extends State<Excel> {
                       arguments: false);
                 },
               ),
-             role==1? ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Chỉnh sửa comment'),
-                onTap: () {
-                  // Add your logic here for Button 2
-                  Navigator.pushNamed(context, RouteName.editComment,
-                      arguments: false);
-                },
-              ):Container(height: 0,),
+              role == 1
+                  ? ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text('Chỉnh sửa comment'),
+                      onTap: () {
+                        // Add your logic here for Button 2
+                        Navigator.pushNamed(context, RouteName.editComment,
+                            arguments: false);
+                      },
+                    )
+                  : Container(
+                      height: 0,
+                    ),
               ListTile(
                 leading: Icon(Icons.file_download),
                 title: Text('Xuất file excel'),
@@ -324,57 +310,64 @@ class _ExcelState extends State<Excel> {
                   Navigator.pushNamed(context, RouteName.excel);
                 },
               ),
-                 role==1?  ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Chỉnh sửa file đa phương tiện'),
-              onTap: () {
-               
-                Navigator.pushNamed(context, RouteName.editMedia,
-                    arguments: false);
-              },
-            ):Container(height: 0,),
+              role == 1
+                  ? ListTile(
+                      leading: Icon(Icons.image),
+                      title: Text('Chỉnh sửa file đa phương tiện'),
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteName.editMedia,
+                            arguments: false);
+                      },
+                    )
+                  : Container(
+                      height: 0,
+                    ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Đăng xuất'),
                 onTap: () async {
                   // Add your logic here for Button 4
-                 
+
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                
-                 await Provider.of<UserProvider>(context, listen: false).logout();
-                   await prefs.remove('jwt'); 
-Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route) => false,);
-                                  },
+
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .logout();
+                  await prefs.remove('jwt');
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                },
               ),
             ],
           ),
         ),
-        body: Stack(
-          children:[ SingleChildScrollView(
+        body: Stack(children: [
+          SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(children: [
-                   Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: width>1100 ? 290: 120,
-                          child: Image.asset(
-                            "assets/images/logovietphap.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Container(
-                          width: width>1100 ? 300: 120,
-                          child: Image.asset(
-                            "assets/images/logo_uc.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: width > 1100 ? 290 : 120,
+                      child: Image.asset(
+                        "assets/images/logovietphap.png",
+                        fit: BoxFit.fill,
+                      ),
                     ),
-            
+                    Container(
+                      width: width > 1100 ? 300 : 120,
+                      child: Image.asset(
+                        "assets/images/logo_uc.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -402,11 +395,12 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                                 fontSize: 14,
                                 color: Colors.black)
                             // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-            
+
                             ,
                             decoration: InputDecoration(
                               prefixIcon: Container(
-                                margin: const EdgeInsets.only(left: 8, right: 8),
+                                margin:
+                                    const EdgeInsets.only(left: 8, right: 8),
                                 child: const ImageIcon(
                                   AssetImage('assets/images/calendar.png'),
                                   size: 24,
@@ -417,14 +411,15 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
-                              prefixIconConstraints:
-                                  const BoxConstraints(minWidth: 20, minHeight: 20),
+                              prefixIconConstraints: const BoxConstraints(
+                                  minWidth: 20, minHeight: 20),
                               prefixIconColor: Colors.black,
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 28, 28, 29), width: 1),
+                                      color: Color.fromARGB(255, 28, 28, 29),
+                                      width: 1),
                                   borderRadius: BorderRadius.circular(12)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -466,12 +461,13 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                                 color: Colors.black)
-            // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
-            
+                            // AppFonts.sf400(AppDimens.textSizeSmall, AppColors.bodyTextColor),
+
                             ,
                             decoration: InputDecoration(
                               prefixIcon: Container(
-                                margin: const EdgeInsets.only(left: 8, right: 8),
+                                margin:
+                                    const EdgeInsets.only(left: 8, right: 8),
                                 child: const ImageIcon(
                                   AssetImage('assets/images/calendar.png'),
                                   size: 24,
@@ -482,14 +478,15 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
-                              prefixIconConstraints:
-                                  const BoxConstraints(minWidth: 20, minHeight: 20),
+                              prefixIconConstraints: const BoxConstraints(
+                                  minWidth: 20, minHeight: 20),
                               prefixIconColor: Colors.black,
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 28, 28, 29), width: 1),
+                                      color: Color.fromARGB(255, 28, 28, 29),
+                                      width: 1),
                                   borderRadius: BorderRadius.circular(12)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -532,7 +529,8 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                           },
                           decoration: InputDecoration(
                             hintText: "Chọn chi nhánh",
-                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             enabledBorder: InputBorder.none,
                           ),
                           dropdownColor: Colors.white,
@@ -542,7 +540,8 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                 SizedBox(height: 35),
                 ElevatedButton(
                   onPressed: () async {
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     role = prefs.getInt('role')!;
                     String? codeBr = prefs.getString('codeBr');
                     if (role == 2) {
@@ -555,14 +554,14 @@ Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(Route<dynamic> route
                 ),
               ]),
             ),
-          ), if (loadingProvider.isLoading)
+          ),
+          if (loadingProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             ),
-          ]
-        ));
+        ]));
   }
 }

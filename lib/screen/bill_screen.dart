@@ -163,7 +163,7 @@ class _BillScreenState extends State<BillScreen> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () async {
-                // Add your logic here for Button 4
+           
 
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await Provider.of<UserProvider>(context, listen: false)
@@ -174,6 +174,7 @@ class _BillScreenState extends State<BillScreen> {
                   RouteName.login,
                   (Route<dynamic> route) => false,
                 );
+                
               },
             ),
           ],
