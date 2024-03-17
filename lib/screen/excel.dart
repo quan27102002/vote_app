@@ -327,7 +327,7 @@ class _ExcelState extends State<Excel> {
                 title: Text('Đăng xuất'),
                 onTap: () async {
                   // Add your logic here for Button 4
-      Navigator.pushNamedAndRemoveUntil(
+    await  Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

@@ -164,9 +164,9 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Đăng xuất'),
-                onTap: ()  {
+                onTap: ()   {
                   // Add your logic here for Button 4
-      Navigator.pushNamedAndRemoveUntil(
+     Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

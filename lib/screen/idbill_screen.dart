@@ -58,8 +58,8 @@ class _IdBillScreenState extends State<IdBillScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  {
-                    Navigator.pushNamedAndRemoveUntil(
+              onTap: ()  async {
+                  await  Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

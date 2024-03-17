@@ -162,9 +162,9 @@ class _BillScreenState extends State<BillScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  {
+              onTap: ()   {
            
-      Navigator.pushNamedAndRemoveUntil(
+    Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

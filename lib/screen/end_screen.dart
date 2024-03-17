@@ -48,8 +48,8 @@ class _EndScreenState extends State<EndScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: () {
-                 Navigator.pushNamedAndRemoveUntil(
+              onTap: ()  {
+               Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

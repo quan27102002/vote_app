@@ -141,10 +141,10 @@ class _CreateUserState extends State<CreateUser> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  {
+              onTap: ()  async {
                 // Add your logic here for Button 4
 
-                  Navigator.pushNamedAndRemoveUntil(
+               await   Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,

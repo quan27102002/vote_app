@@ -39,6 +39,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+    
     try{
       ApiResponse res =
           await ApiRequest.logOut();
