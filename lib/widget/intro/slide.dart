@@ -36,7 +36,7 @@ class _SlideState extends State<Slide> {
     await image.getApi();
     _images = image.listImage;
     setState(() {});
-    print(_images);
+    
   }
 
   @override
@@ -110,15 +110,14 @@ class _SlideState extends State<Slide> {
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Đăng xuất'),
-                onTap: ()  {
+                onTap: () {
                   // Add your logic here for Button 4
-                    Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                  Provider.of<UserProvider>(context, listen: false).logout();
                 },
               ),
             ],
@@ -144,7 +143,7 @@ class _SlideState extends State<Slide> {
               ),
             ),
             Positioned(
-              top: 50, // Điều chỉnh vị trí theo ý muốn của bạn
+              bottom: 50, // Điều chỉnh vị trí theo ý muốn của bạn
               left: 0,
               right: 0,
               child: Center(
@@ -153,8 +152,8 @@ class _SlideState extends State<Slide> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Text(
                           "Chia sẻ trải nghiệm của quý khách tại Nha Khoa Quốc tế Việt Pháp",
                           style: TextStyle(

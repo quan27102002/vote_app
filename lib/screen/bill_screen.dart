@@ -31,6 +31,7 @@ class _BillScreenState extends State<BillScreen> {
   late BillCustomer customer;
   bool _isLoading = true;
   NumberFormat? formatter;
+  double total = 0.0;
 
   @override
   void initState() {
@@ -60,9 +61,14 @@ class _BillScreenState extends State<BillScreen> {
 
       if (matchingBills.isNotEmpty) {
         setState(() {
+          total = 0.0;
           service.addAll(matchingBills);
+          for (var e in service) {
+            total = total + e.donGia!;
+          }
           _isLoading = false;
         });
+        for (int i = 0; i < service.length; i++) {}
       } else {
         showDialog(
           context: context,
@@ -162,16 +168,13 @@ class _BillScreenState extends State<BillScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()   {
-           
-    Navigator.pushNamedAndRemoveUntil(
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,
                 );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-                
+                Provider.of<UserProvider>(context, listen: false).logout();
               },
             ),
           ],
@@ -217,7 +220,7 @@ class _BillScreenState extends State<BillScreen> {
                     ),
                     Container(
                       width: width,
-                      child: ListView.builder( 
+                      child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: service.length,
                           itemBuilder: (context, index) {
@@ -227,15 +230,6 @@ class _BillScreenState extends State<BillScreen> {
                                   titleLeft: "Dịch vụ",
                                   titleRight: service[index].tenDichVu,
                                 ),
-                                // RowInCardProduct(
-                                //   titleLeft: "Số lượng",
-                                //   titleRight: service[index].soLuong.toString(),
-                                // ),
-                                RowInCardProduct(
-                                  titleLeft: "Đơn giá",
-                                  titleRight: formatCurrency(
-                                      service[index].donGia!.toInt()),
-                                ),
                                 RowInCardProduct(
                                   titleLeft: "Tên bác sĩ",
                                   titleRight: service[index].bacSyPhuTrach,
@@ -243,6 +237,10 @@ class _BillScreenState extends State<BillScreen> {
                               ],
                             );
                           }),
+                    ),
+                    RowInCardProduct(
+                      titleLeft: "Đơn giá",
+                      titleRight: formatCurrency(total.toInt()),
                     ),
                   ],
                 ),

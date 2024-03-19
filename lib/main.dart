@@ -1,15 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-
 import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
 import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
+
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -49,7 +46,6 @@ class MyApp extends StatelessWidget {
             ),
             useMaterial3: true,
           ),
-        
           onGenerateRoute: AppRouter.instance.onGenerateRoute,
         ));
   }
