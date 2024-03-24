@@ -141,17 +141,19 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  {
-
-         Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
-              
-              
+              onTap: () {
+                try {
+                  loadingProvider.showLoading();
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                } catch (e) {
+                } finally {
+                  loadingProvider.hideLoading();
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                }
               },
             ),
           ],
@@ -274,7 +276,8 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
       },
           textButton: "Thoát",
           title: "Thông báo lỗi",
-          description: "\t\tVui lòng thao tác lại"  + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+          description:
+              "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
     } finally {
       loadingProvider.hideLoading();
     }
@@ -390,7 +393,8 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
       },
           textButton: "Thoát",
           title: "Thông báo lỗi",
-          description: "\t\tVui lòng thao tác lại"  + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+          description:
+              "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
     } finally {
       loadingProvider.hideLoading();
     }
@@ -502,7 +506,8 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
       },
           textButton: "Thoát",
           title: "Thông báo lỗi",
-          description: "\t\tVui lòng thao tác lại"  + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+          description:
+              "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
     } finally {
       loadingProvider.hideLoading();
     }

@@ -81,7 +81,8 @@ class _ReadUserState extends State<ReadUser> {
       },
           textButton: "Thoát",
           title: "Thông báo lỗi",
-          description: "\t\tVui lòng thao tác lại"  + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+          description:
+              "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
     } finally {
       setState(() {
         _isLoading = false;
@@ -164,16 +165,22 @@ class _ReadUserState extends State<ReadUser> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  {
+              onTap: () {
                 // Add your logic here for Button 4
-
-                   Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
+                try {
+                  _isLoading = true;
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                } catch (e) {
+                  // print(e);
+                } finally {
+                  _isLoading = false;
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                  print("test");
+                }
               },
             ),
           ],

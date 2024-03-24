@@ -169,12 +169,16 @@ class _BillScreenState extends State<BillScreen> {
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-                Provider.of<UserProvider>(context, listen: false).logout();
+                try {
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                } catch (e) {
+                } finally {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                }
               },
             ),
           ],

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
 import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/dialog/funtion.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
 import 'package:vote_app/router/router_name.dart';
@@ -25,238 +26,289 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     // _checkToken();
+     @override
+  void initState() {
+    super.initState();
+ 
+        final loadingProvider =
+        Provider.of<LoadingProvider>(context, listen: false);
+                loadingProvider.hideLoading();
+  }
   }
 
-  Future<void> _checkToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('jwt');
-    int? role = prefs.getInt('role');
-    if (token != null) {
-      // Token tồn tại, chuyển hướng tới màn hình tiếp theo
-      if (role == 1) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RouteName.create,
-          (Route<dynamic> route) => false,
-        );
-      } else if (role == 2) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RouteName.chart,
-          (Route<dynamic> route) => false,
-        );
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RouteName.intro,
-          (Route<dynamic> route) => false,
-        );
-      }
-    }
-  }
+  // Future<void> _checkToken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString('jwt');
+  //   int? role = prefs.getInt('role');
+  //   if (token != null) {
+  //     // Token tồn tại, chuyển hướng tới màn hình tiếp theo
+  //     if (role == 1) {
+  //       Navigator.pushNamedAndRemoveUntil(
+  //         context,
+  //         RouteName.create,
+  //         (Route<dynamic> route) => false,
+  //       );
+  //     } else if (role == 2) {
+  //       Navigator.pushNamedAndRemoveUntil(
+  //         context,
+  //         RouteName.chart,
+  //         (Route<dynamic> route) => false,
+  //       );
+  //     } else {
+  //       Navigator.pushNamedAndRemoveUntil(
+  //         context,
+  //         RouteName.intro,
+  //         (Route<dynamic> route) => false,
+  //       );
+  //     }
+  //   }
+  // }
 
   bool _check = false;
   bool _isObscure3 = true;
-  late bool rememberToken = false;
+  bool rememberToken = false;
   bool visible = false;
-  final TextEditingController usernameController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+  String  password = 'dd';
+  String name='';
+  final TextEditingController usernameController =  TextEditingController(text:'');
+  final TextEditingController passwordController =  TextEditingController(text:'');
   @override
   Widget build(BuildContext context) {
+      final loadingProvider = Provider.of<LoadingProvider>(context);
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-      body: SingleChildScrollView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: width > 1100 ? 0.7 * width : 0.85 * width,
-                  // padding: EdgeInsets.symmetric(horizontal: 200),
-                  alignment: Alignment.center,
-                  child: Column(children: [
-                    SizedBox(height: 150),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: width / 3,
-                          child: Image.asset(
-                            "assets/images/logovietphap.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Container(
-                          width: width / 3,
-                          child: Image.asset(
-                            "assets/images/logo_uc.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Tên đăng nhập",
-                            style: TextStyle(
-                              fontFamily: 'SF Pro Rounded',
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color.fromRGBO(47, 179, 178, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextFormField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          // hintText: 'Username',
-                          enabled: true,
-                          contentPadding: const EdgeInsets.only(
-                              left: 14.0, bottom: 8.0, top: 8.0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.white),
-                            borderRadius: new BorderRadius.circular(10),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.white),
-                            borderRadius: new BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value!.length == 0) {
-                            return "Username cannot be empty";
-                          }
-                        },
-                        onSaved: (value) {
-                          usernameController.text = value!;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Mật khẩu",
-                            style: TextStyle(
-                              fontFamily: 'SF Pro Rounded',
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color.fromRGBO(47, 179, 178, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextFormField(
-                        controller: passwordController,
-                        obscureText: _isObscure3,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          suffixIcon: IconButton(
-                              icon: Icon(_isObscure3
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure3 = !_isObscure3;
-                                });
-                              }),
-                          filled: true,
-                          fillColor: Colors.white,
-                          // hintText: 'Password',
-                          enabled: true,
-                          contentPadding: const EdgeInsets.only(
-                              left: 14.0, bottom: 8.0, top: 15.0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.white),
-                            borderRadius: new BorderRadius.circular(10),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.white),
-                            borderRadius: new BorderRadius.circular(10),
-                          ),
-                        ),
-                        validator: (value) {
-                          RegExp regex = new RegExp(r'^.{6,}$');
-                          if (value!.isEmpty) {
-                            return "Password cannot be empty";
-                          }
-                          if (!regex.hasMatch(value)) {
-                            return ("please enter valid password min. 6 character");
-                          } else {
-                            return null;
-                          }
-                        },
-                        onSaved: (value) {
-                          passwordController.text = value!;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
-                    Spacing.h32,
-                    SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+      body: Stack(
+        children:[SingleChildScrollView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: width > 1100 ? 0.7 * width : 0.85 * width,
+                    // padding: EdgeInsets.symmetric(horizontal: 200),
+                    alignment: Alignment.center,
+                    child: Column(children: [
+                      SizedBox(height: 150),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: width / 3,
+                            child: Image.asset(
+                              "assets/images/logovietphap.png",
+                              fit: BoxFit.fill,
                             ),
-                        onPressed: () {
-                          if (usernameController.text.trim().isNotEmpty &&
-                              passwordController.text.trim().isNotEmpty) {
-                            logIn(usernameController.text,
-                                passwordController.text);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Vui lòng điền cả tên người dùng và mật khẩu'),
-                              ),
-                            );
-                          }
-                        },
-                        child: Text(
-                          "Đăng nhập",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
                           ),
+                          Container(
+                            width: width / 3,
+                            child: Image.asset(
+                              "assets/images/logo_uc.png",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Tên đăng nhập",
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Rounded',
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ],
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(47, 179, 178, 1),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: TextFormField(
+                          controller: usernameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            // hintText: 'Username',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(10),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.length == 0) {
+                              return "Username cannot be empty";
+                            }
+                          },
+                          onSaved: (value) {
+                            usernameController.text = value!;
+                          },
+                          keyboardType: TextInputType.emailAddress,
                         ),
                       ),
-                    )
-                  ]),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Mật khẩu",
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Rounded',
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ],
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(47, 179, 178, 1),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: TextFormField(
+                          controller: passwordController,
+                          obscureText: _isObscure3,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            suffixIcon: IconButton(
+                                icon: Icon(_isObscure3
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure3 = !_isObscure3;
+                                  });
+                                }),
+                            filled: true,
+                            fillColor: Colors.white,
+                            // hintText: 'Password',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 15.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(10),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            RegExp regex = new RegExp(r'^.{6,}$');
+                            if (value!.isEmpty) {
+                              return "Password cannot be empty";
+                            }
+                            if (!regex.hasMatch(value)) {
+                              return ("please enter valid password min. 6 character");
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            passwordController.text = value!;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                      ),
+                          Row(
+           mainAxisAlignment: MainAxisAlignment.end,
+             children: [Text("Nhớ tài khoản",style:TextStyle(fontWeight:FontWeight.w600,color:const Color.fromARGB(255, 255, 255, 255))),
+               IconButton(
+                icon: Icon(
+                  _check ? Icons.check_box : Icons.check_box_outline_blank,
+                  size: 30.0,
+                  color: const Color.fromARGB(255, 248, 250, 248),
                 ),
-              ],
-            ),
-          ],
+                onPressed: () {
+                  setState(() {
+                    _check = !_check;
+                    if (_check) {
+                       rememberToken=true;
+                    name=usernameController.text;
+                      password=passwordController.text;
+                    } else {
+               
+                        name='';
+                      password='';
+                     
+                      rememberToken=false;
+                    }
+                  });
+                 }),
+             ],
+           ),
+                      Spacing.h32,
+                      SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                              ),
+                          onPressed: () {
+                            if (usernameController.text.trim().isNotEmpty &&
+                                passwordController.text.trim().isNotEmpty) {
+                              logIn(usernameController.text,
+                                  passwordController.text);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Vui lòng điền cả tên người dùng và mật khẩu'),
+                                ),
+                              );
+                            }
+                          },
+                          child: Text(
+                            "Đăng nhập",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+          if (loadingProvider.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ] 
       ),
     );
   }
 
   Future<void> logIn(String username, String pass) async {
+        final loadingProvider =
+        Provider.of<LoadingProvider>(context, listen: false);
+    loadingProvider.showLoading();
     hideKeyboard(context);
     showLoading();
     final getUserData = await Provider.of<UserProvider>(context, listen: false)
@@ -265,6 +317,7 @@ class _LoginPageState extends State<LoginPage> {
     print(getUserData);
 
     if (getUserData == "success") {
+       loadingProvider.hideLoading();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('jwt');
       int? role = prefs.getInt('role');
@@ -284,7 +337,9 @@ class _LoginPageState extends State<LoginPage> {
             arguments: false);
       }
     } else {
+         loadingProvider.hideLoading();
       if (context.mounted) {
+           loadingProvider.hideLoading();
         hideLoading();
         AppFuntion.showDialogError(context, "", onPressButton: () {
           Navigator.of(context, rootNavigator: true).pop();

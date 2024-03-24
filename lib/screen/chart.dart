@@ -253,7 +253,8 @@ class _ChartState extends State<Chart> {
       },
           textButton: "Thoát",
           title: "Thông báo lỗi",
-          description: "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
+          description:
+              "\t\tVui lòng thao tác lại" + "\nLoad dữ liệu lỗi" ?? "Lỗi");
     } finally {
       loadingProvider.hideLoading();
     }
@@ -351,16 +352,19 @@ class _ChartState extends State<Chart> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Đăng xuất'),
-              onTap: ()  async {
-                // Add your logic here for Button 4
-
-await Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteName.login,
-                  (Route<dynamic> route) => false,
-                );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
+              onTap: () {
+                try {
+                  loadingProvider.showLoading();
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                } catch (e) {
+                } finally {
+                  loadingProvider.hideLoading();
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteName.login,
+                    (Route<dynamic> route) => false,
+                  );
+                }
               },
             ),
           ],

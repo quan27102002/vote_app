@@ -38,6 +38,9 @@ class _ExcelState extends State<Excel> {
   void initState() {
     super.initState();
     _loadRole();
+        // final loadingProvider =
+        // Provider.of<LoadingProvider>(context, listen: false);
+        //         loadingProvider.hideLoading();
   }
 
   Future<void> _loadRole() async {
@@ -325,15 +328,23 @@ class _ExcelState extends State<Excel> {
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Đăng xuất'),
-                onTap: () async {
-                  // Add your logic here for Button 4
-    await  Navigator.pushNamedAndRemoveUntil(
+                onTap: ()  {
+                  try{
+              loadingProvider.showLoading();
+                Provider.of<UserProvider>(context, listen: false)
+                    .logout();
+                    }catch(e){
+                    }
+                    finally{
+                        loadingProvider.hideLoading();
+                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   RouteName.login,
                   (Route<dynamic> route) => false,
                 );
-                Provider.of<UserProvider>(context, listen: false)
-                    .logout();
+
+                    }
+                
                 },
               ),
             ],
