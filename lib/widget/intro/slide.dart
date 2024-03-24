@@ -36,7 +36,6 @@ class _SlideState extends State<Slide> {
     await image.getApi();
     _images = image.listImage;
     setState(() {});
-    
   }
 
   @override
@@ -112,12 +111,18 @@ class _SlideState extends State<Slide> {
                 title: Text('Đăng xuất'),
                 onTap: () {
                   // Add your logic here for Button 4
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    RouteName.login,
-                    (Route<dynamic> route) => false,
-                  );
-                  Provider.of<UserProvider>(context, listen: false).logout();
+                  try {
+                    Provider.of<UserProvider>(context, listen: false).logout();
+                  } catch (e) {
+                    // print(e);
+                  } finally {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      RouteName.login,
+                      (Route<dynamic> route) => false,
+                    );
+                    print("test");
+                  }
                 },
               ),
             ],
