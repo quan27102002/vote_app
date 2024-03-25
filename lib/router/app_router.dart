@@ -6,15 +6,12 @@ import 'package:vote_app/screen/create_user_Screen.dart';
 import 'package:vote_app/screen/edit_comment.dart';
 
 import 'package:vote_app/screen/excel.dart';
-import 'package:vote_app/screen/bill_screen.dart';
-import 'package:vote_app/screen/home_screen.dart';
 import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 import 'package:vote_app/screen/login_screen.dart';
 import 'package:vote_app/screen/logout_screen.dart';
 import 'package:vote_app/screen/media_screen.dart';
 import 'package:vote_app/screen/read_use.dart';
-import 'package:vote_app/screen/totalComment.dart';
 
 class AppRouter {
   AppRouter._instance();

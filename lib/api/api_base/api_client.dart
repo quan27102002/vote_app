@@ -7,7 +7,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_request.dart';
 
-import 'package:vote_app/utils/app_functions.dart';
 import 'api_response.dart';
 
 class ApiClient {

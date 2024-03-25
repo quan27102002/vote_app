@@ -12,7 +12,7 @@ class RowInCardProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 20, left: 20, top: 15),
+      padding: const EdgeInsets.only(right: 20, left: 20, top: 15),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -23,7 +23,7 @@ class RowInCardProduct extends StatelessWidget {
               titleLeft ?? "",
               maxLines: 1,
               textAlign: TextAlign.left,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),
@@ -35,7 +35,7 @@ class RowInCardProduct extends StatelessWidget {
               titleRight ?? "",
               maxLines: 1,
               textAlign: TextAlign.right,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 14,
               ),

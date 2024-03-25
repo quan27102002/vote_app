@@ -83,7 +83,7 @@ class _ChartState extends State<Chart> {
     );
     if (picked != null && picked != DateTime.now()) {
       String formatDated = DateFormat('dd/MM/yyyy').format(picked);
-      timeCreate = await DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').format(picked);
+      timeCreate = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').format(picked);
       dateStartController.text = formatDated;
     }
   }
@@ -97,17 +97,17 @@ class _ChartState extends State<Chart> {
     );
     if (picked != null && picked != DateTime.now()) {
       String formatDated = DateFormat('dd/MM/yyyy').format(picked);
-      timeEnd = await DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').format(picked);
+      timeEnd = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').format(picked);
       dateEndController.text = formatDated;
     }
   }
 
   List<Color> colors = [
-    Color.fromARGB(255, 170, 53, 69),
-    Color.fromARGB(255, 207, 108, 133),
+    const Color.fromARGB(255, 170, 53, 69),
+    const Color.fromARGB(255, 207, 108, 133),
     Colors.yellow,
-    Color.fromARGB(255, 41, 100, 230),
-    Color.fromARGB(255, 54, 194, 19),
+    const Color.fromARGB(255, 41, 100, 230),
+    const Color.fromARGB(255, 54, 194, 19),
   ];
   List<Color> colorsType = [
     Colors.red,
@@ -270,7 +270,7 @@ class _ChartState extends State<Chart> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -286,8 +286,8 @@ class _ChartState extends State<Chart> {
             ),
             role == 1
                 ? ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Xem các tài khoản'),
+                    leading: const Icon(Icons.person),
+                    title: const Text('Xem các tài khoản'),
                     onTap: () {
                       // Add your logic here for Button 1
                       Navigator.pushNamed(context, RouteName.readuser,
@@ -299,8 +299,8 @@ class _ChartState extends State<Chart> {
                   ),
             role == 1
                 ? ListTile(
-                    leading: Icon(Icons.person_add),
-                    title: Text('Tạo tài khoản'),
+                    leading: const Icon(Icons.person_add),
+                    title: const Text('Tạo tài khoản'),
                     onTap: () {
                       // Add your logic here for Button 1
                       Navigator.pushNamed(context, RouteName.create,
@@ -309,8 +309,8 @@ class _ChartState extends State<Chart> {
                   )
                 : Container(height: 0),
             ListTile(
-              leading: Icon(Icons.insert_chart),
-              title: Text('Xem biểu đồ thống kê'),
+              leading: const Icon(Icons.insert_chart),
+              title: const Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
                 Navigator.pushNamed(context, RouteName.chart, arguments: false);
@@ -318,8 +318,8 @@ class _ChartState extends State<Chart> {
             ),
             role == 1
                 ? ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text('Chỉnh sửa comment'),
+                    leading: const Icon(Icons.settings),
+                    title: const Text('Chỉnh sửa comment'),
                     onTap: () {
                       // Add your logic here for Button 2
                       Navigator.pushNamed(context, RouteName.editComment,
@@ -330,8 +330,8 @@ class _ChartState extends State<Chart> {
                     height: 0,
                   ),
             ListTile(
-              leading: Icon(Icons.file_download),
-              title: Text('Xuất file excel'),
+              leading: const Icon(Icons.file_download),
+              title: const Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
                 Navigator.pushNamed(context, RouteName.excel);
@@ -339,8 +339,8 @@ class _ChartState extends State<Chart> {
             ),
             role == 1
                 ? ListTile(
-                    leading: Icon(Icons.image),
-                    title: Text('Chỉnh sửa file đa phương tiện'),
+                    leading: const Icon(Icons.image),
+                    title: const Text('Chỉnh sửa file đa phương tiện'),
                     onTap: () {
                       Navigator.pushNamed(context, RouteName.editMedia,
                           arguments: false);
@@ -350,8 +350,8 @@ class _ChartState extends State<Chart> {
                     height: 0,
                   ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: () {
                 try {
                   loadingProvider.showLoading();
@@ -371,8 +371,8 @@ class _ChartState extends State<Chart> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-        title: Center(
+        backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
+        title: const Center(
             child: Text("Biểu đồ thống kê",
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
@@ -388,7 +388,7 @@ class _ChartState extends State<Chart> {
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
             child: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Lọc đánh giá",
@@ -418,7 +418,7 @@ class _ChartState extends State<Chart> {
                         print(value);
                       });
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Lọc đánh giá",
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                       enabledBorder: InputBorder.none,
@@ -426,7 +426,7 @@ class _ChartState extends State<Chart> {
                     dropdownColor: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -435,7 +435,7 @@ class _ChartState extends State<Chart> {
                       flex: 1,
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text("Bắt đầu",
@@ -461,7 +461,7 @@ class _ChartState extends State<Chart> {
                                 textInputAction: TextInputAction.newline,
                                 textAlignVertical: TextAlignVertical.top,
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 18,
                                     color: Colors.black)
@@ -507,14 +507,14 @@ class _ChartState extends State<Chart> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Expanded(
                       flex: 1,
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text("Kết thúc",
@@ -540,7 +540,7 @@ class _ChartState extends State<Chart> {
                                 textInputAction: TextInputAction.newline,
                                 textAlignVertical: TextAlignVertical.top,
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 18,
                                     color: Colors.black)
@@ -581,7 +581,7 @@ class _ChartState extends State<Chart> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 role == 1
@@ -602,7 +602,7 @@ class _ChartState extends State<Chart> {
                               _selectedOption = value;
                             });
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Chọn chi nhánh",
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 10),
@@ -613,7 +613,7 @@ class _ChartState extends State<Chart> {
                       )
                     : Container(),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 SizedBox(
                   height: 50,
@@ -621,7 +621,7 @@ class _ChartState extends State<Chart> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                            const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                         ),
                     onPressed: () async {
                       // login();
@@ -637,7 +637,7 @@ class _ChartState extends State<Chart> {
                         exportToChart(timeCreate, timeEnd, _selectedOption!);
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Xem biểu đồ",
                       style: TextStyle(
                         color: Colors.white,
@@ -647,15 +647,15 @@ class _ChartState extends State<Chart> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 width > 700
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(width: 140),
+                          const SizedBox(width: 140),
                           checktype == '1'
                               ? role == 1 && _selectedOption == ''
-                                  ? Container(
+                                  ? SizedBox(
                                       width: 400,
                                       height: 400,
                                       child: PieChart(
@@ -671,7 +671,7 @@ class _ChartState extends State<Chart> {
                                         ),
                                       ),
                                     )
-                                  : Container(
+                                  : SizedBox(
                                       height: 500,
                                       child: Padding(
                                         padding: const EdgeInsets.all(24),
@@ -683,10 +683,10 @@ class _ChartState extends State<Chart> {
                                                   .spaceBetween,
                                               borderData: FlBorderData(
                                                 show: true,
-                                                border: Border.symmetric(
+                                                border: const Border.symmetric(
                                                   horizontal: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               137,
                                                               235,
                                                               119,
@@ -740,8 +740,8 @@ class _ChartState extends State<Chart> {
                                                 show: true,
                                                 drawVerticalLine: false,
                                                 getDrawingHorizontalLine:
-                                                    (value) => FlLine(
-                                                  color: const Color.fromARGB(
+                                                    (value) => const FlLine(
+                                                  color: Color.fromARGB(
                                                       137, 235, 119, 119),
                                                   strokeWidth: 1,
                                                 ),
@@ -807,7 +807,7 @@ class _ChartState extends State<Chart> {
                                         ),
                                       ),
                                     )
-                              : Container(
+                              : SizedBox(
                                   width: 400,
                                   height: 400,
                                   child: PieChart(
@@ -825,7 +825,7 @@ class _ChartState extends State<Chart> {
                                     ),
                                   ),
                                 ),
-                          SizedBox(width: 30),
+                          const SizedBox(width: 30),
                           checktype == '1'
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -880,7 +880,7 @@ class _ChartState extends State<Chart> {
                                               height: 20,
                                               color: colors[index],
                                             ),
-                                            SizedBox(width: 8),
+                                            const SizedBox(width: 8),
                                             Text(emotions[index]),
                                           ],
                                         ),
@@ -903,7 +903,7 @@ class _ChartState extends State<Chart> {
                                             height: 20,
                                             color: colorsType[index],
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Text(emotionsType1[index]),
                                         ],
                                       ),
@@ -914,7 +914,7 @@ class _ChartState extends State<Chart> {
                       )
                     : checktype == '1'
                         ? role == 1 && _selectedOption == ''
-                            ? Container(
+                            ? SizedBox(
                                 width: 300,
                                 height: 300,
                                 child: PieChart(
@@ -930,7 +930,7 @@ class _ChartState extends State<Chart> {
                                   ),
                                 ),
                               )
-                            : Container(
+                            : SizedBox(
                                 height: 300,
                                 child: Padding(
                                   padding: const EdgeInsets.all(24),
@@ -942,9 +942,9 @@ class _ChartState extends State<Chart> {
                                             BarChartAlignment.spaceBetween,
                                         borderData: FlBorderData(
                                           show: true,
-                                          border: Border.symmetric(
+                                          border: const Border.symmetric(
                                             horizontal: BorderSide(
-                                                color: const Color.fromARGB(
+                                                color: Color.fromARGB(
                                                     137, 235, 119, 119)),
                                           ),
                                         ),
@@ -989,8 +989,8 @@ class _ChartState extends State<Chart> {
                                           show: true,
                                           drawVerticalLine: false,
                                           getDrawingHorizontalLine: (value) =>
-                                              FlLine(
-                                            color: const Color.fromARGB(
+                                              const FlLine(
+                                            color: Color.fromARGB(
                                                 137, 235, 119, 119),
                                             strokeWidth: 1,
                                           ),
@@ -1049,7 +1049,7 @@ class _ChartState extends State<Chart> {
                                   ),
                                 ),
                               )
-                        : Container(
+                        : SizedBox(
                             width: 300,
                             height: 300,
                             child: PieChart(
@@ -1065,7 +1065,7 @@ class _ChartState extends State<Chart> {
                               ),
                             ),
                           ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Danh sách chú thích
                 checktype == '1'
                     ? Column(
@@ -1114,7 +1114,7 @@ class _ChartState extends State<Chart> {
                                     height: 20,
                                     color: colors[index],
                                   ),
-                                  SizedBox(width: 8),
+                                  const SizedBox(width: 8),
                                   Text(emotions[index]),
                                 ],
                               ),
@@ -1136,7 +1136,7 @@ class _ChartState extends State<Chart> {
                                   height: 20,
                                   color: colorsType[index],
                                 ),
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Text(emotionsType1[index]),
                               ],
                             ),
@@ -1154,7 +1154,7 @@ class _ChartState extends State<Chart> {
         if (loadingProvider.isLoading)
           Container(
             color: Colors.black.withOpacity(0.5),
-            child: Center(
+            child: const Center(
               child: CircularProgressIndicator(),
             ),
           ),

@@ -46,14 +46,14 @@ class NormalDialog extends StatelessWidget {
                       children: [
                         Text(
                           title ?? "Thông báo",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                               color: Color.fromRGBO(40, 41, 61, 1)),
                         ),
                         Spacing.h12,
                         Text(description ?? "",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w400,
                                 color: Color.fromRGBO(85, 87, 112, 1)),textAlign: TextAlign.center,),
@@ -67,10 +67,10 @@ class NormalDialog extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor:
-                          Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                          const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                       ),
                   onPressed: onPress1stButton ?? closePopup(context),
-                  child:  Text(text1stButton ?? " Thoát",style: TextStyle(color: Colors.white,fontSize: 22),)
+                  child:  Text(text1stButton ?? " Thoát",style: const TextStyle(color: Colors.white,fontSize: 22),)
                 ),
               )
                   ],

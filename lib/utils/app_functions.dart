@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:vote_app/provider/loading.dart';
 
 class AppFunctions {
-  // static showLoading(BuildContext context) {
-  //   context.read<LoadingProvider>().showLoading();
-  // }
+  static showLoading(BuildContext context) {
+    context.read<LoadingProvider>().showLoading();
+  }
 
-  // static hideLoading(BuildContext context) {
-  //   context.read<LoadingProvider>().hideLoading();
-  // }
+  static hideLoading(BuildContext context) {
+    context.read<LoadingProvider>().hideLoading();
+  }
 
   static void hideKeyboard(context) {
     FocusScopeNode currentFocus = FocusScope.of(context);

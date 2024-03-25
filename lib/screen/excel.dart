@@ -229,8 +229,8 @@ class _ExcelState extends State<Excel> {
     final loadingProvider = Provider.of<LoadingProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-          title: Center(
+          backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
+          title: const Center(
               child: Text("Xuất file Excel",
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
@@ -243,7 +243,7 @@ class _ExcelState extends State<Excel> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
@@ -259,8 +259,8 @@ class _ExcelState extends State<Excel> {
               ),
               role == 1
                   ? ListTile(
-                      leading: Icon(Icons.person),
-                      title: Text('Xem các tài khoản'),
+                      leading: const Icon(Icons.person),
+                      title: const Text('Xem các tài khoản'),
                       onTap: () {
                         // Add your logic here for Button 1
                         Navigator.pushNamed(context, RouteName.readuser,
@@ -272,8 +272,8 @@ class _ExcelState extends State<Excel> {
                     ),
               role == 1
                   ? ListTile(
-                      leading: Icon(Icons.person_add),
-                      title: Text('Tạo tài khoản'),
+                      leading: const Icon(Icons.person_add),
+                      title: const Text('Tạo tài khoản'),
                       onTap: () {
                         // Add your logic here for Button 1
                         Navigator.pushNamed(context, RouteName.create,
@@ -284,8 +284,8 @@ class _ExcelState extends State<Excel> {
                       height: 0,
                     ),
               ListTile(
-                leading: Icon(Icons.insert_chart),
-                title: Text('Xem biểu đồ thống kê'),
+                leading: const Icon(Icons.insert_chart),
+                title: const Text('Xem biểu đồ thống kê'),
                 onTap: () {
                   // Add your logic here for Button 2
                   Navigator.pushNamed(context, RouteName.chart,
@@ -294,8 +294,8 @@ class _ExcelState extends State<Excel> {
               ),
               role == 1
                   ? ListTile(
-                      leading: Icon(Icons.settings),
-                      title: Text('Chỉnh sửa comment'),
+                      leading: const Icon(Icons.settings),
+                      title: const Text('Chỉnh sửa comment'),
                       onTap: () {
                         // Add your logic here for Button 2
                         Navigator.pushNamed(context, RouteName.editComment,
@@ -306,8 +306,8 @@ class _ExcelState extends State<Excel> {
                       height: 0,
                     ),
               ListTile(
-                leading: Icon(Icons.file_download),
-                title: Text('Xuất file excel'),
+                leading: const Icon(Icons.file_download),
+                title: const Text('Xuất file excel'),
                 onTap: () {
                   // Add your logic here for Button 3
                   Navigator.pushNamed(context, RouteName.excel);
@@ -315,8 +315,8 @@ class _ExcelState extends State<Excel> {
               ),
               role == 1
                   ? ListTile(
-                      leading: Icon(Icons.image),
-                      title: Text('Chỉnh sửa file đa phương tiện'),
+                      leading: const Icon(Icons.image),
+                      title: const Text('Chỉnh sửa file đa phương tiện'),
                       onTap: () {
                         Navigator.pushNamed(context, RouteName.editMedia,
                             arguments: false);
@@ -326,8 +326,8 @@ class _ExcelState extends State<Excel> {
                       height: 0,
                     ),
               ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Đăng xuất'),
+                leading: const Icon(Icons.exit_to_app),
+                title: const Text('Đăng xuất'),
                 onTap: ()  {
                   try{
               loadingProvider.showLoading();
@@ -374,7 +374,7 @@ class _ExcelState extends State<Excel> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -396,7 +396,7 @@ class _ExcelState extends State<Excel> {
                             textInputAction: TextInputAction.newline,
                             textAlignVertical: TextAlignVertical.bottom,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                                 color: Colors.black)
@@ -413,7 +413,7 @@ class _ExcelState extends State<Excel> {
                                 ),
                               ),
                               labelText: "Chọn ngày bắt đầu",
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
@@ -443,7 +443,7 @@ class _ExcelState extends State<Excel> {
                             ),
                           )),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Expanded(
@@ -463,7 +463,7 @@ class _ExcelState extends State<Excel> {
                             textInputAction: TextInputAction.newline,
                             textAlignVertical: TextAlignVertical.bottom,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                                 color: Colors.black)
@@ -480,7 +480,7 @@ class _ExcelState extends State<Excel> {
                                 ),
                               ),
                               labelText: "Đến ngày",
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
                                   color: Colors.black),
@@ -512,7 +512,7 @@ class _ExcelState extends State<Excel> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 role == 1
@@ -533,7 +533,7 @@ class _ExcelState extends State<Excel> {
                               _selectedOption = value;
                             });
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Chọn chi nhánh",
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 10),
@@ -543,7 +543,7 @@ class _ExcelState extends State<Excel> {
                         ),
                       )
                     : Container(),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 ElevatedButton(
                   onPressed: () async {
                     SharedPreferences prefs =
@@ -556,7 +556,7 @@ class _ExcelState extends State<Excel> {
                       exportToExcel(timeCreate, timeEnd, _selectedOption!);
                     }
                   },
-                  child: Text("Xem thông tin với excel"),
+                  child: const Text("Xem thông tin với excel"),
                 ),
               ]),
             ),
@@ -564,7 +564,7 @@ class _ExcelState extends State<Excel> {
           if (loadingProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

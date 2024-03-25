@@ -18,7 +18,7 @@ class _EndScreenState extends State<EndScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacementNamed(context, RouteName.intro);
     });
   }
@@ -31,11 +31,11 @@ class _EndScreenState extends State<EndScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'Điều khiển',
                   style: TextStyle(
@@ -46,8 +46,8 @@ class _EndScreenState extends State<EndScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: ()  {
                Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -65,12 +65,12 @@ class _EndScreenState extends State<EndScreen> {
         children: [
           Container(
             height: 100,
-            color: Color.fromRGBO(244, 244, 244, 1),
+            color: const Color.fromRGBO(244, 244, 244, 1),
           ),
           Container(
-            padding: EdgeInsets.only(top: 20),
-            color: Color.fromRGBO(244, 244, 244, 1),
-            child: Center(
+            padding: const EdgeInsets.only(top: 20),
+            color: const Color.fromRGBO(244, 244, 244, 1),
+            child: const Center(
               child: Column(
                 children: [
                   Text(
@@ -85,7 +85,7 @@ class _EndScreenState extends State<EndScreen> {
                     height: 15,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       "Đã tham gia đánh giá trải nghiệm dịch vụ của chúng tôi!",
                       style: TextStyle(
@@ -99,20 +99,20 @@ class _EndScreenState extends State<EndScreen> {
             ),
           ),
           Image.asset("assets/images/end.jpg"),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
             SizedBox(
                         height: 50,
                         width: 200,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                                  const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                               ),
                           onPressed: () {
                            
                   Navigator.pushNamedAndRemoveUntil(context, RouteName.intro,(Route<dynamic> route) => false,);
                           },
-                          child: Text(
+                          child: const Text(
                             "Quay về",
                             style: TextStyle(
                               color: Colors.white,

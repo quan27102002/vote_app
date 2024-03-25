@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/api/api_base/api_response.dart';
-import 'package:vote_app/api/api_base/api_response_http.dart';
 import 'package:vote_app/api/api_request.dart';
 
 import 'package:vote_app/model/user.dart';

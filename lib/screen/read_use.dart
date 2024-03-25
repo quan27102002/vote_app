@@ -97,7 +97,7 @@ class _ReadUserState extends State<ReadUser> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -112,8 +112,8 @@ class _ReadUserState extends State<ReadUser> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Xem các tài khoản'),
+              leading: const Icon(Icons.person),
+              title: const Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
                 Navigator.pushNamed(context, RouteName.readuser,
@@ -121,8 +121,8 @@ class _ReadUserState extends State<ReadUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person_add),
-              title: Text('Tạo tài khoản'),
+              leading: const Icon(Icons.person_add),
+              title: const Text('Tạo tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
                 Navigator.pushNamed(context, RouteName.create,
@@ -130,16 +130,16 @@ class _ReadUserState extends State<ReadUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.insert_chart),
-              title: Text('Xem biểu đồ thống kê'),
+              leading: const Icon(Icons.insert_chart),
+              title: const Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
                 Navigator.pushNamed(context, RouteName.chart, arguments: false);
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Chỉnh sửa comment'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Chỉnh sửa comment'),
               onTap: () {
                 // Add your logic here for Button 2
                 Navigator.pushNamed(context, RouteName.editComment,
@@ -147,24 +147,24 @@ class _ReadUserState extends State<ReadUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.file_download),
-              title: Text('Xuất file excel'),
+              leading: const Icon(Icons.file_download),
+              title: const Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
                 Navigator.pushNamed(context, RouteName.excel);
               },
             ),
             ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Chỉnh sửa file đa phương tiện'),
+              leading: const Icon(Icons.image),
+              title: const Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                 Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: () {
                 // Add your logic here for Button 4
                 try {
@@ -187,8 +187,8 @@ class _ReadUserState extends State<ReadUser> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-        title: Center(
+        backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
+        title: const Center(
           child: Text(
             "Danh mục các tài khoản trên hệ thống",
             style: TextStyle(
@@ -201,7 +201,7 @@ class _ReadUserState extends State<ReadUser> {
         ),
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : _buildUserList(),
@@ -220,27 +220,27 @@ class _ReadUserState extends State<ReadUser> {
               _showUserDialog(user);
             },
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-              padding: EdgeInsets.all(10.0),
+              margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.person, color: Colors.blue),
-                  SizedBox(width: 10.0),
+                  const Icon(Icons.person, color: Colors.blue),
+                  const SizedBox(width: 10.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         user.userName,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         user.branchAddress,
-                        style: TextStyle(fontSize: 12.0),
+                        style: const TextStyle(fontSize: 12.0),
                       ),
                     ],
                   ),
@@ -258,8 +258,8 @@ class _ReadUserState extends State<ReadUser> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.all(20),
-          title: Text(
+          contentPadding: const EdgeInsets.all(20),
+          title: const Text(
             'Thông tin người dùng',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
@@ -281,7 +281,7 @@ class _ReadUserState extends State<ReadUser> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 'Đóng',
                 style: TextStyle(fontSize: 20),
               ),
@@ -297,11 +297,11 @@ class _ReadUserState extends State<ReadUser> {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: RichText(
         text: TextSpan(
-          style: TextStyle(fontSize: 20, color: Colors.black),
+          style: const TextStyle(fontSize: 20, color: Colors.black),
           children: [
             TextSpan(
               text: title,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(text: content),
           ],

@@ -74,15 +74,15 @@ class _BillScreenState extends State<BillScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Thông báo'),
-              content: Text('Hoá đơn này không tồn tại'),
+              title: const Text('Thông báo'),
+              content: const Text('Hoá đơn này không tồn tại'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -120,25 +120,25 @@ class _BillScreenState extends State<BillScreen> {
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
         ),
-        body: Center(child: CircularProgressIndicator()),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "HOÁ ĐƠN DỊCH VỤ",
           style: TextStyle(
             fontSize: 24,
@@ -151,7 +151,7 @@ class _BillScreenState extends State<BillScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -166,8 +166,8 @@ class _BillScreenState extends State<BillScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: () {
                 try {
                   Provider.of<UserProvider>(context, listen: false).logout();
@@ -222,7 +222,7 @@ class _BillScreenState extends State<BillScreen> {
                       titleLeft: "Thời gian khám",
                       titleRight: service[0].thoiGianKham!.split(" ")[0],
                     ),
-                    Container(
+                    SizedBox(
                       width: width,
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -248,14 +248,14 @@ class _BillScreenState extends State<BillScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SizedBox(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                            const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                         ),
                     onPressed: () async {
                       DateFormat currentFormat =
@@ -303,7 +303,7 @@ class _BillScreenState extends State<BillScreen> {
                         print("eror");
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Xác nhận hoá đơn",
                       style: TextStyle(
                         color: Colors.white,

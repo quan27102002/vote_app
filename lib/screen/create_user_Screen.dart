@@ -8,9 +8,7 @@ import 'package:vote_app/api/api_request.dart';
 import 'package:vote_app/dialog/funtion.dart';
 import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
-import 'package:vote_app/router/app_router.dart';
 import 'package:vote_app/router/router_name.dart';
-import 'package:vote_app/theme/spacing.dart';
 
 class CreateUser extends StatefulWidget {
   const CreateUser({super.key});
@@ -75,8 +73,8 @@ class _CreateUserState extends State<CreateUser> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
+            const DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
               child: Center(
@@ -90,8 +88,8 @@ class _CreateUserState extends State<CreateUser> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Xem các tài khoản'),
+              leading: const Icon(Icons.person),
+              title: const Text('Xem các tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
                 Navigator.pushNamed(context, RouteName.readuser,
@@ -99,8 +97,8 @@ class _CreateUserState extends State<CreateUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person_add),
-              title: Text('Tạo tài khoản'),
+              leading: const Icon(Icons.person_add),
+              title: const Text('Tạo tài khoản'),
               onTap: () {
                 // Add your logic here for Button 1
                 Navigator.pushNamed(context, RouteName.create,
@@ -108,16 +106,16 @@ class _CreateUserState extends State<CreateUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.insert_chart),
-              title: Text('Xem biểu đồ thống kê'),
+              leading: const Icon(Icons.insert_chart),
+              title: const Text('Xem biểu đồ thống kê'),
               onTap: () {
                 // Add your logic here for Button 2
                 Navigator.pushNamed(context, RouteName.chart, arguments: false);
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Chỉnh sửa comment'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Chỉnh sửa comment'),
               onTap: () {
                 // Add your logic here for Button 2
                 Navigator.pushNamed(context, RouteName.editComment,
@@ -125,24 +123,24 @@ class _CreateUserState extends State<CreateUser> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.file_download),
-              title: Text('Xuất file excel'),
+              leading: const Icon(Icons.file_download),
+              title: const Text('Xuất file excel'),
               onTap: () {
                 // Add your logic here for Button 3
                 Navigator.pushNamed(context, RouteName.excel);
               },
             ),
             ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Chỉnh sửa file đa phương tiện'),
+              leading: const Icon(Icons.image),
+              title: const Text('Chỉnh sửa file đa phương tiện'),
               onTap: () {
                 Navigator.pushNamed(context, RouteName.editMedia,
                     arguments: false);
               },
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: ()  {
                 // Add your logic here for Button 4
 
@@ -167,8 +165,8 @@ class _CreateUserState extends State<CreateUser> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(47, 179, 178, 1),
-        title: Center(
+        backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
+        title: const Center(
             child: Text("Tạo tài khoản",
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
@@ -227,7 +225,7 @@ class _CreateUserState extends State<CreateUser> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
@@ -266,10 +264,10 @@ class _CreateUserState extends State<CreateUser> {
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Email ",
@@ -284,7 +282,7 @@ class _CreateUserState extends State<CreateUser> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
@@ -323,10 +321,10 @@ class _CreateUserState extends State<CreateUser> {
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Tên cơ sở ",
@@ -341,7 +339,7 @@ class _CreateUserState extends State<CreateUser> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
@@ -380,10 +378,10 @@ class _CreateUserState extends State<CreateUser> {
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Mã cơ sở ",
@@ -398,7 +396,7 @@ class _CreateUserState extends State<CreateUser> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
@@ -437,10 +435,10 @@ class _CreateUserState extends State<CreateUser> {
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Loại tài khoản",
@@ -453,10 +451,10 @@ class _CreateUserState extends State<CreateUser> {
                                 ],
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 14),
+                                padding: const EdgeInsets.only(left: 14),
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: DropdownButtonFormField<String>(
@@ -473,7 +471,7 @@ class _CreateUserState extends State<CreateUser> {
                                       print(value);
                                     });
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       enabledBorder: UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.white))),
@@ -486,10 +484,10 @@ class _CreateUserState extends State<CreateUser> {
                                   // dropdownColor: Colors.white,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Mật khẩu của người dùng",
@@ -504,7 +502,7 @@ class _CreateUserState extends State<CreateUser> {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color.fromRGBO(47, 179, 178, 1),
+                                      color: const Color.fromRGBO(47, 179, 178, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
@@ -553,7 +551,7 @@ class _CreateUserState extends State<CreateUser> {
                                   keyboardType: TextInputType.visiblePassword,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               SizedBox(
@@ -561,7 +559,7 @@ class _CreateUserState extends State<CreateUser> {
                                 width: 200,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color.fromRGBO(
+                                      backgroundColor: const Color.fromRGBO(
                                           47, 179, 178, 1) // Màu của nút
                                       ),
                                   onPressed: () {
@@ -593,7 +591,7 @@ class _CreateUserState extends State<CreateUser> {
                                       );
                                     }
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Tạo tài khoản",
                                     style: TextStyle(
                                       color: Colors.white,
@@ -617,7 +615,7 @@ class _CreateUserState extends State<CreateUser> {
           if (loadingProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

@@ -26,14 +26,14 @@ class _IdBillScreenState extends State<IdBillScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         title: Text(
           branchAddress ?? "Quản lý",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
@@ -41,7 +41,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -56,8 +56,8 @@ class _IdBillScreenState extends State<IdBillScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Đăng xuất'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Đăng xuất'),
               onTap: () async {
                 try {
                   Provider.of<UserProvider>(context, listen: false).logout();
@@ -110,7 +110,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                       ),
                       controller: idBillCustomer,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SizedBox(
@@ -118,7 +118,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromRGBO(47, 179, 178, 1)),
+                            backgroundColor: const Color.fromRGBO(47, 179, 178, 1)),
                         onPressed: () async {
                           String id = idBillCustomer.text;
                           print(id);
@@ -134,14 +134,14 @@ class _IdBillScreenState extends State<IdBillScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Thông báo'),
-                                  content: Text('Vui lòng điền mã hoá đơn.'),
+                                  title: const Text('Thông báo'),
+                                  content: const Text('Vui lòng điền mã hoá đơn.'),
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -150,9 +150,9 @@ class _IdBillScreenState extends State<IdBillScreen> {
                           }
                           AppFunctions.hideKeyboard(context);
                         },
-                        child: Text(
+                        child: const Text(
                           "Xem hoá đơn",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -178,15 +178,15 @@ class _IdBillScreenState extends State<IdBillScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => QRViewExample(),
+            builder: (context) => const QRViewExample(),
           ),
         );
       },
-      child: Icon(
+      child: const Icon(
         Icons.qr_code,
         color: Colors.white,
       ),
-      backgroundColor: Color.fromRGBO(47, 179, 178, 1),
+      backgroundColor: const Color.fromRGBO(47, 179, 178, 1),
     );
   }
 }

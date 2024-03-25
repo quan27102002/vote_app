@@ -113,7 +113,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
     return Consumer<CommentProvider>(builder: (context, comment, child) {
       return Scaffold(
         appBar: AppBar(
-          title: Center(
+          title: const Center(
             child: Text(
               "Đánh giá mức độ hài lòng của quý khách về dịch cụ của chúng tôi",
               style: TextStyle(
@@ -123,7 +123,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
             ),
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -133,7 +133,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 50, bottom: 100),
+                padding: const EdgeInsets.only(top: 50, bottom: 100),
                 child: Row(
                   children: [
                     Expanded(
@@ -161,13 +161,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                               width: width > 700 ? 120 : 60,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
-                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      ? const Color.fromRGBO(255, 214, 214, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon1.png",
                                 width: 100,
@@ -175,17 +175,17 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
-                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      ? const Color.fromRGBO(255, 214, 214, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -226,13 +226,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped1 == true
-                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      ? const Color.fromRGBO(255, 233, 217, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon2.png",
                                 width: 100,
@@ -240,17 +240,17 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped1 == true
-                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      ? const Color.fromRGBO(255, 233, 217, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -295,13 +295,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped2 == true
-                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      ? const Color.fromRGBO(255, 243, 181, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon3.png",
                                 width: 90,
@@ -309,17 +309,17 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped2 == true
-                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      ? const Color.fromRGBO(255, 243, 181, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -367,13 +367,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped3 == true
-                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      ? const Color.fromRGBO(224, 242, 255, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon4.png",
                                 width: 100,
@@ -381,17 +381,17 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped3 == true
-                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      ? const Color.fromRGBO(224, 242, 255, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -443,13 +443,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped4 == true
-                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      ? const Color.fromRGBO(203, 255, 227, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon5.png",
                                 width: 100,
@@ -457,17 +457,17 @@ class _EmotionScreenState extends State<EmotionScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped4 == true
-                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      ? const Color.fromRGBO(203, 255, 227, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -503,7 +503,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   right: 30,
                   left: 30,
                 ),
@@ -551,12 +551,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           },
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               color: isComment1
                                                   ? Colors.blue
@@ -613,12 +613,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           },
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               color: isComment2
                                                   ? Colors.blue
@@ -644,12 +644,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                         ),
                                         Container(
                                           width: double.infinity,
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          margin: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     47, 179, 178, 1)),
                                             color: Colors.white,
                                             borderRadius:
@@ -657,7 +657,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           ),
                                           child: TextField(
                                             controller: commentDifferen,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                                 border: InputBorder.none,
                                                 hintText: 'Ý kiến khác...',
                                                 hintStyle: TextStyle(
@@ -670,7 +670,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromRGBO(
+                                                backgroundColor: const Color.fromRGBO(
                                                     47,
                                                     179,
                                                     178,
@@ -709,7 +709,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                     .pushReplacement(
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EndScreen(),
+                                                        const EndScreen(),
                                                   ),
                                                 );
                                                 print("ok");
@@ -717,7 +717,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                               AppFunctions.hideKeyboard(
                                                   context);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Hoàn thành đánh giá',
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -727,7 +727,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                       ],
@@ -765,12 +765,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           },
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               color: isComment1
                                                   ? Colors.blue
@@ -827,12 +827,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           },
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               color: isComment2
                                                   ? Colors.blue
@@ -889,12 +889,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           },
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               color: isComment3
                                                   ? Colors.blue
@@ -955,12 +955,12 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 },
                                                 child: Container(
                                                   width: double.infinity,
-                                                  padding: EdgeInsets.all(8.0),
-                                                  margin: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  margin: const EdgeInsets.symmetric(
                                                       vertical: 8.0),
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: Color.fromRGBO(
+                                                        color: const Color.fromRGBO(
                                                             47, 179, 178, 1)),
                                                     color: isComment4
                                                         ? Colors.blue
@@ -985,15 +985,15 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                   ),
                                                 ),
                                               )
-                                            : SizedBox(),
+                                            : const SizedBox(),
                                         Container(
                                           width: double.infinity,
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          margin: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     47, 179, 178, 1)),
                                             color: Colors.white,
                                             borderRadius:
@@ -1001,7 +1001,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           ),
                                           child: TextField(
                                             controller: commentDifferen,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                                 border: InputBorder.none,
                                                 hintText: 'Ý kiến khác...',
                                                 hintStyle: TextStyle(
@@ -1010,14 +1010,14 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 )),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         SizedBox(
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromRGBO(
+                                                backgroundColor: const Color.fromRGBO(
                                                     47,
                                                     179,
                                                     178,
@@ -1063,13 +1063,13 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                     .pushReplacement(
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EndScreen(),
+                                                        const EndScreen(),
                                                   ),
                                                 );
                                                 print("ok");
                                               }
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Hoàn thành đánh giá',
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -1079,7 +1079,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                       ],

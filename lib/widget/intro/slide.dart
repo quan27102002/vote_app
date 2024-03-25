@@ -7,6 +7,7 @@ import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
+import 'package:vote_app/utils/app_functions.dart';
 
 class Slide extends StatefulWidget {
   const Slide({Key? key}) : super(key: key);
@@ -32,10 +33,12 @@ class _SlideState extends State<Slide> {
 
   late Timer _timer;
   initData() async {
+    AppFunctions.showLoading(context);
     var image = Provider.of<ImagesProvider>(context, listen: false);
     await image.getApi();
     _images = image.listImage;
     setState(() {});
+    AppFunctions.hideLoading(context);
   }
 
   @override
@@ -92,7 +95,7 @@ class _SlideState extends State<Slide> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
@@ -107,8 +110,8 @@ class _SlideState extends State<Slide> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Đăng xuất'),
+                leading: const Icon(Icons.exit_to_app),
+                title: const Text('Đăng xuất'),
                 onTap: () {
                   // Add your logic here for Button 4
                   try {

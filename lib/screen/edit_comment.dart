@@ -95,11 +95,11 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Điều khiển',
                     style: TextStyle(
@@ -110,8 +110,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Xem các tài khoản'),
+                leading: const Icon(Icons.person),
+                title: const Text('Xem các tài khoản'),
                 onTap: () {
                   // Add your logic here for Button 1
                   Navigator.pushNamed(context, RouteName.readuser,
@@ -119,8 +119,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.person_add),
-                title: Text('Tạo tài khoản'),
+                leading: const Icon(Icons.person_add),
+                title: const Text('Tạo tài khoản'),
                 onTap: () {
                   // Add your logic here for Button 1
                   Navigator.pushNamed(context, RouteName.create,
@@ -128,8 +128,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.insert_chart),
-                title: Text('Xem biểu đồ thống kê'),
+                leading: const Icon(Icons.insert_chart),
+                title: const Text('Xem biểu đồ thống kê'),
                 onTap: () {
                   // Add your logic here for Button 2
                   Navigator.pushNamed(context, RouteName.chart,
@@ -137,8 +137,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Chỉnh sửa comment'),
+                leading: const Icon(Icons.settings),
+                title: const Text('Chỉnh sửa comment'),
                 onTap: () {
                   // Add your logic here for Button 2
                   Navigator.pushNamed(context, RouteName.editComment,
@@ -146,24 +146,24 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.file_download),
-                title: Text('Xuất file excel'),
+                leading: const Icon(Icons.file_download),
+                title: const Text('Xuất file excel'),
                 onTap: () {
                   // Add your logic here for Button 3
                   Navigator.pushNamed(context, RouteName.excel);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.image),
-                title: Text('Chỉnh sửa file đa phương tiện'),
+                leading: const Icon(Icons.image),
+                title: const Text('Chỉnh sửa file đa phương tiện'),
                 onTap: () {
                   Navigator.pushNamed(context, RouteName.editMedia,
                       arguments: false);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Đăng xuất'),
+                leading: const Icon(Icons.exit_to_app),
+                title: const Text('Đăng xuất'),
                 onTap: () {
                   try {
                     Provider.of<UserProvider>(context, listen: false).logout();
@@ -181,7 +181,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
           ),
         ),
         appBar: AppBar(
-          title: Center(
+          title: const Center(
             child: Text(
               "Chỉnh sửa ý kiến đánh giá",
               style: TextStyle(
@@ -191,7 +191,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
             ),
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -201,7 +201,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 50, bottom: 100),
+                padding: const EdgeInsets.only(top: 50, bottom: 100),
                 child: Row(
                   children: [
                     Expanded(
@@ -229,13 +229,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
-                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      ? const Color.fromRGBO(255, 214, 214, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon1.png",
                                 width: 100,
@@ -243,17 +243,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped0 == true
-                                      ? Color.fromRGBO(255, 214, 214, 1)
+                                      ? const Color.fromRGBO(255, 214, 214, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Rất Tệ',
                                   style: TextStyle(
@@ -293,13 +293,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped1 == true
-                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      ? const Color.fromRGBO(255, 233, 217, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon2.png",
                                 width: 100,
@@ -307,17 +307,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped1 == true
-                                      ? Color.fromRGBO(255, 233, 217, 1)
+                                      ? const Color.fromRGBO(255, 233, 217, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Tệ',
                                   style: TextStyle(
@@ -357,13 +357,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped2 == true
-                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      ? const Color.fromRGBO(255, 243, 181, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon3.png",
                                 width: 100,
@@ -371,17 +371,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped2 == true
-                                      ? Color.fromRGBO(255, 243, 181, 1)
+                                      ? const Color.fromRGBO(255, 243, 181, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Bình thường',
                                   style: TextStyle(
@@ -420,13 +420,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped3 == true
-                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      ? const Color.fromRGBO(224, 242, 255, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon4.png",
                                 width: 100,
@@ -434,17 +434,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped3 == true
-                                      ? Color.fromRGBO(224, 242, 255, 1)
+                                      ? const Color.fromRGBO(224, 242, 255, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Tốt',
                                   style: TextStyle(
@@ -483,13 +483,13 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped4 == true
-                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      ? const Color.fromRGBO(203, 255, 227, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               child: Image.asset(
                                 "assets/images/icon5.png",
                                 width: 100,
@@ -497,17 +497,17 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                             ),
                             // Khoảng cách giữa Icon và Text
                             Container(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: const EdgeInsets.only(bottom: 5),
                               width: 120,
                               decoration: BoxDecoration(
                                   color: isTapped4 == true
-                                      ? Color.fromRGBO(203, 255, 227, 1)
+                                      ? const Color.fromRGBO(203, 255, 227, 1)
                                       : Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
                                   )),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   'Hoàn hảo',
                                   style: TextStyle(
@@ -526,7 +526,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(right: 30, left: 30),
+                padding: const EdgeInsets.only(right: 30, left: 30),
                 width: width,
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
@@ -544,12 +544,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           onTap: () {},
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               borderRadius:
                                                   BorderRadius.circular(16.0),
@@ -565,7 +565,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                         .content ??
                                                     "",
                                               ),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18.0,
                                               ),
                                             ),
@@ -575,12 +575,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           onTap: () {},
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               borderRadius:
                                                   BorderRadius.circular(16.0),
@@ -596,7 +596,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                         .content ??
                                                     "",
                                               ),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18.0,
                                               ),
                                             ),
@@ -606,13 +606,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromRGBO(
-                                                    47,
-                                                    179,
-                                                    178,
-                                                    1) // Màu của nút
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        47,
+                                                        179,
+                                                        178,
+                                                        1) // Màu của nút
                                                 ),
                                             onPressed: () async {
+                                              AppFunctions.showLoading(context);
                                               setState(() {
                                                 commentData = [
                                                   {
@@ -640,13 +642,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 commentData,
                                               );
                                               if (res.data == true) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 showDialog(
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Text('Thông báo'),
-                                                      content: Text(
+                                                      title: const Text('Thông báo'),
+                                                      content: const Text(
                                                           'Cập nhật thành công.'),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -655,7 +659,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: Text('OK'),
+                                                          child: const Text('OK'),
                                                         ),
                                                       ],
                                                     );
@@ -664,13 +668,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 comment.listComment.clear();
                                                 await comment.getApi();
                                               } else if (res.data == false) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 showDialog(
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Text('Thông báo'),
-                                                      content: Text(
+                                                      title: const Text('Thông báo'),
+                                                      content: const Text(
                                                           'Bình luận không được để trống.'),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -679,7 +685,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: Text('OK'),
+                                                          child: const Text('OK'),
                                                         ),
                                                       ],
                                                     );
@@ -689,7 +695,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                               AppFunctions.hideKeyboard(
                                                   context);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Cập nhật thông tin',
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -699,7 +705,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                       ],
@@ -710,12 +716,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           onTap: () {},
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               borderRadius:
                                                   BorderRadius.circular(16.0),
@@ -730,7 +736,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                           .content ??
                                                       ""),
                                               controller: comment1,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18.0,
                                               ),
                                             ),
@@ -740,12 +746,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           onTap: () {},
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               borderRadius:
                                                   BorderRadius.circular(16),
@@ -760,7 +766,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                           .content ??
                                                       ""),
                                               controller: comment2,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18.0,
                                               ),
                                             ),
@@ -770,12 +776,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                           onTap: () {},
                                           child: Container(
                                             width: double.infinity,
-                                            padding: EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 8.0),
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       47, 179, 178, 1)),
                                               borderRadius:
                                                   BorderRadius.circular(16.0),
@@ -806,12 +812,12 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 onTap: () {},
                                                 child: Container(
                                                   width: double.infinity,
-                                                  padding: EdgeInsets.all(8.0),
-                                                  margin: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  margin: const EdgeInsets.symmetric(
                                                       vertical: 8.0),
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: Color.fromRGBO(
+                                                        color: const Color.fromRGBO(
                                                             47, 179, 178, 1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -829,27 +835,28 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                               .content ??
                                                           "",
                                                     ),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontSize: 18.0,
                                                     ),
                                                   ),
                                                 ),
                                               )
-                                            : SizedBox(),
-                                        SizedBox(
+                                            : const SizedBox(),
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         SizedBox(
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromRGBO(
+                                                backgroundColor: const Color.fromRGBO(
                                                     47,
                                                     179,
                                                     178,
                                                     1) // Màu của nút
                                                 ),
                                             onPressed: () async {
+                                              AppFunctions.showLoading(context);
                                               if (comment
                                                       .listComment[
                                                           selectedEmotion]
@@ -935,13 +942,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 commentData,
                                               );
                                               if (res.data == true) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 showDialog(
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Text('Thông báo'),
-                                                      content: Text(
+                                                      title: const Text('Thông báo'),
+                                                      content: const Text(
                                                           'Cập nhật thành công.'),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -950,7 +959,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: Text('OK'),
+                                                          child: const Text('OK'),
                                                         ),
                                                       ],
                                                     );
@@ -960,6 +969,8 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                 await comment.getApi();
                                               } else if (res.code == 401 &&
                                                   res.status == 1000) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 AppFuntion.showDialogError(
                                                     context, "",
                                                     onPressButton: () async {
@@ -987,13 +998,15 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                             "\nTài khoản vừa đăng nhập trên thiết bị khác,vui lòng đăng xuất" ??
                                                         "Vui lòng nhập lại tên và mật khẩu");
                                               } else if (res.data == false) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 showDialog(
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Text('Thông báo'),
-                                                      content: Text(
+                                                      title: const Text('Thông báo'),
+                                                      content: const Text(
                                                           'Bình luận không được để trống.'),
                                                       actions: <Widget>[
                                                         TextButton(
@@ -1002,7 +1015,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: Text('OK'),
+                                                          child: const Text('OK'),
                                                         ),
                                                       ],
                                                     );
@@ -1012,7 +1025,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                               AppFunctions.hideKeyboard(
                                                   context);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Cập nhật thông tin',
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -1022,7 +1035,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                       ],
