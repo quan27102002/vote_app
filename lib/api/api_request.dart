@@ -20,8 +20,8 @@ class ApiRequest {
       "cmd": "API_DanhSachKhachHang_Select",
       "data": {
         "benhnhan": {
-          "TuNgay": "20240325", //truyền date time now
-          "DenNgay": "20240325", // truyền date time now
+          "TuNgay": time, //truyền date time now
+          "DenNgay": time, // truyền date time now
           "MaCoSo": codeBr,
           // truyền mã cơ sở
         }
