@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/bill_screen.dart';
@@ -19,6 +20,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+      final loadingProvider = Provider.of<LoadingProvider>(context);
     String? branchAddress = Provider.of<UserProvider>(context, listen: false)
         .loggedInUser
         .branchAddress;
@@ -60,9 +62,11 @@ class _IdBillScreenState extends State<IdBillScreen> {
               title: const Text('Đăng xuất'),
               onTap: () async {
                 try {
+                                loadingProvider.showLoading();
                   Provider.of<UserProvider>(context, listen: false).logout();
                 } catch (e) {
                 } finally {
+                                loadingProvider.hideLoading();
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     RouteName.login,
@@ -74,98 +78,108 @@ class _IdBillScreenState extends State<IdBillScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: width / 3,
-                    child: Image.asset(
-                      "assets/images/logovietphap.png",
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  Container(
-                    width: width / 3,
-                    child: Image.asset(
-                      "assets/images/logo_uc.png",
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 400,
-                child: Column(
+      body: Stack(
+        children:[SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Nhập mã hoá đơn',
+                    Container(
+                      width: width / 3,
+                      child: Image.asset(
+                        "assets/images/logovietphap.png",
+                        fit: BoxFit.fill,
                       ),
-                      controller: idBillCustomer,
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(47, 179, 178, 1)),
-                        onPressed: () async {
-                          String id = idBillCustomer.text;
-                          print(id);
-                          if (id.isNotEmpty) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BillScreen(data: id),
-                              ),
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Thông báo'),
-                                  content: const Text('Vui lòng điền mã hoá đơn.'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                          AppFunctions.hideKeyboard(context);
-                        },
-                        child: const Text(
-                          "Xem hoá đơn",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    Container(
+                      width: width / 3,
+                      child: Image.asset(
+                        "assets/images/logo_uc.png",
+                        fit: BoxFit.fill,
                       ),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: 400,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Nhập mã hoá đơn',
+                        ),
+                        controller: idBillCustomer,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromRGBO(47, 179, 178, 1)),
+                          onPressed: () async {
+                            String id = idBillCustomer.text;
+                            print(id);
+                            if (id.isNotEmpty) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BillScreen(data: id),
+                                ),
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Thông báo'),
+                                    content: Text('Vui lòng điền mã hoá đơn.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            AppFunctions.hideKeyboard(context);
+                          },
+                          child: Text(
+                            "Xem hoá đơn",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+            if (loadingProvider.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ] 
       ),
       floatingActionButton: _buildCustomFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,

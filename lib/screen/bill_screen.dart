@@ -170,9 +170,11 @@ class _BillScreenState extends State<BillScreen> {
               title: const Text('Đăng xuất'),
               onTap: () {
                 try {
+                  _isLoading=true;
                   Provider.of<UserProvider>(context, listen: false).logout();
                 } catch (e) {
                 } finally {
+                  _isLoading=false;
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     RouteName.login,
