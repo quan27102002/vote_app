@@ -644,7 +644,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                         ),
                                         Container(
                                           width: double.infinity,
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           margin: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           decoration: BoxDecoration(
@@ -670,13 +671,15 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color.fromRGBO(
-                                                    47,
-                                                    179,
-                                                    178,
-                                                    1) // Màu của nút
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        47,
+                                                        179,
+                                                        178,
+                                                        1) // Màu của nút
                                                 ),
                                             onPressed: () async {
+                                              AppFunctions.showLoading(context);
                                               setState(() {
                                                 if (selectedOptions
                                                             .isNotEmpty ==
@@ -705,6 +708,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 commentDifferen.text,
                                               );
                                               if (res.code == 200) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                   MaterialPageRoute(
@@ -714,8 +719,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 );
                                                 print("ok");
                                               }
-                                              AppFunctions.hideKeyboard(
-                                                  context);
+                                              AppFunctions.hideLoading(context);
                                             },
                                             child: const Text(
                                               'Hoàn thành đánh giá',
@@ -955,12 +959,14 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 },
                                                 child: Container(
                                                   width: double.infinity,
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  margin: const EdgeInsets.symmetric(
-                                                      vertical: 8.0),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 8.0),
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: const Color.fromRGBO(
+                                                        color: const Color
+                                                            .fromRGBO(
                                                             47, 179, 178, 1)),
                                                     color: isComment4
                                                         ? Colors.blue
@@ -988,7 +994,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                             : const SizedBox(),
                                         Container(
                                           width: double.infinity,
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           margin: const EdgeInsets.symmetric(
                                               vertical: 8.0),
                                           decoration: BoxDecoration(
@@ -1017,13 +1024,15 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                           height: 50,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color.fromRGBO(
-                                                    47,
-                                                    179,
-                                                    178,
-                                                    1) // Màu của nút
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        47,
+                                                        179,
+                                                        178,
+                                                        1) // Màu của nút
                                                 ),
                                             onPressed: () async {
+                                              AppFunctions.showLoading(context);
                                               setState(() {
                                                 if (selectedOptions
                                                             .isNotEmpty ==
@@ -1059,6 +1068,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                                                 commentDifferen.text,
                                               );
                                               if (res.code == 200) {
+                                                AppFunctions.hideLoading(
+                                                    context);
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                   MaterialPageRoute(

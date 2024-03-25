@@ -12,6 +12,7 @@ import 'package:vote_app/model/id_bill_customer.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/home_screen.dart';
+import 'package:vote_app/utils/app_functions.dart';
 import 'package:vote_app/widget/row_in_card_product.dart';
 
 class BillScreen extends StatefulWidget {
@@ -258,6 +259,7 @@ class _BillScreenState extends State<BillScreen> {
                             const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                         ),
                     onPressed: () async {
+                      AppFunctions.showLoading(context);
                       DateFormat currentFormat =
                           DateFormat("dd/MM/yyyy HH:mm:ss");
                       DateTime dateTime =
@@ -292,6 +294,7 @@ class _BillScreenState extends State<BillScreen> {
                           }
                         });
                         userBillId = idBill[0].id;
+                        AppFunctions.hideLoading(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

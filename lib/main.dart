@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:vote_app/provider/comment.dart';
 import 'package:vote_app/provider/image_provider.dart';
 import 'package:vote_app/provider/loading.dart';
+import 'package:vote_app/provider/loading_provider.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CommentProvider()),
           ChangeNotifierProvider(create: (_) => ImagesProvider()),
           ChangeNotifierProvider(create: (_) => LoadingProvider()),
+          ChangeNotifierProvider(create: (_) => AnimationProvider()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

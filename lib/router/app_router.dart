@@ -9,7 +9,7 @@ import 'package:vote_app/screen/excel.dart';
 import 'package:vote_app/screen/idbill_screen.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 import 'package:vote_app/screen/login_screen.dart';
-import 'package:vote_app/screen/logout_screen.dart';
+
 import 'package:vote_app/screen/media_screen.dart';
 import 'package:vote_app/screen/read_use.dart';
 
@@ -31,10 +31,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const IdBillScreen(),
             settings: const RouteSettings(name: RouteName.idbillcustomer));
-      case RouteName.logout:
-        return MaterialPageRoute(
-            builder: (context) => const LogoutScreen(),
-            settings: const RouteSettings(name: RouteName.logout));
+
       case RouteName.login:
         return MaterialPageRoute(
             builder: (context) => LoginPage(),

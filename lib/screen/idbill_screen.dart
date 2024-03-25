@@ -152,7 +152,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
                         },
                         child: const Text(
                           "Xem hoá đơn",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

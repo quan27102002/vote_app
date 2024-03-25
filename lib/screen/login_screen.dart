@@ -12,7 +12,6 @@ import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/app_router.dart';
 import 'package:vote_app/router/router_name.dart';
-import 'package:vote_app/screen/logout_screen.dart';
 import 'package:vote_app/theme/spacing.dart';
 import 'package:vote_app/screen/intro_screen.dart';
 
@@ -92,18 +91,18 @@ class _LoginPageState extends State<LoginPage> {
                     // padding: EdgeInsets.symmetric(horizontal: 200),
                     alignment: Alignment.center,
                     child: Column(children: [
-                      const SizedBox(height: 150),
+                      SizedBox(height: 150),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          Container(
                             width: width / 3,
                             child: Image.asset(
                               "assets/images/logovietphap.png",
                               fit: BoxFit.fill,
                             ),
                           ),
-                          SizedBox(
+                          Container(
                             width: width / 3,
                             child: Image.asset(
                               "assets/images/logo_uc.png",
@@ -112,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text("Tên đăng nhập",
@@ -127,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color.fromRGBO(47, 179, 178, 1),
+                              color: Color.fromRGBO(47, 179, 178, 1),
                             ),
                             borderRadius: BorderRadius.circular(10)),
                         child: TextFormField(
@@ -159,10 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 20,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text("Mật khẩu",
@@ -177,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color.fromRGBO(47, 179, 178, 1),
+                              color: Color.fromRGBO(47, 179, 178, 1),
                             ),
                             borderRadius: BorderRadius.circular(10)),
                         child: TextFormField(
@@ -228,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                           Row(
            mainAxisAlignment: MainAxisAlignment.end,
-             children: [const Text("Nhớ tài khoản",style:TextStyle(fontWeight:FontWeight.w600,color:Color.fromARGB(255, 255, 255, 255))),
+             children: [Text("Nhớ tài khoản",style:TextStyle(fontWeight:FontWeight.w600,color:const Color.fromARGB(255, 255, 255, 255))),
                IconButton(
                 icon: Icon(
                   _check ? Icons.check_box : Icons.check_box_outline_blank,
@@ -260,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  const Color.fromRGBO(47, 179, 178, 1) // Màu của nút
+                                  Color.fromRGBO(47, 179, 178, 1) // Màu của nút
                               ),
                           onPressed: () {
                             if (usernameController.text.trim().isNotEmpty &&
@@ -269,14 +268,14 @@ class _LoginPageState extends State<LoginPage> {
                                   passwordController.text);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   content: Text(
                                       'Vui lòng điền cả tên người dùng và mật khẩu'),
                                 ),
                               );
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             "Đăng nhập",
                             style: TextStyle(
                               color: Colors.white,
@@ -296,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
           if (loadingProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
-              child: const Center(
+              child: Center(
                 child: CircularProgressIndicator(),
               ),
             ),

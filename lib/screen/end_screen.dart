@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
-import 'package:vote_app/screen/logout_screen.dart';
+
 
 class EndScreen extends StatefulWidget {
   const EndScreen({super.key});

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:vote_app/provider/loading.dart';
+import 'package:vote_app/provider/loading_provider.dart';
 
 class AppFunctions {
   static showLoading(BuildContext context) {
-    context.read<LoadingProvider>().showLoading();
+    context.read<AnimationProvider>().showLoading();
   }
 
   static hideLoading(BuildContext context) {
-    context.read<LoadingProvider>().hideLoading();
+    context.read<AnimationProvider>().hideLoading();
   }
 
   static void hideKeyboard(context) {
