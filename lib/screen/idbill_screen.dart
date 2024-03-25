@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vote_app/provider/loading.dart';
 import 'package:vote_app/provider/userProvider.dart';
 import 'package:vote_app/router/router_name.dart';
 import 'package:vote_app/screen/bill_screen.dart';
@@ -19,6 +20,7 @@ class _IdBillScreenState extends State<IdBillScreen> {
 
   @override
   Widget build(BuildContext context) {
+      final loadingProvider = Provider.of<LoadingProvider>(context);
     String? branchAddress = Provider.of<UserProvider>(context, listen: false)
         .loggedInUser
         .branchAddress;
@@ -60,9 +62,11 @@ class _IdBillScreenState extends State<IdBillScreen> {
               title: const Text('Đăng xuất'),
               onTap: () async {
                 try {
+                                loadingProvider.showLoading();
                   Provider.of<UserProvider>(context, listen: false).logout();
                 } catch (e) {
                 } finally {
+                                loadingProvider.hideLoading();
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     RouteName.login,
