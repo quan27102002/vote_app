@@ -26,14 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     // _checkToken();
-     @override
-  void initState() {
-    super.initState();
+
  
         final loadingProvider =
         Provider.of<LoadingProvider>(context, listen: false);
                 loadingProvider.hideLoading();
-  }
+  
   }
 
   // Future<void> _checkToken() async {
